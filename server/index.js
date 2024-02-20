@@ -5,8 +5,9 @@ import { Server } from "socket.io";
 import {createServer} from "node:http"
 
 import mysql from 'mysql2/promise';
+let resultsDatabase;
 
-const connection = mysql.createPool({
+const connection = await mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
@@ -15,14 +16,16 @@ const connection = mysql.createPool({
     authPlugins: ['mysql_native_password'] // Add this line
 });
 
-async function getConnection() {
-    try {
-      return await pool.getConnection();
-    } catch (error) {
-      console.error('Error getting connection:', error);
-      throw error; // Re-throw for proper error handling
-    }
+
+connection.connect((error) => {
+  if (error) {
+    console.error('Connection error:', error);
+    // Implement appropriate error handling, e.g., retry, abort, etc.
+  } else {
+    console.log('Connected to database successfully!');
+    // Perform database operations here using connection.query(...)
   }
+});
 const port = process.env.PORT ?? 3000;
 
 const app = express()
@@ -35,24 +38,25 @@ const io = new Server(server, {
 
 io.on("connection", async (socket) =>{
     console.log("a user has conected!!")
-    let connection;
+
     socket.on("disconnect", ()=>{
         console.log("user disconnected");
     })
 
     socket.on("chat message", async (msg)=>{
         let result
-        connection = await getConnection();
         result = await connection.query('INSERT INTO messages (content) VALUES (?);', [msg])
-        io.emit("chat message", msg, result.lastInsertRowid) 
-
+        io.emit("chat message", msg, result.lastInsertRowid)
     })
     
     if(!socket.recovered){
+       const prueba = await query()
         try {
-            const messagesResult = await connection.query('SELECT * FROM messages;');
-            messagesResult.rows.forEach(row => {
-                socket.emit( "chat message" , row["content"], row["id"])
+            // let result = await query()
+            // console.log(resultsDatabase)  
+            prueba[0].forEach(row => {
+                console.log(row.id)
+                socket.emit( "chat message" , row.content, row.id)
             });
         } catch (error) {
             console.error(error)
@@ -69,3 +73,27 @@ app.get('/', (req, res)=>{
 server.listen(port, ()=>{
     console.log(`Server running on port ${port}`)
 })
+
+
+// Get the client
+async function query(){
+    // Create the connection to database
+    // const connection = await mysql.createConnection({
+    //     host: 'localhost',
+    //     port: 3306,
+    //     user: 'root',
+    //     password: 'admini',
+    //     database: 'prueba',
+    //     authPlugins: ['mysql_native_password'] // Add this line
+    // });
+
+    // A simple SELECT query
+    try {
+    resultsDatabase = await connection.query(
+        'SELECT * FROM messages;'
+    );
+    return resultsDatabase
+    } catch (err) {
+    console.log(err);
+    }
+}
