@@ -52,8 +52,6 @@ io.on("connection", async (socket) =>{
     if(!socket.recovered){
        const prueba = await query()
         try {
-            // let result = await query()
-            // console.log(resultsDatabase)  
             prueba[0].forEach(row => {
                 console.log(row.id)
                 socket.emit( "chat message" , row.content, row.id)
