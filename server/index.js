@@ -1,3 +1,10 @@
+/**
+ * @todo 
+ * MANEJO DE USUARIOS
+ * INDICAR QUE USUARIO A ENVIADO QUE MENSAJE -> CAMBIAR BD -> SI ERES TU QUE EL MENSAJE SALGA A LA DERECHA
+ */
+
+
 import express from "express"; 
 import logger from "morgan";
 
@@ -5,17 +12,31 @@ import { Server } from "socket.io";
 import {createServer} from "node:http"
 
 import mysql from 'mysql2/promise';
+
+import 'dotenv/config';
+
 let resultsDatabase;
 
-const connection = await mysql.createConnection({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: 'admini',
-    database: 'prueba',
-    authPlugins: ['mysql_native_password'] // Add this line
-});
+/**
+ * @tutorial 
+ * CONEXION A LA BASE DE DATOS LOCAL
+ */
+// const connection = await mysql.createConnection({
+//     host: 'localhost',
+//     port: 3306,
+//     user: 'root',
+//     password: 'admini',
+//     database: 'prueba',
+//     authPlugins: ['mysql_native_password'] // Add this line
+// });
 
+/**
+ * @tutorial 
+ * CONEXION A LA BASE DE DATOS EN LA NUVE **RAILWAY**
+ */
+const connection = await mysql.createConnection(
+    process.env.DATABASE_URL
+);
 
 connection.connect((error) => {
   if (error) {
@@ -50,7 +71,7 @@ io.on("connection", async (socket) =>{
     })
     
     if(!socket.recovered){
-       const prueba = await query()
+       const prueba = await query(socket.handshake.auth.serverOffset)
         try {
             prueba[0].forEach(row => {
                 console.log(row.id)
@@ -74,7 +95,7 @@ server.listen(port, ()=>{
 
 
 // Get the client
-async function query(){
+async function query(variable){
     // Create the connection to database
     // const connection = await mysql.createConnection({
     //     host: 'localhost',
@@ -87,8 +108,8 @@ async function query(){
 
     // A simple SELECT query
     try {
-    resultsDatabase = await connection.query(
-        'SELECT * FROM messages;'
+    resultsDatabase = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+        'SELECT * FROM messages WHERE ID > ?;',[variable ?? 0]
     );
     return resultsDatabase
     } catch (err) {
