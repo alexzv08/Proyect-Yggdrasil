@@ -1,0 +1,78 @@
+@import url("main.css");
+
+#container-login {
+    /* border: 1px solid red; */
+    width: 70%;
+    max-width:  750px;
+    margin: auto;
+    height: 250px;
+    min-height: 350px;
+    padding: 5% 0;
+    & form{
+        /* border: 1px solid blue; */
+        height: 250px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    gap: 20px;
+        & .form-wrapper{
+            width: 100%;
+            position: relative;
+
+            & input[type="text"]{
+                width: 100%;
+                border: none;
+                background-color: rgba(255, 255, 255, 0.1);
+                padding: 10px;
+                border-radius: 20px;
+                border: 1px solid transparent;
+                &:focus{
+                    outline:unset;
+                    border: 1px solid rgb(214, 214, 214);
+                    background-color: rgba(255, 255, 255, 0.2);
+
+                } 
+            }
+            & label{
+                position: absolute;
+                left: 20px;
+                top: 8px;
+                color: var(--color-blanco);
+                background-color: transparent;
+                pointer-events: none;
+                transition: all 0.3s ease;
+            }
+            & :is(input:focus, input:valid)~label{
+                background-color: rgba(138, 138, 138);
+                transform: translateY(-110%) scale(1.2);
+                margin: 0em;
+                overflow: ellipsis;
+                white-space: nowrap;
+                padding:2px 3px;
+            }
+        }
+        & a{
+            width: 50%;
+            margin: auto;
+            text-align: center;
+            text-decoration: none;
+            color: rgb(233, 231, 231);
+        }
+        & input[type="button"]{
+            color: var(--color-blanco);
+            padding: 10px;
+            border-radius: 20px;
+            width: 20%;
+            min-width: 88px;
+            background-color: var(--color-primario);
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            &:hover{
+                background-color: #851eb1;
+            }
+        }
+    }
+}
+
