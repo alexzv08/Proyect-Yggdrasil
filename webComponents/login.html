@@ -4,21 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/login.css">
+    <script src="js/funcionesLogin.js" defer></script>
     <title>Document</title>
 </head>
 <body>
     <div id="container-login">
-        <form class="form" action="">
+        <form class="form" action="" id="register-form">
             <div class="form-wrapper">
-                <input type="text" placeholder="" required>
+                <input name="email" type="text" placeholder="" required>
                 <label for="">Email</label>
             </div>
             <div class="form-wrapper">
-                <input type="text" placeholder="" required>
+                <input name="password" type="text" placeholder="" required>
                 <label for="">Password</label>
             </div>
             <h3><a href="#">Forgot your password</a></h3>
-            <input type="button" value="Sing in">
+            <button type="submit">Sing in</button>
         </form>
     </div>
     

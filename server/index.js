@@ -7,6 +7,8 @@
 
 import express from "express"; 
 import logger from "morgan";
+import path from 'path';
+
 
 import { Server } from "socket.io";
 import {createServer} from "node:http"
@@ -15,28 +17,30 @@ import mysql from 'mysql2/promise';
 
 import 'dotenv/config';
 
+import { methods as autentificador } from "./controllers/autentificador.js";
+
 let resultsDatabase;
 
 /**
  * @tutorial 
  * CONEXION A LA BASE DE DATOS LOCAL
  */
-// const connection = await mysql.createConnection({
-//     host: 'localhost',
-//     port: 3306,
-//     user: 'root',
-//     password: 'admini',
-//     database: 'prueba',
-//     authPlugins: ['mysql_native_password'] // Add this line
-// });
+const connection = await mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: 'admini',
+    database: 'prueba',
+    authPlugins: ['mysql_native_password'] // Add this line
+});
 
 /**
  * @tutorial 
  * CONEXION A LA BASE DE DATOS EN LA NUVE **RAILWAY**
  */
-const connection = await mysql.createConnection(
-    process.env.DATABASE_URL
-);
+// const connection = await mysql.createConnection(
+//     process.env.DATABASE_URL
+// );
 
 connection.connect((error) => {
   if (error) {
@@ -50,6 +54,12 @@ connection.connect((error) => {
 const port = process.env.PORT ?? 3000;
 
 const app = express()
+
+//ASESTS --> /resources = 'ruta proporcionada' --> para que se vean los estilos en las plantillas
+const staticPath = path.join(process.cwd(), '/webComponents/');
+app.use('/resources', express.static(staticPath));
+console.log(staticPath)
+
 const server = createServer(app)
 const io = new Server(server, {
     connectionStateRecovery: {
@@ -84,29 +94,32 @@ io.on("connection", async (socket) =>{
     }
 })
 
+// configuracion
+app.use(express.static(process.cwd()+"/webComponents"))
+
+
+app.use(express.json())
 app.use(logger('dev'))
 
+// ESTO PARA QUE SE VEA EL CHAT SOLO
 app.get('/', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/index.html")
+    console.log(process.cwd())
 })
+
+app.get('/login', (req, res)=>{
+    res.sendFile(process.cwd()+"/webComponents/login.html")
+    console.log()
+})
+app.post('/api/login', autentificador.login)
 
 server.listen(port, ()=>{
     console.log(`Server running on port ${port}`)
 })
 
 
-// Get the client
+// Para mostrar los chats
 async function query(variable){
-    // Create the connection to database
-    // const connection = await mysql.createConnection({
-    //     host: 'localhost',
-    //     port: 3306,
-    //     user: 'root',
-    //     password: 'admini',
-    //     database: 'prueba',
-    //     authPlugins: ['mysql_native_password'] // Add this line
-    // });
-
     // A simple SELECT query
     try {
     resultsDatabase = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
@@ -117,3 +130,4 @@ async function query(variable){
     console.log(err);
     }
 }
+

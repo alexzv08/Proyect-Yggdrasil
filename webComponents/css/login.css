@@ -59,7 +59,7 @@
             text-decoration: none;
             color: rgb(233, 231, 231);
         }
-        & input[type="button"]{
+        & button{
             color: var(--color-blanco);
             padding: 10px;
             border-radius: 20px;
