@@ -1,4 +1,6 @@
 import mysql from 'mysql2/promise';
+import bcryptjs from 'bcryptjs';
+
 const connection = await mysql.createConnection({
     host: 'localhost',
     port: 3306,
@@ -19,20 +21,44 @@ connection.connect((error) => {
 
 async function login(req, res){
     if(!req.body.user || !req.body.pass){
-        res.status(400).send({status: "Error", message: "Campos vacios"})
+        return res.status(400).send({status: "Error", message: "Campos vacios"})
     }
     try {
         let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
             'SELECT * FROM usuario WHERE user LIKE ? AND password LIKE ?;',[req.body.user, req.body.pass]
         );
-        console.log(result.length === 0 ?  res.status(400).send({status: "Error", message: "Datos incorrectos"}) : result);
+        return result.length === 0 ?  res.status(400).send({status: "Error", message: "Datos incorrectos"}) : res.status(200).send({status: "OK", message: "Datos correctos", redirect:"/"});
     } catch (err) {
-        res.status(400).send({status: "Error", message: "Error en el login"})
+        return res.status(400).send({status: "Error", message: "Error en el login"})
     }
 }
 
-function register(req, res){
+async function register(req, res){
+    if(!req.body.user || !req.body.pass){
+        return res.status(400).send({status: "Error", message: "Campos vacios"})
+    }
+    try {
+        let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+            'SELECT * FROM usuario WHERE user LIKE ?;',[req.body.user]
+        );
+        if(result.length > 0){
+            return res.status(400).send({status: "Error", message: "Usuario ya existe"});
+        }else{
+            const salt = await bcryptjs.genSalt(5)
+            const hashPassword = await bcryptjs.hash(req.body.pass, salt)
+            console.log()
+            let result = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+                'insert into usuario(user,password) values (?,?);',[req.body.user, hashPassword]
+            );
+            return res.status(201).send({status: "OK", message: "Usuario registrado", redirect:"/"})
+        }
 
+
+
+    } catch (err) {
+        console.log(err)
+        res.status(400).send({status: "Error", message: "Error en el register", error: err})
+    }
 }
 
 export const methods = {

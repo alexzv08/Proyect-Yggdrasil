@@ -74,5 +74,19 @@
             }
         }
     }
+    & #register{
+        color: var(--color-blanco);
+        padding: 10px;
+        border-radius: 20px;
+        width: 20%;
+        min-width: 88px;
+        background-color: var(--color-primario);
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        margin: auto;
+        &:hover{
+            background-color: #851eb1;
+        }
+    }
 }
-

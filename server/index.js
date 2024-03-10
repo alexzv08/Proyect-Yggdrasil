@@ -103,15 +103,20 @@ app.use(logger('dev'))
 
 // ESTO PARA QUE SE VEA EL CHAT SOLO
 app.get('/', (req, res)=>{
-    res.sendFile(process.cwd()+"/cliente/index.html")
-    console.log(process.cwd())
-})
+    res.sendFile(process.cwd()+"/webComponents/login.html")
 
+})
+app.get('/home', (req, res)=>{
+    res.sendFile(process.cwd()+"/webComponents/sidebar.html")
+})
 app.get('/login', (req, res)=>{
     res.sendFile(process.cwd()+"/webComponents/login.html")
-    console.log()
+})
+app.get('/register', (req, res)=>{
+    res.sendFile(process.cwd()+"/webComponents/register.html")
 })
 app.post('/api/login', autentificador.login)
+app.post('/api/register', autentificador.register)
 
 server.listen(port, ()=>{
     console.log(`Server running on port ${port}`)
@@ -122,12 +127,12 @@ server.listen(port, ()=>{
 async function query(variable){
     // A simple SELECT query
     try {
-    resultsDatabase = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
-        'SELECT * FROM messages WHERE ID > ?;',[variable ?? 0]
-    );
+        resultsDatabase = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+            'SELECT * FROM messages WHERE ID > ?;',[variable ?? 0]
+        );
     return resultsDatabase
     } catch (err) {
-    console.log(err);
+        console.log(err);
     }
 }
 
