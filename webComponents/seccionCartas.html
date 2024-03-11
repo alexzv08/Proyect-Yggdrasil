@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.onload = async() => {
+            // let listOfCards = await listarCartas()
+            // console.log(listOfCards)
+            imgCartas()
+        }
+
+        // function listarCartas(){
+        //     fetch("https://digimoncard.io/api-public/getAllCards.php?sort=series")
+        //     .then(data => data.json())
+        //     .then(data =>{
+        //         console.log(data)
+        //         return data
+        //     })  
+        // }
+        function imgCartas(){
+            fetch("https://digimoncard.io/api-public/search.php?n=Agumon&sort=power&series=Digimon Card Game")
+            .then(data => data.json())
+            .then(data =>{
+                console.log(data)
+                imgCard.src = data[0].image_url
+            })  
+        }
+
+
+    </script>
+</head>
+<body>
+    <div class="carta">
+        <img id="imgCard" src="" alt="" >
+    </div>
+</body>
+</html>
