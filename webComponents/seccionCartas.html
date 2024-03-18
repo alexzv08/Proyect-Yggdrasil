@@ -5,35 +5,161 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script>
+        let cartasTotalesMazo;
         window.onload = async() => {
-            // let listOfCards = await listarCartas()
-            // console.log(listOfCards)
-            imgCartas()
         }
-
-        // function listarCartas(){
-        //     fetch("https://digimoncard.io/api-public/getAllCards.php?sort=series")
-        //     .then(data => data.json())
-        //     .then(data =>{
-        //         console.log(data)
-        //         return data
-        //     })  
-        // }
+        
         function imgCartas(){
             fetch("https://digimoncard.io/api-public/search.php?n=Agumon&sort=power&series=Digimon Card Game")
             .then(data => data.json())
             .then(data =>{
                 console.log(data)
-                imgCard.src = data[0].image_url
+                data.forEach(element => {
+                    cargarImg(element)
+                });
+                // imgCard.src = data[0].image_url
             })  
         }
+        function cargarImg(element){
+            let div = document.createElement("div")
+            div.addEventListener("click", añadirCartaMazo)
+            div.dataset.nombre =  element.name 
+            div.dataset.cardnumber =  element.cardnumber 
+            div.dataset.color =  element.color
+            let img = document.createElement("img")
+            img.src = element.image_url
+            containerCartas.appendChild(div)
+            div.appendChild(img)
+        }
+        imgCartas()
 
 
+        function añadirCartaMazo(){
+            if(cartasTotalesMazo < 55){
+                cartasTotalesMazo ++
+                let div = document.createElement("div")
+                div.innerText = this.dataset.nombre + " " + this.dataset.cardnumber
+                div.style.backgroundColor = this.dataset.color
+                listDeck.appendChild(div)
+                console.log(this.dataset.element.color)
+            }
+
+
+        }
     </script>
 </head>
+<style>
+    body{
+        height: 100vh;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    #infoMazo{
+        width: 100vw;
+        height: 200px;
+        border: 1px solid purple;
+        #estadisticas{
+            width: 200px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            & .barra {
+                width: 20px; /* Ancho de la barra */
+                height: 75px; /* Altura de la barra */
+                background-color: #ddd; /* Color de fondo de la barra */
+                border-radius: 5px; /* Bordes redondeados */
+                position: relative;
+            }
+    
+            .relleno {
+                height: 0;
+                background-color: #4caf50; /* Color del relleno */
+                border-radius: 5px; /* Bordes redondeados */
+                width: 100%; /* Ancho inicial del relleno */
+                position: absolute;
+                bottom: 0;
+            }
+        }
+    }
+    #containerGeneral{
+        display: flex;
+        flex-direction: row;
+    }
+    #containerCartas{
+        height: 100vh;
+        width: calc(100vw - 200px);
+        overflow-y: scroll;
+        border: 1px solid red;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+        & div {
+            & img{
+            height: 160px;
+            border-radius: 5%;
+            width: 118px;
+        }
+        }
+    }
+    #listDeck{
+        height: 100vh;
+        width: 250px;
+        border: 1px solid blue;
+        display: flex;
+        flex-direction: column;
+
+        & div{
+            display: flex; /* Usar flexbox para alinear verticalmente */
+            padding-left: 20px;
+            margin-bottom: 5px;
+            align-items: center;
+            height: 50px;
+            border: 1px solid green;
+            border-radius: 20px;
+            color: white;
+            font-size:20px;
+        }
+    }
+</style>
 <body>
-    <div class="carta">
-        <img id="imgCard" src="" alt="" >
+    <div id="infoMazo">
+        <form action="">
+            <input type="text" placeholder="Nombre del Deck">
+            <input type="text" placeholder="Descripcion">
+        </form>
+        <button title="Limpiar Mazo">Limpiar Mazo</button>
+        <button title="Guardar cambios">Guardar Mazo</button>
+        <button title="Importar">Importar</button>
+        <button title="Exportar">Exportar</button>
+        <button title="Estadisticas">Estadisticas</button>
+        <div id="estadisticas">
+            <div id="lv2" class="barra">lv2
+                <div class="relleno" id="rellenoBarra"></div>
+            </div>
+            <div id="lv3" class="barra">lv3
+                <div class="relleno" id="rellenoBarra"></div>
+            </div>
+            <div id="lv4" class="barra">lv4
+                <div class="relleno" id="rellenoBarra"></div>
+            </div>
+            <div id="lv5" class="barra">lv5
+                <div class="relleno" id="rellenoBarra"></div>
+            </div>
+            <div id="lv6" class="barra">lv6
+                <div class="relleno" id="rellenoBarra"></div>
+            </div>
+            <div id="lv7" class="barra">lv7
+                <div class="relleno" id="rellenoBarra"></div>
+            </div>
+        </div>
+    </div>
+    <div id="containerGeneral">
+        <div id="containerCartas">
+        </div>
+        <div id="listDeck"></div>
     </div>
 </body>
 </html>

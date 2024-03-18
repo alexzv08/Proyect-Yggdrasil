@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/sidebar.css">
-    <script src="js/sideBar.js"></script>
-    <script type="module" src="js/chat.js"></script>
+    <script type="module" src="js/sideBar.js" defer></script>
+    <!-- <script type="module" src="js/chat.js"></script> -->
 
     <title>Document</title>
 </head>
 <body>
-    <div id="containerSidebar">
+    <div id="containerSidebar" class="menuDesplegado">
         <div class="img-logo-sidebar">
             <img src="src/icons/logo.svg" alt="">
         </div>
@@ -18,7 +18,7 @@
             <img src="src/icons/user-alt-1-svgrepo-com.svg" alt="icon_home">
             <h3>Home</h3>
         </span>
-        <span href="">
+        <span href="" id="deckbuilder">
             <img src="src/icons/user-alt-1-svgrepo-com.svg" alt="icon_home">
             <h3>Deck Builder</h3>
         </span>
@@ -48,7 +48,14 @@
         </span>
         <div id="toogleMenu">></div>
     </div>
-    <div id="contenidoWeb"></div>
+    <div id="hamnurgerMenu">
+        <div>
+            <div ></div>
+            <div ></div>
+        </div>
+        <img src="src/icons/logo.svg" alt="">
+    </div>
+    <!-- <div id="contenidoWeb"></div>
     <div id="chatContainer">
         <div id="toogleChat">/</div>
         <h2>chat</h2>
@@ -59,6 +66,6 @@
                 <button type="submit">Enviar</button>
             </form>
         </section>
-    </div>
+    </div> -->
 </body>
 </html>
