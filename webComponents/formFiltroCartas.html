@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let colores = ["Rojo", "Azul", "Verde", "Amarillo", "Negro","Morado","Blanco"]
+        let keywordA = ["Alliance", "Armore Purge", "Barrier", "Blast Digivolve", "Blitz","Blocker","Decoy","De-Digivolve","Delay","Digi-Busrt","Digisorption","Draw","Fortitude","Jamming","Material Save","Mind Link","Pircing","Raid","Reboot","Recovery","Retalation","Rush","Save","Security Attack"]
+        let datosFiltro=[];
+        window.onload=()=>{
+            for (let i = 1; i < 13; i++) {
+                option = document.createElement("option")
+                option.value = "BT-"+i
+                option.innerText = "BT-"+i
+                cardSett.appendChild(option)
+            }
+            for (let i = 0; i < colores.length; i++) {
+                option = document.createElement("option")
+                option.value = colores[i]
+                option.innerText = colores[i]
+                colorPri.appendChild(option)
+            }
+            for (let i = 0; i < colores.length; i++) {
+                option = document.createElement("option")
+                option.value = colores[i]
+                option.innerText = colores[i]
+                colorSec.appendChild(option)
+            }
+            for (let i = 0; i < keywordA.length; i++) {
+                var option = document.createElement("option");
+                // option.type = "checkbox";
+                option.value = keywordA[i]; 
+                // var label = document.createElement("label");
+                option.innerText = keywordA[i];
+                keyword.appendChild(option);
+                // keyword.appendChild(label);
+            }
+            filtroCartas.addEventListener("submit", filtro)
+        }
+        function filtro(e) {
+            e.preventDefault();
+            let datosFiltro = [];
+
+            const data = new FormData(e.target);
+            
+            for (var pair of data.entries()) {
+                if(pair[1]!=''){
+                    datosFiltro.push([pair[0], pair[1] ]);
+                }
+            }
+            // let greaterTen2 = datosFiltro.filter(number => number[0] == "tipo" );
+            // console.log(greaterTen2[0][1])
+            for (const key of datosFiltro) {
+                // console.log(key);
+            }
+            let consulta = "SELECT * FROM cartas ";
+            consulta+="WHERE"
+            for (const key of datosFiltro) {
+                consulta+=" "+key[0]+ " == " +key[1]+" AND";
+            }
+            console.log(consulta)
+        }
+    </script>
+</head>
+<style>
+    #filterContainer{
+        height: 800px;
+        width: 250px;
+        & form{
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            justify-items: center;
+            
+            & div{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+    }
+</style>
+<body>
+    <div id="filterContainer">
+        <form action="filter" id="filtroCartas">
+            <!-- NOMBRE -->
+            <input type="text" name="nombre" placeholder="Nombre">
+            <!-- TIPO -->
+            <div>
+                <input type="checkbox" name="tipo" value="DigiEgg">DigiEgg
+            </div>
+            <div>
+                <input type="checkbox" name="tipo" value="Digimon">Digimon
+            </div>
+            <div>
+                <input type="checkbox" name="tipo" value="Tamer">Tamer
+            </div>
+            <div>
+                <input type="checkbox" name="tipo" value="Option">Option
+            </div>
+            <!-- EDICION -->
+            <select name="cardSett" id="cardSett" aria-placeholder="Edicion"></select>
+            <!-- COLORES -->
+            <select name="colorPri" id="colorPri" aria-placeholder="Color principal"></select>
+            <select name="colorSec" id="colorSec" aria-placeholder="Color secundario"></select>
+            <!-- DATOS CARTAS -->
+            <div>
+                <input type="range" id="nivel" name="nivel" min="2" max="7"><label for="nivel">Nivel</label>
+            </div>
+            <div>
+                <input type="range" id="costeJuego" name="costeJuego" min="0" max="20"><label for="costeJuego">C. juego</label>
+            </div>
+            <div>
+                <input type="range" id="costeEvolucion" name="costeEvolucion" min="0" max="12"><label for="costeEvolucion">C. evolucion</label>
+            </div>
+            <div>
+                <input type="range" id="dp" name="dp" min="1000" max="17000"><label for="dp">DP</label>
+            </div>
+            <!-- Rareza -->
+            <div>
+                <input type="checkbox" name="rareza" value="C">C
+            </div>
+            <div>
+                <input type="checkbox" name="rareza" value="U">U
+            </div>
+            <div>
+                <input type="checkbox" name="rareza" value="R">R
+            </div>
+            <div>
+                <input type="checkbox" name="rareza" value="SR">SR
+            </div>
+            <div>
+                <input type="checkbox" name="rareza" value="SEC">SR
+            </div>
+
+            <!-- KEYWORDS -->
+            <select name="keyword" id="keyword" aria-placeholder="keyword"></select>
+            <button type="submit" id="filtrar">Filtrar</button>
+        </form>
+    </div>
+</body>
+</html>

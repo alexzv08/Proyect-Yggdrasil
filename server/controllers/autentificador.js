@@ -25,8 +25,9 @@ async function login(req, res){
     }
     try {
         let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
-            'SELECT * FROM usuario WHERE user LIKE ? AND password LIKE ?;',[req.body.user, req.body.pass]
-        );
+            'SELECT * FROM usuarios WHERE (usuario LIKE ? OR email LIKE ?) AND password LIKE ?;',[req.body.user,req.body.user, await saltPassword(req.body.pass)]
+            );
+            console.log(await saltPassword(req.body.pass))
         return result.length === 0 ?  res.status(400).send({status: "Error", message: "Datos incorrectos"}) : res.status(200).send({status: "OK", message: "Datos correctos", redirect:"/"});
     } catch (err) {
         return res.status(400).send({status: "Error", message: "Error en el login"})
@@ -39,16 +40,15 @@ async function register(req, res){
     }
     try {
         let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
-            'SELECT * FROM usuario WHERE user LIKE ?;',[req.body.user]
+            'SELECT * FROM usuarios WHERE (usuario LIKE ? OR email LIKE ?);',[req.body.user, req.body.user]
         );
         if(result.length > 0){
             return res.status(400).send({status: "Error", message: "Usuario ya existe"});
         }else{
-            const salt = await bcryptjs.genSalt(5)
-            const hashPassword = await bcryptjs.hash(req.body.pass, salt)
+            
             console.log()
             let result = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
-                'insert into usuario(user,password) values (?,?);',[req.body.user, hashPassword]
+                'insert into usuarios (usuario,password,email,id_rol) values (?,?,?,1);',[req.body.user, await saltPassword(req.body.pass),req.body.user]
             );
             return res.status(201).send({status: "OK", message: "Usuario registrado", redirect:"/"})
         }
@@ -60,7 +60,11 @@ async function register(req, res){
         res.status(400).send({status: "Error", message: "Error en el register", error: err})
     }
 }
-
+async function saltPassword(pass){
+    const staticSalt = '$2a$10$abcdefghijklmnopqrstuvwxyz123456';
+    const hashPassword = await bcryptjs.hash(pass, staticSalt)
+    return hashPassword
+}
 export const methods = {
     login, register
 }
