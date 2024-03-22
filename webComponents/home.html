@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/sidebar.css">
     <script type="module" src="js/sideBar.js" defer></script>
     <!-- <script type="module" src="js/chat.js"></script> -->
-
     <title>Document</title>
 </head>
 <body>
-    <div id="containerSidebar" class="menuDesplegado">
+    <section id="containerSidebar" class="menuDesplegado">
         <div class="img-logo-sidebar">
             <img src="src/icons/logo.svg" alt="">
         </div>
@@ -51,7 +52,7 @@
             <h3>Cerrar Sesion</h3>
         </span>
         <div id="toogleMenu">></div>
-    </div>
+    </section>
     <div id="hamnurgerMenu">
         <div>
             <div ></div>
@@ -59,17 +60,34 @@
         </div>
         <img src="src/icons/logo.svg" alt="">
     </div>
-    <!-- <div id="contenidoWeb"></div>
-    <div id="chatContainer">
-        <div id="toogleChat">/</div>
-        <h2>chat</h2>
-        <section id="chat" style="display: none;">
-            <ul id="message"></ul>
-            <form id="form" action="">
-                <input type="text" name="message" id="input" placeholder="Type a message" autocomplete="off">
-                <button type="submit">Enviar</button>
-            </form>
-        </section>
-    </div> -->
+
+
+    <section id="homeSection">
+        <div class="parent">
+            <div class="bento1">Crear Mazo</div>
+            <div class="bento2">
+                <h1>Coleccion</h1>
+                <p>Total de cartas en posesion X</p>
+            </div>
+            <div class="bento3">Trade</div>
+            <div class="bento4">Foro</div>
+            <div class="bento5">
+                <h1>Torneos</h1>
+                <p>Torneos actualmente activos X</p>
+                <p>Torneos apuntados activos X</p>
+            </div>
+            <div class="bento6">Decks</div>
+            <div class="bento7">Perfil</div>
+            <div class="bento8">
+                <h1>Post Hot</h1>
+                <div class="postHot">
+                    <p>Nombre del post</p>
+                    <p>Nombre del post</p>
+                    <p>Nombre del post</p>
+                </div>
+                <p>Publicar post</p>
+            </div>
+        </div>
+    </section>
 </body>
 </html>

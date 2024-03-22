@@ -12,7 +12,7 @@ body{
 }
 #containerSidebar{
     /* border: 1px solid red; */
-    position: relative;
+    position: absolute;
     z-index: 9000;
     height: 100vh;
     background-color: rgb(33, 33, 33);
@@ -61,8 +61,7 @@ body{
             color: rgb(216, 215, 215);  
             border-radius: 50%;
             padding: 5px;
-            border: 1px solid rgb(121, 34, 208);
-            background: linear-gradient(82deg, rgb(121, 34, 208) 6.04%, rgb(173, 0, 255) 95.62%);
+            background: linear-gradient(45deg, var(--color-primario), var(--color-secundario));
             box-shadow: rgb(121, 34, 208) 0px 0px 8px 0px;      
         }
         & h3{
@@ -122,7 +121,7 @@ body{
         }
     }
 }
-/* #contenidoWeb{
+#contenidoWeb{
     transition: all 0.25s ease-out;
     border: 1px solid red;
     width: calc(100% - 270px);
@@ -200,4 +199,4 @@ body{
         background: #88888800;
         text-align: right;
     }
-} */
+}
