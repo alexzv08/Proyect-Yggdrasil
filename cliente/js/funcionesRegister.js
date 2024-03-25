@@ -13,14 +13,21 @@ window.onload = () => {
                 pass: e.target.children[2].children.password.value
             })
         })
-        // console.log(res)
-        // if(!res.ok){
-        //     alert("Usuario o contraseña incorrecta")
-        //     return
-        // }
+        console.log(res.data)
+        if(!res.ok){
+            const errorMessage = await res.json();
+            console.log(errorMessage); // Muestra el mensaje de error en la consola
+            alert(errorMessage.message);
+            return;
+        }
         const resJson = await res.json()
         if(resJson.redirect){
             window.location.href = "/login";
         }
+    })
+    login.addEventListener("click" ,(e)=>{
+        e.preventDefault();
+        window.location.href = "/login";
+
     })
 }

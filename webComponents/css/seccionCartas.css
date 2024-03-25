@@ -1,0 +1,204 @@
+#infoMazo{
+    width: 100vw;
+    height: 120px;
+    border: 1px solid purple;
+    padding-top: 10px;
+    position: relative;
+    & #detalles{
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        
+    
+        & form{
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            width: 10%;
+            height: auto;
+            justify-content: space-around;
+            gap: 10px;
+
+            & input[type=text]{
+                padding: 10px;
+            }
+        }
+        & button{
+            height: 50px;
+            width: 80px;
+        }
+        #estadisticas{
+            width: 200px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            & .barra {
+                width: 20px;
+                height: 75px;
+                background-color: #ddd; 
+                border-radius: 5px;
+                position: relative;
+            }
+    
+            .relleno {
+                height: 0;
+                background-color: #4caf50;
+                border-radius: 5px;
+                width: 100%;
+                position: absolute;
+                bottom: 0;
+            }
+        }
+    }
+    & #desplegaDetalle{
+        position: absolute;
+        top: 110px;
+        left: 50%;
+        border: 1px solid purple;
+        border-radius: 50%;
+        height: 20px;
+        width: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+    }
+}
+#containerGeneral{
+    display: flex;
+    flex-direction: row;
+}
+#containerCartas{
+    height: calc(100vh - 140px);
+    width: calc(100vw - 200px);
+    min-width: 120px;
+    padding: 5px;
+    overflow-y: scroll;
+    border: 1px solid red;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    & div {
+        & img{
+        height: 160px;
+        border-radius: 5%;
+        width: 118px;
+        }
+    }
+}
+#listDeck{
+    height: 100vh;
+    width: 250px;
+    min-width: 120px;
+    border: 1px solid blue;
+    display: flex;
+    flex-direction: column;
+
+    & div{
+        display: flex; /* Usar flexbox para alinear verticalmente */
+        padding-left: 20px;
+        margin-bottom: 5px;
+        align-items: center;
+        height: 50px;
+        border: 1px solid green;
+        border-radius: 20px;
+        color: white;
+        font-size:20px;
+    }
+}
+.ocultarEstadisticas{
+    display: none;
+}
+#infoMazoMovil{
+        display: none;
+    }
+@media (width <= 748px ) {
+    #infoMazo{
+        display: none;
+    }
+    #containerCartas{
+        height: 100vh;
+    }
+    #infoMazoMovil{
+        background-color: rgba(92, 92, 92, 0.795);
+        width: 100vw;
+        min-width: 240px;
+        height: 270px;
+        border: 1px solid purple;
+        padding-top: 10px;
+        position: absolute;
+        display: block;
+
+        & #detallesMovil{
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        
+    
+        & form{
+            display: flex;
+            flex-direction: column;
+            /* padding: 10px; */
+            /* width: 10%; */
+            height: auto;
+            justify-content: center;
+            gap: 10px;
+
+            & input[type=text]{
+                padding: 10px;
+                width: 150px;
+            }
+        }
+        & #bottonesDetalles{
+            display: flex; 
+            width: 100%;
+            flex-direction: row;
+            justify-content: center;
+            gap: 10px;
+
+            & button{
+                height: 35px;
+                width: 55px;
+            }
+        }
+        #estadisticas{
+            width: 200px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            & .barra {
+                width: 20px;
+                height: 75px;
+                background-color: #ddd; 
+                border-radius: 5px;
+                position: relative;
+            }
+    
+            .relleno {
+                height: 0;
+                background-color: #4caf50;
+                border-radius: 5px;
+                width: 100%;
+                position: absolute;
+                bottom: 0;
+            }
+        }
+    }
+    & #desplegaDetalleMovil{
+        position: absolute;
+        top: 255px;
+        left: 50%;
+        border: 1px solid purple;
+        border-radius: 50%;
+        height: 20px;
+        width: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+    }
+    }
+}

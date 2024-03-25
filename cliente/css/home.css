@@ -19,13 +19,8 @@
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            background: linear-gradient(45deg, var(--color-primario), var(--color-secundario));
-            
-            &:hover{
-                transform: translateY(-3px);
-                box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-            }
-
+            background: #211b27;
+            /* border: 5px solid transparent; */
             & h1,div,p{
                 background-color: rgba(255, 255, 255, 0);
             }
@@ -35,7 +30,7 @@
     grid-area: 1 / 1 / 2 / 4;
 
     & .conatinerPerfil{
-        border: 1px solid red;
+        /* border: 1px solid red; */
         display: flex;
         flex-direction: row;
         height: 100%;
@@ -44,7 +39,7 @@
             margin: auto 100px auto 100px;
             & img{
                 background-color: transparent;
-                width: 200px;
+                width: 50%;
                 min-width: 150px;
                 color: rgb(216, 215, 215);  
                 border-radius: 50%;
@@ -59,14 +54,12 @@
             }
         }
         & .infoPerfil{
-            border: 1px solid yellow;
-            margin: auto 120px;
-            width: 50%;
-            display: flex;
-            flex-wrap: wrap;
-            height: 200px;
-            padding: 20px;
-            justify-content: space-around;
+            width: 80vw;
+                min-width: 331px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+
             & div{
                 display: flex;
                 flex-direction: column;
@@ -76,14 +69,35 @@
                     height: 60px;
                     width: 150px;
                     margin: auto;
+                    display: flex;
+                    justify-content: center;
+                    line-height: 20.16px;
+                    padding: 0px 16px;
                     text-align: center;
-                
+                    font-weight: 600;
+                    font-size: 18px;
+                    color: #fff;
+                    box-shadow: #7922d0 0px 0px 8px 0px;
+                    border-radius: 32px;
+                    background-color: #7922d0;
+                    transition: all 0.3s ease;
+                    &:hover {
+                        background-color: hsl(268, 100%, 69%);
+                        box-shadow: #898291 0px 0px 12px 0px; 
+                        cursor: pointer;
+                    }
+                    & p{
+                        margin: auto;
+                        height: auto;
+                    }
                 }
                 & div{
                     background-color: rgba(240, 248, 255, 0);
                     border: 1px solid black;
                     margin: auto;
-                    
+                    width: 150px;
+                    height: 60px;
+
                     & h4{
                         background-color: rgba(240, 248, 255, 0);
     
@@ -100,3 +114,40 @@
 .bento6 { grid-area: 4 / 2 / 5 / 3; }
 .bento7 { grid-area: 4 / 3 / 5 / 4; }
 
+
+@media (width <= 900px) {
+    .bento1{
+        & .conatinerPerfil{
+            & .iconPerfil{
+                margin: auto 50px auto;
+                & img{
+                    background-color: transparent;
+                    width: 150px;
+                    min-width: 100px;
+                }
+            }
+            & .infoPerfil{
+                width: 80vw;
+                min-width: 331px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+    
+                & div{
+                    display: flex;
+                    flex-direction: column;
+                    & buton{
+
+                    }
+                    & div{
+                        background-color: rgba(240, 248, 255, 0);
+                        border: 1px solid black;
+                        margin: auto;
+                        width: 150px;
+                        height: 60px;
+                    }
+                }
+            }
+        }
+    }
+}

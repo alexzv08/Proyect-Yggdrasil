@@ -10,7 +10,7 @@
     padding: 5% 0;
     & form{
         /* border: 1px solid blue; */
-        height: 350px;
+        height: 250px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;

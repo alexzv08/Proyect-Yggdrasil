@@ -4,7 +4,8 @@ let ocultoChat=false;
 
 window.onload = ()=>{
     toogleMenu.addEventListener("click", toggleMenuChange)
-    hamnurgerMenu.addEventListener("click", toggleMenuChangeHamburger)
+    navBarRediretions()
+    // hamnurgerMenu.addEventListener("click", toggleMenuChangeHamburger)
 
     // toogleChat.addEventListener("click", toggleChatChange)
     // deckbuilder.addEventListener("click", insertCartas)
@@ -25,6 +26,7 @@ async function insertCartas(){
 function toggleMenuChange(){
     let titulos = document.querySelectorAll("span h3")
 
+
     if(!ocultoMenu){
         titulos.forEach(element => {
             element.style.display = "block"
@@ -32,6 +34,7 @@ function toggleMenuChange(){
         toogleMenu.style.left="255px";
         containerSidebar.classList.remove("menuOculto")
         containerSidebar.classList.add("menuDesplegado")
+        document.querySelector("#toogleMenu img").src = "src/icons/arrow-left.svg"
         // console.log(containerSidebar.offsetWidth);
         // console.log(document.querySelector("body").offsetWidth);
         // contenidoWeb.style.width=`calc(100% - 270px)`
@@ -44,6 +47,8 @@ function toggleMenuChange(){
         containerSidebar.classList.add("menuOculto")
         containerSidebar.classList.remove("menuDesplegado")
         toogleMenu.style.left="85px";
+        document.querySelector("#toogleMenu img").src = "src/icons/arrow-rigth.svg"
+
         // console.log(containerSidebar.offsetWidth);
         // console.log(document.querySelector("body").offsetWidth);
 
@@ -69,6 +74,21 @@ function toggleMenuChangeHamburger(){
         ocultoChatHamburger=false
     }
 }
+
+function navBarRediretions(){
+    let navegacion = document.querySelectorAll("#containerSidebar span")
+    console.log(navegacion)
+    navegacion.forEach(element => {
+        element.addEventListener("click", redireccion)
+    });
+}
+function redireccion(){
+    let redireccion = this.querySelector("h3").innerText.replace(/\s/g, "").toLowerCase()
+    if(window.location.pathname != ("/"+redireccion)){
+        window.location.href = "/"+redireccion;
+    }
+}
+
 // function toggleChatChange(){
 //     if(!ocultoChat){
 //         chatContainer.style.height="100%";

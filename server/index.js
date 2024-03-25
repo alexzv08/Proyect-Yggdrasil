@@ -57,7 +57,11 @@ const app = express()
 
 //ASESTS --> /resources = 'ruta proporcionada' --> para que se vean los estilos en las plantillas
 const staticPath = path.join(process.cwd(), '/webComponents/');
+const staticPath2 = path.join(process.cwd(), '/cliente/');
+
 app.use('/resources', express.static(staticPath));
+app.use('/resources', express.static(staticPath2));
+
 console.log(staticPath)
 
 const server = createServer(app)
@@ -95,7 +99,8 @@ io.on("connection", async (socket) =>{
 })
 
 // configuracion
-app.use(express.static(process.cwd()+"/webComponents"))
+app.use(express.static(process.cwd()+"/cliente"))
+
 
 
 app.use(express.json())
@@ -103,17 +108,17 @@ app.use(logger('dev'))
 
 // ESTO PARA QUE SE VEA EL CHAT SOLO
 app.get('/', (req, res)=>{
-    res.sendFile(process.cwd()+"/webComponents/login.html")
+    res.sendFile(process.cwd()+"/cliente/login.html")
 
 })
 app.get('/home', (req, res)=>{
-    res.sendFile(process.cwd()+"/webComponents/sidebar.html")
+    res.sendFile(process.cwd()+"/cliente/home.html")
 })
 app.get('/login', (req, res)=>{
-    res.sendFile(process.cwd()+"/webComponents/login.html")
+    res.sendFile(process.cwd()+"/cliente/login.html")
 })
 app.get('/register', (req, res)=>{
-    res.sendFile(process.cwd()+"/webComponents/register.html")
+    res.sendFile(process.cwd()+"/cliente/register.html")
 })
 app.post('/api/login', autentificador.login)
 app.post('/api/register', autentificador.register)

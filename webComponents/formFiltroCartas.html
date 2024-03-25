@@ -65,8 +65,12 @@
 </head>
 <style>
     #filterContainer{
-        height: 800px;
+        position: relative;
+        height: 100vh;
         width: 250px;
+        padding: 0;
+        margin: 0;
+        border: 1px solid red;
         & form{
             height: 100%;
             display: flex;
@@ -83,7 +87,7 @@
     }
 </style>
 <body>
-    <div id="filterContainer">
+    <section id="filterContainer">
         <form action="filter" id="filtroCartas">
             <!-- NOMBRE -->
             <input type="text" name="nombre" placeholder="Nombre">
@@ -139,6 +143,6 @@
             <select name="keyword" id="keyword" aria-placeholder="keyword"></select>
             <button type="submit" id="filtrar">Filtrar</button>
         </form>
-    </div>
+    </section>
 </body>
 </html>
