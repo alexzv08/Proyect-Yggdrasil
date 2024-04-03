@@ -52,8 +52,6 @@
             height: calc(100% - 75px);
 
             .user{
-
-                
                 display: flex;
                 flex-direction: row;
                 align-items: center;
@@ -121,7 +119,7 @@
                 }
         
                 & >li:nth-child(odd){
-                    background: #000;
+                    background: #85858534;
                     text-align: right;
                 }
             }

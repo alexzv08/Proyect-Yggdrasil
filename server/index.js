@@ -29,7 +29,7 @@ const connection = await mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: 'admini',
+    password: '',
     database: 'prueba',
     authPlugins: ['mysql_native_password'] // Add this line
 });
@@ -82,26 +82,41 @@ io.on("connection", async (socket) =>{
         let result
         const username = socket.handshake.auth.username ?? 'anonymous'
 
-        result = await connection.query('INSERT INTO messages (user, content) VALUES (?,?);', [username, msg])
+        result = await connection.query('INSERT INTO mensajes (id_usuarioEnvia, id_usuarioRecibe,contenid) VALUES (?,?,?);', [username,username, msg])
         io.emit("chat message", msg, result.lastInsertRowid, username)
     })
     
-    if(!socket.recovered){
-       const prueba = await query(socket.handshake.auth.serverOffset)
+    socket.on("chat charge", async (username)=>{
+        console.log("cargando chat")
+        console.log(username[0])
+
+        const prueba = await query(username[0], username[1],"0")
+        console.log(prueba)
         try {
             prueba[0].forEach(row => {
-                socket.emit( "chat message" , row.content, row.id, row.user)
+                socket.emit( "chat message" , row.contenid, row.id_mensaje, row.id_usuarioEnvia)
             });
         } catch (error) {
             console.error(error)
         }
-    }
+    })
+
+
+    // if(!socket.recovered){
+    //     console.log(socket.handshake.auth)
+    //     const prueba = await query(socket.handshake.auth.username,socket.handshake.auth.username2,socket.handshake.auth.serverOffset)
+    //     try {
+    //         prueba[0].forEach(row => {
+    //             socket.emit( "chat message" , row.contenid, row.id_mensaje, row.id_usuarioEnvia)
+    //         });
+    //     } catch (error) {
+    //         console.error(error)
+    //     }
+    // }
 })
 
 // configuracion
 app.use(express.static(process.cwd()+"/cliente"))
-
-
 
 app.use(express.json())
 app.use(logger('dev'))
@@ -135,11 +150,13 @@ server.listen(port, ()=>{
 
 
 // Para mostrar los chats
-async function query(variable){
+async function query(idUser1,idUser2,variable){
     // A simple SELECT query
     try {
+        console.log(idUser1,idUser2,variable)
         resultsDatabase = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
-            'SELECT * FROM messages WHERE ID > ?;',[variable ?? 0]
+            // 'SELECT * FROM mensajes WHERE id_mensaje > ? and ;',[variable ?? 0]
+            "SELECT * FROM mensajes WHERE (id_usuarioEnvia = ? AND id_usuarioRecibe = ?) OR (id_usuarioEnvia = ? AND id_usuarioRecibe = ?) AND id_mensaje > ? ORDER BY fecha_envio",[idUser1,idUser2,idUser2,idUser1,variable ?? 0]
         );
     return resultsDatabase
     } catch (err) {
