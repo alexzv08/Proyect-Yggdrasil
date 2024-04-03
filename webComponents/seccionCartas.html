@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        
+        let mazo = {
+            "eggDeck": {},
+            "deck": {}
+        };
+        let mostarEstadisticasToogle = true;
+        let mostarEstadisticasToogleMovil = true;
+        window.onload = async() => {
+            desplegaDetalle.addEventListener("click", ocultarEstadisticas)
+            desplegaDetalleMovil.addEventListener("click", ocultarEstadisticasMovil)
+            guardarMazoB.addEventListener("click" , guardarMazo)
+            guardarMazoBM.addEventListener("click" , guardarMazo)
+            limpiarMazoB.addEventListener("click" , limpiarMazo)
+            imgCartas()
+        }
+
+        function ocultarEstadisticas(){
+            if(mostarEstadisticasToogle){
+                detalles.style.display = "none"
+                infoMazo.style.height = "10px"
+                desplegaDetalle.style.top ="0px"
+                mostarEstadisticasToogle =false
+            }else{
+                detalles.style.display = "flex"
+                infoMazo.style.height = "120px"
+                desplegaDetalle.style.top ="110px"
+                mostarEstadisticasToogle =true
+
+            }
+            console.log("hey")
+        }
+        function ocultarEstadisticasMovil(){
+            if(mostarEstadisticasToogleMovil){
+                detallesMovil.style.display = "none"
+                infoMazoMovil.style.height = "0px"
+                infoMazoMovil.style.margin = "0px"
+                infoMazoMovil.style.padding = "0px"
+                desplegaDetalleMovil.style.top ="0px"
+                mostarEstadisticasToogleMovil =false
+            }else{
+                detallesMovil.style.display = "flex"
+                infoMazoMovil.style.height = "270px"
+                desplegaDetalleMovil.style.top ="255px"
+                infoMazoMovil.style.padding = "10px"
+                mostarEstadisticasToogleMovil =true
+            }
+            console.log("hey")
+        }
+
+        function imgCartas(){
+            fetch("https://digimoncard.io/api-public/search.php?n=Agumon&sort=power&series=Digimon Card Game")
+            .then(data => data.json())
+            .then(data =>{
+                console.log(data)
+                data.forEach(element => {
+                    cargarImg(element)
+                });
+                // imgCard.src = data[0].image_url
+            })  
+        }
+        
+        function cargarImg(element){
+            let div = document.createElement("div")
+            div.addEventListener("click", añadirCartaMazo)
+            div.dataset.nombre =  element.name 
+            div.dataset.cardnumber =  element.cardnumber 
+            div.dataset.color =  element.color
+            div.dataset.type =  element.type
+            let img = document.createElement("img")
+            img.src = element.image_url
+            containerCartas.appendChild(div)
+            div.appendChild(img)
+        }
+
+        let eggDeck = 0;
+        let deck = 0;
+        function añadirCartaMazo() {
+                if (this.dataset.type == "Digi-Egg" && eggDeck < 5) {
+                    if (typeof mazo["eggDeck"][this.dataset.cardnumber] !== 'number') {
+                        mazo["eggDeck"][this.dataset.cardnumber] = 0;
+                        actualizarDeck(this);
+                    }
+                    if (mazo["eggDeck"][this.dataset.cardnumber] < 4) {
+                        mazo["eggDeck"][this.dataset.cardnumber] += 1;
+                        eggDeck++;
+                        console.log(eggDeck);
+                        document.getElementById(this.dataset.cardnumber).innerText =  this.dataset.nombre + " " + this.dataset.cardnumber + " X "+mazo["eggDeck"][this.dataset.cardnumber]
+                    }
+                } else if(this.dataset.type != "Digi-Egg" && deck < 50){
+                    if (typeof mazo["deck"][this.dataset.cardnumber] !== 'number') {
+                        mazo["deck"][this.dataset.cardnumber] = 0;
+                        actualizarDeck(this);
+                    }
+                    if (mazo["deck"][this.dataset.cardnumber] < 4) {
+                        mazo["deck"][this.dataset.cardnumber] += 1;
+                        deck++;
+                        console.log(mazo["deck"]);
+                        document.getElementById(this.dataset.cardnumber).innerText =  this.dataset.nombre + " " + this.dataset.cardnumber + " X "+mazo["deck"][this.dataset.cardnumber]
+                    }
+                }
+        }
+
+        function actualizarDeck(cardElement) {
+            let div = document.createElement("div");
+            div.style.backgroundColor = cardElement.dataset.color;
+            div.id = cardElement.dataset.cardnumber
+            listDeck.appendChild(div);
+        }
+
+        function guardarMazo(){
+            for (const element in mazo.eggDeck) {
+                sql = 'INSERT INTO listaCartasMazo ("idMazo", "DG","'+element.split("-")[0]+'", "'+element.split("-")[1]+'","'+mazo.eggDeck[element]+'")'  
+                console.log(sql)
+            }
+        }
+        function limpiarMazo(){
+            if(deck>0 || eggDeck>0){
+                if(window.confirm("Se va a limpiar el mazo. ¿Estas seguro?")){
+                    listDeck.innerText = ''
+                    deck=0
+                    eggDeck=0
+                    mazo["eggDeck"]=[]
+                    mazo["deck"]=[]
+                    console.log(mazo)
+                }
+            }
+        }
+    </script>
+</head>
+<style>
+    body{
+        height: 100vh;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    #infoMazo{
+        width: 100vw;
+        height: 120px;
+        border: 1px solid purple;
+        padding-top: 10px;
+        position: relative;
+        & #detalles{
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            
+        
+            & form{
+                display: flex;
+                flex-direction: column;
+                padding: 10px;
+                width: 10%;
+                height: auto;
+                justify-content: space-around;
+                gap: 10px;
+
+                & input[type=text]{
+                    padding: 10px;
+                }
+            }
+            & button{
+                height: 50px;
+                width: 80px;
+            }
+            #estadisticas{
+                width: 200px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                & .barra {
+                    width: 20px;
+                    height: 75px;
+                    background-color: #ddd; 
+                    border-radius: 5px;
+                    position: relative;
+                }
+        
+                .relleno {
+                    height: 0;
+                    background-color: #4caf50;
+                    border-radius: 5px;
+                    width: 100%;
+                    position: absolute;
+                    bottom: 0;
+                }
+            }
+        }
+        & #desplegaDetalle{
+            position: absolute;
+            top: 110px;
+            left: 50%;
+            border: 1px solid purple;
+            border-radius: 50%;
+            height: 20px;
+            width: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+    }
+    #containerGeneral{
+        display: flex;
+        flex-direction: row;
+    }
+    #containerCartas{
+        height: calc(100vh - 140px);
+        width: calc(100vw - 200px);
+        min-width: 120px;
+        padding: 5px;
+        overflow-y: scroll;
+        border: 1px solid red;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+        & div {
+            & img{
+            height: 160px;
+            border-radius: 5%;
+            width: 118px;
+            }
+        }
+    }
+    #listDeck{
+        height: 100vh;
+        width: 250px;
+        min-width: 120px;
+        border: 1px solid blue;
+        display: flex;
+        flex-direction: column;
+
+        & div{
+            display: flex; /* Usar flexbox para alinear verticalmente */
+            padding-left: 20px;
+            margin-bottom: 5px;
+            align-items: center;
+            height: 50px;
+            border: 1px solid green;
+            border-radius: 20px;
+            color: white;
+            font-size:20px;
+        }
+    }
+    .ocultarEstadisticas{
+        display: none;
+    }
+    #infoMazoMovil{
+            display: none;
+        }
+    @media (width <= 748px ) {
+        #infoMazo{
+            display: none;
+        }
+        #containerCartas{
+            height: 100vh;
+        }
+        #infoMazoMovil{
+            background-color: rgba(92, 92, 92, 0.795);
+            width: 100vw;
+            min-width: 240px;
+            height: 270px;
+            border: 1px solid purple;
+            padding-top: 10px;
+            position: absolute;
+            display: block;
+
+            & #detallesMovil{
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            
+        
+            & form{
+                display: flex;
+                flex-direction: column;
+                /* padding: 10px; */
+                /* width: 10%; */
+                height: auto;
+                justify-content: center;
+                gap: 10px;
+
+                & input[type=text]{
+                    padding: 10px;
+                    width: 150px;
+                }
+            }
+            & #bottonesDetalles{
+                display: flex; 
+                width: 100%;
+                flex-direction: row;
+                justify-content: center;
+                gap: 10px;
+
+                & button{
+                    height: 35px;
+                    width: 55px;
+                }
+            }
+            #estadisticas{
+                width: 200px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                & .barra {
+                    width: 20px;
+                    height: 75px;
+                    background-color: #ddd; 
+                    border-radius: 5px;
+                    position: relative;
+                }
+        
+                .relleno {
+                    height: 0;
+                    background-color: #4caf50;
+                    border-radius: 5px;
+                    width: 100%;
+                    position: absolute;
+                    bottom: 0;
+                }
+            }
+        }
+        & #desplegaDetalleMovil{
+            position: absolute;
+            top: 255px;
+            left: 50%;
+            border: 1px solid purple;
+            border-radius: 50%;
+            height: 20px;
+            width: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+        }
+    }
+</style>
+<body>
+    <div id="infoMazo">
+        <div id="detalles">
+            <form action="">
+                <input type="text" placeholder="Nombre del Deck">
+                <input type="text" placeholder="Descripcion">
+            </form>
+            <button title="Limpiar Mazo" id="limpiarMazoB">Limpiar Mazo</button>
+            <button title="Guardar Mazo" id="guardarMazoB">Guardar Mazo</button>
+            <button title="Importar">Importar</button>
+            <button title="Exportar">Exportar</button>
+            <div id="estadisticas">
+                <div id="lv2" class="barra">lv2
+                    <div class="relleno" id="rellenoBarra"></div>
+                </div>
+                <div id="lv3" class="barra">lv3
+                    <div class="relleno" id="rellenoBarra"></div>
+                </div>
+                <div id="lv4" class="barra">lv4
+                    <div class="relleno" id="rellenoBarra"></div>
+                </div>
+                <div id="lv5" class="barra">lv5
+                    <div class="relleno" id="rellenoBarra"></div>
+                </div>
+                <div id="lv6" class="barra">lv6
+                    <div class="relleno" id="rellenoBarra"></div>
+                </div>
+                <div id="lv7" class="barra">lv7
+                    <div class="relleno" id="rellenoBarra"></div>
+                </div>
+            </div>
+        </div>
+        <div id="desplegaDetalle">I</div>
+    </div>
+    <div id="infoMazoMovil">
+        <div id="detallesMovil">
+            <form action="">
+                <input type="text" placeholder="Nombre del Deck">
+                <input type="text" placeholder="Descripcion">
+            </form>
+            <div id="bottonesDetalles">
+                <button title="Limpiar Mazo">Limpiar Mazo</button>
+                <button title="Guardar cambios" id="guardarMazoBM">Guardar Mazo</button>
+                <button title="Importar">Importar</button>
+                <button title="Exportar">Exportar</button>
+            </div>
+            <div id="estadisticas">
+                <div id="lv2" class="barra">lv2
+                    <div class="relleno" id="rellenoBarra"></div>
+                </div>
+                <div id="lv3" class="barra">lv3
+                    <div class="relleno" id="rellenoBarra"></div>
+                </div>
+                <div id="lv4" class="barra">lv4
+                    <div class="relleno" id="rellenoBarra"></div>
+                </div>
+                <div id="lv5" class="barra">lv5
+                    <div class="relleno" id="rellenoBarra"></div>
+                </div>
+                <div id="lv6" class="barra">lv6
+                    <div class="relleno" id="rellenoBarra"></div>
+                </div>
+                <div id="lv7" class="barra">lv7
+                    <div class="relleno" id="rellenoBarra"></div>
+                </div>
+            </div>
+        </div>
+        <div id="desplegaDetalleMovil">I</div>
+    </div>
+    <div id="containerGeneral">
+        <div id="containerCartas">
+        </div>
+        <div id="listDeck"></div>
+    </div>
+</body>
+</html>
