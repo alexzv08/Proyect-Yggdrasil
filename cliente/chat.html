@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/sidebar.css">
-    <script type="module" src="js/sideBar.js" defer></script>
-    <!-- <script type="module" src="js/chat.js"></script> -->
-    <title>Home</title>
+    <link rel="stylesheet" href="css/chat.css">
+    <script type="module" src="js/sideBar.js"></script>
+    <title>Document</title>
 </head>
 <body>
     <section id="containerSidebar"  class="menuOculto">
@@ -35,7 +34,7 @@
             <img src="src/icons/user-alt-1-svgrepo-com.svg" alt="icon_home">
             <h3>profile</h3>
         </span>
-        <span href="">
+        <span href="chat.html">
             <img src="src/icons/user-alt-1-svgrepo-com.svg" alt="icon_home">
             <h3>Chat</h3>
         </span>
@@ -53,43 +52,36 @@
         </span>
         <div id="toogleMenu"><img src="src/icons/arrow-rigth.svg" alt=""></div>
     </section>
-
-    <section id="homeSection" >
-        <div class="parent">
-            <div class="bento1">
-                <div class="conatinerPerfil">
-                    <div class="iconPerfil">
-                        <img src="src/icons/user-alt-1-svgrepo-com.svg" alt="icon_home">
-                    </div>
-                    <div class="infoPerfil">
-                        <div>
-                            <buton><p>User</p></buton>
-                            <buton><p>Trade</p></buton>
-                        </div>
-                        <div>
-                            <buton><p>Friends</p></buton>
-                            <div class="datosPerfil">
-                                <h4>Joiner: 2014</h4> 
-                                <h4>Total Cards</h4> 
-                                <h4>TCG Colected</h4> 
-                            </div>
-                        </div>
-                    </div>
+    <section id="chat-container">
+        <div class="friends">
+            <div class="acciones">
+                <input type="text" placeholder="Buscar Usuario">
+                <button type="button" title="Añadir nuevo usuario"><img src="src/icons/add-user-9-svgrepo-com.svg" alt=""></button>
+            </div>
+            <div id="friends-list">
+                <div class="user">
+                    <div class="icon-user"><img src="src/icons/user-alt-1-svgrepo-com.svg" alt=""></div>
+                    <div class="name-user"><h3>Alejandro</h3></div>
+                </div>
+                <div class="user">
+                    <div class="icon-user"><img src="src/icons/user-alt-1-svgrepo-com.svg" alt=""></div>
+                    <div class="name-user"><h3>Alejandro</h3></div>
+                </div>
+                <div class="user">
+                    <div class="icon-user"><img src="src/icons/user-alt-1-svgrepo-com.svg" alt=""></div>
+                    <div class="name-user"><h3>Alejandro</h3></div>
                 </div>
             </div>
-            <div class="bento2">
-                <h1>Coleccion</h1>
-                <p>Total de cartas en posesion X</p>
-            </div>
-            <div class="bento3">Trade</div>
-            <div class="bento4">Foro</div>
-            <div class="bento5">
-                <h1>Torneos</h1>
-                <p>Torneos actualmente activos X</p>
-                <p>Torneos apuntados activos X</p>
-            </div>
-            <div class="bento6">Decks</div>
-            <div class="bento7">Perfil</div>
+            
+        </div>
+        <div id="chat-mensajes">
+            <section id="chat-display">
+                <ul id="message"></ul>
+                <form id="form" action="">
+                    <input type="text" name="message" id="input" placeholder="Type a message" autocomplete="off">
+                    <button type="submit">Enviar</button>
+                </form>
+            </section>
         </div>
     </section>
 </body>

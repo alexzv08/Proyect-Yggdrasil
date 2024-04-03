@@ -114,6 +114,12 @@ app.get('/', (req, res)=>{
 app.get('/home', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/home.html")
 })
+app.get('/chat', (req, res)=>{
+    res.sendFile(process.cwd()+"/cliente/chat.html")
+})
+app.get('/deckbuilder', (req, res)=>{
+    res.sendFile(process.cwd()+"/cliente/deckBuilder.html")
+})
 app.get('/login', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/login.html")
 })

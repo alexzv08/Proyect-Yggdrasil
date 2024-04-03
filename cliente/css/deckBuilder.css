@@ -1,0 +1,161 @@
+#main-container{
+    border: 1px solid red;
+    width: calc(100% - 100px);
+    height: 100vh;
+    margin-left: 100px;
+}
+
+/* ESTADISTICAS DEL MAZO */
+#infoMazo{
+    border: 1px solid yellow;
+
+    height: 100px;
+    border: 1px solid purple;
+    position: relative;
+    & #detalles{
+        margin: auto;
+        width: 98%;
+        background: #211b27;
+        border-radius: 20px;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        height: 90%;
+        margin-top: 5px;
+        
+    
+        & form{
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            width: 15%;
+            height: auto;
+            justify-content: space-around;
+            gap: 10px;
+
+            & input[type=text]{
+                padding: 10px;
+            }
+        }
+        & button{
+            height: 50px;
+            width: 80px;
+        }
+        #estadisticas{
+            width: 250px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            & .barra {
+                text-align: center;
+                width: 30px;
+                height: 75px;
+                background-color: #ddd; 
+                border-radius: 5px;
+                position: relative;
+            }
+    
+            .relleno {
+                height: 0;
+                background-color: #4caf50;
+                border-radius: 5px;
+                width: 100%;
+                position: absolute;
+                bottom: 0;
+            }
+        }
+    }
+    & #desplegaDetalle{
+        position: absolute;
+        top: 110px;
+        left: 50%;
+        border: 1px solid purple;
+        border-radius: 50%;
+        height: 20px;
+        width: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+    }
+}
+
+
+/* ESPACIO DONDE SE MUETSRAN LAS CARTAS */
+#containerGeneral{
+    display: flex;
+    flex-direction: row;
+}
+#containerCartas{
+    height: calc(100vh - 100px);
+    width: 100%;
+    min-width: 120px;
+    padding: 5px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    & div {
+        & img{
+        height: 160px;
+        border-radius: 5%;
+        width: 118px;
+        }
+    }
+}
+
+/* LISTA DE CARTAS EN EL MAZO */
+#listDeck{
+    height: calc(100vh - 100px);;
+    width: 250px;
+    min-width: 120px;
+    border: 1px solid blue;
+    display: flex;
+    flex-direction: column;
+
+    & div{
+        display: flex; /* Usar flexbox para alinear verticalmente */
+        padding-left: 20px;
+        margin-bottom: 5px;
+        align-items: center;
+        height: 50px;
+        border: 1px solid green;
+        border-radius: 20px;
+        color: white;
+        font-size:20px;
+    }
+}
+
+/* FILTRO PARA LAS CARTAS */
+#filterContainer{
+    position: absolute;
+    height: calc(100vh - 120px);
+    width: 250px;
+    padding: 20px;
+    margin-top: 5px;
+    border: 1px solid rgb(255, 0, 234);
+    border-radius: 20px;
+    background-color: #211b27;
+    color: white;
+    overflow: auto;
+    & form{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        justify-items: center;
+        
+        & fieldset{
+            border: none;
+            padding: 15px 0;
+        }
+
+        & div{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+    }
+}

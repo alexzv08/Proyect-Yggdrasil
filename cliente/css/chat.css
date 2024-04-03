@@ -1,0 +1,159 @@
+#chat-container{
+    display: flex;
+    justify-content: center;
+    width: calc(100% - 100px);
+    height: 100vh;
+    margin-left: 100px;
+    gap: 10px;
+
+    .friends{
+        border-radius: 20px;
+        width: 20vw;
+        height: 95vh;
+        /* padding: 20px; */
+        margin: auto;
+        background-color: #211b27;
+        .acciones{
+            height: 75px;
+            display: flex;
+            padding: 10px;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+            input{
+                height: 25px;
+                width: 80%;
+                border: 1px solid black;
+                border-radius: 25px;
+                color: white;
+                padding: 15px;
+
+                &:target{
+                    border: 1px solid #7922d0; 
+                }
+            }
+            button{
+                border-radius: 50%;
+                border: 2px solid transparent;
+                padding: 5px;
+
+                & img{
+                    height: 25px;
+                }
+
+                &:hover{
+                    border: 2px solid #7922d0; 
+                }
+            }
+        }
+        #friends-list{
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 75px);
+
+            .user{
+
+                
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                height: 75px;
+                width: 100%;
+
+                .icon-user{
+                    padding:0 15px;
+                    background-color: transparent;
+                    & img{
+                        border: 1px solid #6e1794;
+                        border-radius: 50%;
+                        padding: 5px;
+                        height: 50px;
+                        background-color: #6e1794;
+                    }
+                }
+
+                .name-user{
+                    color: white;
+                    font-size: 20px;
+                    background-color: transparent;
+
+                    & h3{
+                    background-color: transparent;
+
+                    }
+                }
+                &:hover{
+                    background-color: #5b516b;
+                }
+                &:first-child{
+                    border-top: 1px solid rgb(153, 153, 153);
+                }
+                &:nth-child(n){
+                    border-bottom: 1px solid rgb(153, 153, 153);
+                }
+            }
+        }
+    }
+    #chat-mensajes{
+        border-radius: 20px;
+        background-color: #211b27;
+        height: 95vh;
+        width: 70vw;
+        margin: auto;
+        
+        & #chat-display{
+            border-radius: 20px;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            position: relative;
+    
+            & #message{
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                /* overflow-y: scroll; */
+                height: 100%;
+                /* scroll-behavior: smooth; */
+                padding-bottom: 48px;
+                & >li{
+                    padding: .5rem 1rem;
+                }
+        
+                & >li:nth-child(odd){
+                    background: #000;
+                    text-align: right;
+                }
+            }
+
+            & #form{
+                width: 100%;
+                bottom: 10px;
+                display: flex;
+                height: 48px;
+                position: absolute;
+                right: 0;
+                padding: 0 15px;
+        
+                & #input{
+                    border-radius: 9999px;
+                    border: 1px solid #eee;
+                    flex: 2;
+                    margin: 4px;
+                    padding: 0 8px;
+                }
+                & button{
+                    background-color: #09f;
+                    color: #eee;
+                    border: 0;
+                    margin: 4px;
+                    border-radius: 20px;
+                    min-width: 75px;
+                }
+                & button:hover{
+                    background-color: #0cf;
+                }
+            }
+        }
+    }   
+}

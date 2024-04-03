@@ -1,10 +1,14 @@
 import { methods as funcionesCartas } from "./funcionesCartas.js";
+import { methods as funcionesFiltro } from "./funcionesFiltroCartas.js";
+
 let ocultoMenu, ocultoChatHamburger=false;
 let ocultoChat=false;
 
 window.onload = ()=>{
     toogleMenu.addEventListener("click", toggleMenuChange)
     navBarRediretions()
+    funcionesFiltro.onLoad()
+    // funcionesCartas.onLoad()
     // hamnurgerMenu.addEventListener("click", toggleMenuChangeHamburger)
 
     // toogleChat.addEventListener("click", toggleChatChange)
