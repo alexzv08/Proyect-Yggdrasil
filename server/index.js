@@ -78,15 +78,13 @@ io.on("connection", async (socket) =>{
         console.log("user disconnected");
     })
 
-    socket.on("chat message", async (msg,username2)=>{
+    socket.on("chat message", async (msg,username2,fecha)=>{
         let result
         const username = socket.handshake.auth.username ?? 'anonymous'
         // const username2 = socket.handshake.auth.username2
-        console.log(socket.handshake.auth.username2)
-        console.log(username2)
-
         result = await connection.query('INSERT INTO mensajes (id_usuarioEnvia, id_usuarioRecibe,contenid) VALUES (?,?,?);', [username,username2, msg])
-        io.emit("chat message", msg, result.lastInsertRowid, username)
+        console.log(fecha)
+        io.emit("chat message", msg, result.lastInsertRowid,username, fecha)
         
     })
     
@@ -98,7 +96,7 @@ io.on("connection", async (socket) =>{
         // console.log(prueba)
         try {
             prueba[0].forEach(row => {
-                socket.emit( "chat message" , row.contenid, row.id_mensaje, row.id_usuarioEnvia)
+                socket.emit( "chat message" , row.contenid, row.id_mensaje, row.id_usuarioEnvia, row.fecha_envio)
             });
         } catch (error) {
             console.error(error)
