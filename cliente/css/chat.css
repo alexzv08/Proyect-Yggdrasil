@@ -120,8 +120,11 @@
         
                 & >li:nth-child(odd){
                     background: #85858534;
+                }
+                & >li.propio{
                     text-align: right;
                 }
+
             }
 
             & #form{

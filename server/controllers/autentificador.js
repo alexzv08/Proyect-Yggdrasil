@@ -5,7 +5,7 @@ const connection = await mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: 'admini',
+    password: '',
     database: 'prueba',
     authPlugins: ['mysql_native_password'] // Add this line
 });
@@ -76,8 +76,17 @@ function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
+
+async function sacarUsuariosChat(req, res){
+
+    let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+            'SELECT DISTINCT id_usuarioRecibe AS usuario FROM mensajes WHERE id_usuarioEnvia = ? UNION SELECT DISTINCT id_usuarioEnvia AS usuario FROM mensajes WHERE id_usuarioRecibe = ?',[req.body.user, req.body.user]
+            );
+    res.status(201).send({status: "OK", result: result})
+} 
+
 export const methods = {
-    login, register
+    login, register, sacarUsuariosChat
 }
 
 

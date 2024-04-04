@@ -78,20 +78,24 @@ io.on("connection", async (socket) =>{
         console.log("user disconnected");
     })
 
-    socket.on("chat message", async (msg)=>{
+    socket.on("chat message", async (msg,username2)=>{
         let result
         const username = socket.handshake.auth.username ?? 'anonymous'
+        // const username2 = socket.handshake.auth.username2
+        console.log(socket.handshake.auth.username2)
+        console.log(username2)
 
-        result = await connection.query('INSERT INTO mensajes (id_usuarioEnvia, id_usuarioRecibe,contenid) VALUES (?,?,?);', [username,username, msg])
+        result = await connection.query('INSERT INTO mensajes (id_usuarioEnvia, id_usuarioRecibe,contenid) VALUES (?,?,?);', [username,username2, msg])
         io.emit("chat message", msg, result.lastInsertRowid, username)
+        
     })
     
     socket.on("chat charge", async (username)=>{
-        console.log("cargando chat")
-        console.log(username[0])
+        // console.log("cargando chat")
+        // console.log(username[0])
 
         const prueba = await query(username[0], username[1],"0")
-        console.log(prueba)
+        // console.log(prueba)
         try {
             prueba[0].forEach(row => {
                 socket.emit( "chat message" , row.contenid, row.id_mensaje, row.id_usuarioEnvia)
@@ -143,6 +147,7 @@ app.get('/register', (req, res)=>{
 })
 app.post('/api/login', autentificador.login)
 app.post('/api/register', autentificador.register)
+app.post('/api/usuarios', autentificador.sacarUsuariosChat)
 
 server.listen(port, ()=>{
     console.log(`Server running on port ${port}`)
