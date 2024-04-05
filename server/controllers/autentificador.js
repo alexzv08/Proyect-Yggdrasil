@@ -94,8 +94,16 @@ async function sacarUsuariosChat(req, res){
     res.status(201).send({status: "OK", result: result})
 } 
 
+async function crearMazo(req, res){
+
+    let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+            'INSERT INTO usuarioMazos VALUES(nombre,id_usuario)',[req.body.user]
+            );
+    res.status(201).send({status: "OK", result: result})
+} 
+
 export const methods = {
-    login, register, sacarUsuariosChat
+    login, register, sacarUsuariosChat,crearMazo
 }
 
 

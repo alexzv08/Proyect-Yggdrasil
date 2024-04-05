@@ -146,11 +146,12 @@ app.get('/register', (req, res)=>{
 app.post('/api/login', autentificador.login)
 app.post('/api/register', autentificador.register)
 app.post('/api/usuarios', autentificador.sacarUsuariosChat)
+app.post('/api/crearMazo', autentificador.sacarAllMazos)
+
 
 server.listen(port, ()=>{
     console.log(`Server running on port ${port}`)
 })
-
 
 // Para mostrar los chats
 async function query(idUser1,idUser2,variable){
