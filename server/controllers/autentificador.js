@@ -1,14 +1,23 @@
 import mysql from 'mysql2/promise';
 import bcryptjs from 'bcryptjs';
 
-const connection = await mysql.createConnection({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: '',
-    database: 'prueba',
-    authPlugins: ['mysql_native_password'] // Add this line
-});
+// const connection = await mysql.createConnection({
+//     host: 'localhost',
+//     port: 3306,
+//     user: 'root',
+//     password: '',
+//     database: 'prueba',
+//     authPlugins: ['mysql_native_password'] // Add this line
+// });
+
+/**
+ * @tutorial 
+ * CONEXION A LA BASE DE DATOS EN LA NUVE **RAILWAY**
+ */
+const connection = await mysql.createConnection(
+    process.env.DATABASE_URL
+);
+
 connection.connect((error) => {
     if (error) {
       console.error('Connection error:', error);
