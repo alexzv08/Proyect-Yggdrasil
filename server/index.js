@@ -38,9 +38,14 @@ let resultsDatabase;
  * @tutorial 
  * CONEXION A LA BASE DE DATOS EN LA NUVE **RAILWAY**
  */
-const connection = await mysql.createConnection(
-    process.env.DATABASE_URL
-);
+const url = new URL(process.env.DATABASE_URL);
+const dbConfig = {
+  host: url.hostname,
+  user: url.username,
+  password: url.password,
+  database: url.pathname.substr(1)
+};
+const connection = await mysql.createConnection(dbConfig);
 
 connection.connect((error) => {
   if (error) {
