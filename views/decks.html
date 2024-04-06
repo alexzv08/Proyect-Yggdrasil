@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        async function cargarUsuarios(){
+            const res = await fetch("http://localhost:3000/api/crearMazo",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                nombre: nombreMazo.value,
+                user: sessionStorage.getItem("user")
+            })
+            })
+        }
+    </script>
+</head>
+<style>
+    #decksContainer{
+        height: auto;
+        width: calc(100% - 100px);
+        margin-left: 100px;
+        display: flex;
+        flex-wrap: wrap;
+        border: 1px solid red;
+        gap:20px 30px;
+    }
+    .newDeck{
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+        height: 175px;
+        border: 1px solid red;
+        border-radius: 20px;
+        gap: 20px;
+    }
+    .deck{
+        height: 175px;
+        width: 175px;
+        border: 1px solid red;
+        border-radius: 20px;
+        padding: 5px;
+    }
+</style>
+<body>
+    <div id="decksContainer">
+        <div class="newDeck">
+            <h3>Crea un nuevo deck</h3>
+            <input id="nombreMazo" type="text" placeholder="Nombre del deck">
+            <button type="submit">Crear</button>
+        </div>
+        <div class="deck">
+            <div class="colorMazo"></div>
+            <h3>NombreDeck</h3>
+            <h4>54/55</h4>
+            <h4>22/08/2024</h4>
+            <div class="botonoes">
+                <button type="submit" class="Editar">Editar</button>
+                <button type="submit" class="Eliminar">Eliminar</button>
+            </div>
+        </div>
+        <div class="deck">
+            <div class="colorMazo"></div>
+            <h3>NombreDeck</h3>
+            <h4>54/55</h4>
+            <h4>22/08/2024</h4>
+            <div class="botonoes">
+                <button type="submit" class="Editar">Editar</button>
+                <button type="submit" class="Eliminar">Eliminar</button>
+            </div>
+        </div>
+        <div class="deck">
+            <div class="colorMazo"></div>
+            <h3>NombreDeck</h3>
+            <h4>54/55</h4>
+            <h4>22/08/2024</h4>
+            <div class="botonoes">
+                <button type="submit" class="Editar">Editar</button>
+                <button type="submit" class="Eliminar">Eliminar</button>
+            </div>
+        </div>
+        <div class="deck">
+            <div class="colorMazo"></div>
+            <h3>NombreDeck</h3>
+            <h4>54/55</h4>
+            <h4>22/08/2024</h4>
+            <div class="botonoes">
+                <button type="submit" class="Editar">Editar</button>
+                <button type="submit" class="Eliminar">Eliminar</button>
+            </div>
+        </div>
+        <div class="deck">
+            <div class="colorMazo"></div>
+            <h3>NombreDeck</h3>
+            <h4>54/55</h4>
+            <h4>22/08/2024</h4>
+            <div class="botonoes">
+                <button type="submit" class="Editar">Editar</button>
+                <button type="submit" class="Eliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

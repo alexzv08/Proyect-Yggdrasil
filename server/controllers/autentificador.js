@@ -12,6 +12,23 @@ import bcryptjs from 'bcryptjs';
 const connection = await mysql.createConnection(
     process.env.DATABASE_URL
 );
+// const connection = await mysql.createConnection({
+//     host: 'localhost',
+//     port: 3306,
+//     user: 'root',
+//     password: '',
+//     database: 'prueba',
+//     authPlugins: ['mysql_native_password'] // Add this line
+// });
+
+/**
+ * @tutorial 
+ * CONEXION A LA BASE DE DATOS EN LA NUVE **RAILWAY**
+ */
+const connection = await mysql.createConnection(
+    process.env.DATABASE_URL
+);
+
 connection.connect((error) => {
     if (error) {
       console.error('Connection error:', error);
@@ -88,8 +105,16 @@ async function sacarUsuariosChat(req, res){
     res.status(201).send({status: "OK", result: result})
 } 
 
+async function crearMazo(req, res){
+
+    let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+            'INSERT INTO usuarioMazos VALUES(nombre,id_usuario)',[req.body.user]
+            );
+    res.status(201).send({status: "OK", result: result})
+} 
+
 export const methods = {
-    login, register, sacarUsuariosChat
+    login, register, sacarUsuariosChat,crearMazo
 }
 
 
