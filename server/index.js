@@ -154,7 +154,7 @@ app.get('/register', (req, res)=>{
 app.post('/api/login', autentificador.login)
 app.post('/api/register', autentificador.register)
 app.post('/api/usuarios', autentificador.sacarUsuariosChat)
-app.post('/api/crearMazo', autentificador.sacarAllMazos)
+// app.post('/api/crearMazo', autentificador.crearMazo)
 
 
 server.listen(port, ()=>{
