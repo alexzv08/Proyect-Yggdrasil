@@ -2,7 +2,11 @@
 window.onload = () => {
     document.getElementById("register-form").addEventListener("submit", async (e)=>{
         e.preventDefault();
-        const res = await fetch("http://localhost:3000/api/register",{
+
+        // PETICION POR SERVIDOR AWS
+        const res = await fetch("http://35.181.125.245:3001/api/register",{
+        // PETICION POR SERVIDOR LOCAL
+        // const res = await fetch("http://localhost:3000/api/register",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
