@@ -4,7 +4,6 @@
  * INDICAR QUE USUARIO A ENVIADO QUE MENSAJE -> CAMBIAR BD -> SI ERES TU QUE EL MENSAJE SALGA A LA DERECHA
  */
 
-
 import express from "express"; 
 import logger from "morgan";
 import path from 'path';
@@ -62,8 +61,6 @@ const staticPath2 = path.join(process.cwd(), '/cliente/');
 app.use('/resources', express.static(staticPath));
 app.use('/resources', express.static(staticPath2));
 
-console.log(staticPath)
-
 const server = createServer(app)
 const io = new Server(server, {
     connectionStateRecovery: {
@@ -73,7 +70,6 @@ const io = new Server(server, {
 
 io.on("connection", async (socket) =>{
     console.log("a user has conected!!")
-
     socket.on("disconnect", ()=>{
         console.log("user disconnected");
     })
@@ -89,11 +85,7 @@ io.on("connection", async (socket) =>{
     })
     
     socket.on("chat charge", async (username)=>{
-        console.log(username)
-        // console.log(username[0])
-
         const prueba = await query(username[0], username[1],"0")
-        // console.log(prueba)
         try {
             prueba[0].forEach(row => {
                 socket.emit( "chat message" , row.contenid, row.id_mensaje, row.id_usuarioEnvia, row.fecha_envio)
@@ -102,7 +94,6 @@ io.on("connection", async (socket) =>{
             console.error(error)
         }
     })
-
 
     // if(!socket.recovered){
     //     console.log(socket.handshake.auth)
@@ -126,7 +117,6 @@ app.use(logger('dev'))
 // ESTO PARA QUE SE VEA EL CHAT SOLO
 app.get('/', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/login.html")
-
 })
 app.get('/home', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/home.html")
@@ -136,6 +126,9 @@ app.get('/chat', (req, res)=>{
 })
 app.get('/deckbuilder', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/deckBuilder.html")
+})
+app.get('/decks', (req, res)=>{
+    res.sendFile(process.cwd()+"/views/decks.html")
 })
 app.get('/login', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/login.html")
@@ -147,7 +140,7 @@ app.post('/api/login', autentificador.login)
 app.post('/api/register', autentificador.register)
 app.post('/api/usuarios', autentificador.sacarUsuariosChat)
 app.post('/api/usuarioExistente', autentificador.sacarUsuarios)
-// app.post('/api/crearMazo', autentificador.crearMazo)
+app.post('/api/crearMazo', autentificador.crearMazo)
 
 
 server.listen(port, ()=>{
@@ -160,7 +153,6 @@ async function query(idUser1,idUser2,variable){
     try {
         console.log(idUser1,idUser2,variable)
         resultsDatabase = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
-            // 'SELECT * FROM mensajes WHERE id_mensaje > ? and ;',[variable ?? 0]
             "SELECT * FROM mensajes WHERE (id_usuarioEnvia = ? AND id_usuarioRecibe = ?) OR (id_usuarioEnvia = ? AND id_usuarioRecibe = ?) AND id_mensaje > ? ORDER BY fecha_envio",[idUser1,idUser2,idUser2,idUser1,variable ?? 0]
         );
     return resultsDatabase

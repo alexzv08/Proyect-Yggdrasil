@@ -104,9 +104,15 @@ async function sacarUsuarios(req, res){
 
 async function crearMazo(req, res){
 
+    // HAY QUE AÑADIR UN CAMPO A LA TABLA PARA PONER EL NOMBRE DEL MAZO
+    // AÑADIR EL MAZO
+    // Y RECOGER LA ID DE ESE MAZO AL INSERTAR PARA CUANDO SE REDIRECCIONA TENERLO GUARDADO
+    console.log(req.body.user)
     let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
-            'INSERT INTO usuarioMazos VALUES(nombre,id_usuario)',[req.body.user]
+            // 'INSERT INTO usuarioMazos(id_usuario) VALUES(?)',[req.body.user]
+            'SELECT * FROM usuarioMazos'
             );
+    console.log(result)
 
 
 } 

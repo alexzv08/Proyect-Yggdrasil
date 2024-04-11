@@ -4,9 +4,9 @@ window.onload = () => {
         e.preventDefault();
 
         // PETICION POR SERVIDOR AWS
-         const res = await fetch("http://35.181.125.245:3000/api/register",{
+        //  const res = await fetch("http://35.181.125.245:3000/api/register",{
         // PETICION POR SERVIDOR LOCAL
-        //const res = await fetch("http://localhost:3000/api/register",{
+        const res = await fetch("http://localhost:3000/api/register",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -17,7 +17,6 @@ window.onload = () => {
                 pass: e.target.children[2].children.password.value
             })
         })
-        console.log(res.data)
         if(!res.ok){
             const errorMessage = await res.json();
             console.log(errorMessage); // Muestra el mensaje de error en la consola

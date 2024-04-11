@@ -4,9 +4,9 @@ window.onload = ()  => {
         e.preventDefault();
 
         // PETICION POR SERVIDOR AWS
-         const res = await fetch("http://35.181.125.245:3000/api/login",{
+        //  const res = await fetch("http://35.181.125.245:3000/api/login",{
         // PETICION POR SERVIDOR LOCAL
-        // const res = await fetch("http://localhost:3000/api/login",{
+        const res = await fetch("http://localhost:3000/api/login",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
