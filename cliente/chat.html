@@ -6,10 +6,12 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="css/chat.css">
-    <script type="module" src="js/sideBar.js"></script>
+    <!-- <script type="module" src="js/sideBar.js"></script> -->
+
     <title>Document</title>
     <script type="module">
         import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js"
+        import { methods as windowOnLoad } from "./js/sideBar.js";
         
         console.log(sessionStorage.getItem("user"))
         let socket = io({
@@ -20,7 +22,11 @@
         })
         window.onload= async ()=>{
             await cargarUsuarios()
-
+            toogleMenu.addEventListener("click", windowOnLoad.toggleMenuChange)
+            windowOnLoad.navBarRediretions()
+            añadirChat()
+            
+            
             let user=document.querySelectorAll('.user');
             user.forEach(element => {
                 element.addEventListener("click", cargarChat)   
@@ -30,10 +36,9 @@
         function cargarChat(){
             message.innerText=''
             localStorage.setItem('usuarioEnviarMensaje',this.lastElementChild.firstElementChild.innerText)
-            socket.auth.username2 = this.lastElementChild.firstElementChild.innerText
+            // socket.auth.username2 = this.lastElementChild.firstElementChild.innerText
             console.log(socket.auth.username2)
-            socket.emit('chat charge', ([socket.auth.username,socket.auth.username2]))
-
+            socket.emit('chat charge', ([socket.auth.username,localStorage.getItem('usuarioEnviarMensaje')]))
         }
 
         const form = document.getElementById("form")
@@ -70,9 +75,9 @@
 
         async function cargarUsuarios(){
             // PETICION POR SERVIDOR AWS
-            const res = await fetch("http://35.181.125.245:3001/api/usuarios",{
+            // const res = await fetch("http://35.181.125.245:3001/api/usuarios",{
             // PETICION POR SERVIDOR LOCAL
-            // const res = await fetch("http://localhost:3000/api/usuarios",{
+            const res = await fetch("http://localhost:3000/api/usuarios",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -100,11 +105,22 @@
                     let h = document.createElement("h3")
                     h.innerText=element.usuario
 
+                    let divMore = document.createElement("div")
+                    divMore.classList.add("more")
+                    let img2 = document.createElement("img")
+                    img2.src="src/icons/more-horizontal-svgrepo-com.svg"
+                    
+
+
                     document.querySelector("#friends-list").appendChild(div)
                     div.appendChild(div2)
                     div2.appendChild(img)
                     div.appendChild(div3)
                     div3.appendChild(h)
+                    div.appendChild(divMore)
+                    divMore.appendChild(img2)
+
+
                 });
             }
         }
@@ -131,6 +147,78 @@
 
             return fechaNormal.toString()
         }
+
+        function añadirChat(){
+            document.getElementById("addFriend").addEventListener("submit", async (e)=>{
+                e.preventDefault();
+
+                if(e.target.children[0].value==='' || e.target.children[0].value == sessionStorage.getItem('user')){
+                    alert("Inserte un usuario valido")
+                    return
+                }
+
+                // PETICION POR SERVIDOR AWS
+                // const res = await fetch("http://35.181.125.245:3001/api/login",{
+                // PETICION POR SERVIDOR LOCAL
+                const res = await fetch("http://localhost:3000/api/usuarioExistente",{
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body: JSON.stringify({
+                        user: e.target.children[0].value
+                    })
+                })
+                if(res.status == 204){
+                    alert("El usuario no existe")
+                    return
+                }
+                if(res.status == 200){
+                    let usuarioExistentesChat = document.querySelectorAll(".user .name-user h3");
+                    let pintarUsuario = true;
+                    usuarioExistentesChat.forEach(element => {
+                        if(element.innerText==e.target.children[0].value){
+                            pintarUsuario = false
+                            alert("Se a enviado peticion de amistad al usuario " + e.target.children[0].value)
+                        }
+                    });
+                    if(pintarUsuario){
+                        let div = document.createElement("div")
+                        div.classList.add("user")
+                        div.addEventListener("click", cargarChat)
+                        
+                        let div2 = document.createElement("div")
+                        div2.classList.add("icon-user")                    
+                        
+                        let img = document.createElement("img")
+                        img.src="src/icons/user-alt-1-svgrepo-com.svg"
+                        
+                        let div3 = document.createElement("div")
+                        div3.classList.add("name-user") 
+                        
+                        let h = document.createElement("h3")
+                        h.innerText=e.target.children[0].value
+                        
+                        let divMore = document.createElement("div")
+                        divMore.classList.add("more")
+                        let img2 = document.createElement("img")
+                        img2.src="src/icons/more-horizontal-svgrepo-com.svg"
+                        
+
+
+                        document.querySelector("#friends-list").appendChild(div)
+                        div.appendChild(div2)
+                        div2.appendChild(img)
+                        div.appendChild(div3)
+                        div3.appendChild(h)
+                        div.appendChild(divMore)
+                        divMore.appendChild(img2)
+                    }
+                    return
+                }
+            })
+        }
+
     </script>
 </head>
 <body>
@@ -138,7 +226,7 @@
         <div class="img-logo-sidebar">
             <img src="src/icons/logo.svg" alt="">
         </div>
-        <span href="" class="active">
+        <span href="home.html" >
             <img src="src/icons/user-alt-1-svgrepo-com.svg" alt="icon_home">
             <h3>home</h3>
         </span>
@@ -158,7 +246,7 @@
             <img src="src/icons/user-alt-1-svgrepo-com.svg" alt="icon_home">
             <h3>profile</h3>
         </span>
-        <span href="chat.html">
+        <span href="chat.html" class="active">
             <img src="src/icons/user-alt-1-svgrepo-com.svg" alt="icon_home">
             <h3>Chat</h3>
         </span>
@@ -178,16 +266,22 @@
     </section>
     <section id="chat-container">
         <div class="friends">
-            <div class="acciones">
+            <form id="addFriend" class="acciones">
                 <input type="text" placeholder="Buscar Usuario">
-                <button type="button" title="Añadir nuevo usuario"><img src="src/icons/add-user-9-svgrepo-com.svg" alt=""></button>
-            </div>
+                <button id="addFriendButton" type="submit" title="Añadir nuevo usuario"><img src="src/icons/add-user-9-svgrepo-com.svg" alt=""></button>
+            </form>
             <div id="friends-list">
-                <!-- <div class="user">
-                    <div class="icon-user"><img src="src/icons/user-alt-1-svgrepo-com.svg" alt=""></div>
-                    <div class="name-user"><h3>admin2</h3></div>
-                </div>
                 <div class="user">
+                    <div class="icon-user"><img src="src/icons/user-alt-1-svgrepo-com.svg" alt=""></div>
+                    <div class="name-user"><h3>Prueba</h3></div>
+                    <div class="more">
+                        <img src="src/icons/more-horizontal-svgrepo-com.svg" alt="">
+                        <div class="opcionesChat">
+                            <div>Eliminar chat</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="user">
                     <div class="icon-user"><img src="src/icons/user-alt-1-svgrepo-com.svg" alt=""></div>
                     <div class="name-user"><h3>Alejandro</h3></div>
                 </div>

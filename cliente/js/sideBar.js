@@ -28,6 +28,7 @@ async function insertCartas(){
 
 
 function toggleMenuChange(){
+    console.log("as")
     let titulos = document.querySelectorAll("span h3")
 
 
@@ -104,3 +105,7 @@ function redireccion(){
 //         ocultoChat=false
 //     }
 // }
+
+export const methods = {
+    toggleMenuChange,navBarRediretions
+}

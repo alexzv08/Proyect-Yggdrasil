@@ -99,5 +99,12 @@ create table usuarioMazos(
   FOREIGN KEY (id_coleccion) REFERENCES cartas(id_coleccion),
   FOREIGN KEY (id_carta) REFERENCES cartas(id_carta)
 );
+CREATE TABLE Amistades (
+    Usuario_ID_1 varchar(50),
+    Usuario_ID_2 varchar(50),
+    FOREIGN KEY (Usuario_ID_1) REFERENCES usuarios(usuario),
+    FOREIGN KEY (Usuario_ID_2) REFERENCES usuarios(usuario),
+    PRIMARY KEY (Usuario_ID_1, Usuario_ID_2)
+);
 
 

@@ -25,30 +25,22 @@ let resultsDatabase;
  * @tutorial 
  * CONEXION A LA BASE DE DATOS LOCAL
  */
-// const connection = await mysql.createConnection({
-//     host: 'localhost',
-//     port: 3306,
-//     user: 'root',
-//     password: 'admini',
-//     database: 'prueba',
-//     authPlugins: ['mysql_native_password'] // Add this line
-// });
-// const connection = await mysql.createConnection({
-//     host: 'localhost',
-//     port: 3306,
-//     user: 'root',
-//     password: '',
-//     database: 'prueba',
-//     authPlugins: ['mysql_native_password'] // Add this line
-// });
+const connection = await mysql.createConnection({
+    host: 'rdsprueba.cjai24wcmz26.eu-west-3.rds.amazonaws.com',
+    port: 3306,
+    user: 'admin',
+    password: 'Altarejos2_',
+    database: 'prueba',
+    authPlugins: ['mysql_native_password'] // Add this line
+});
 
 /**
  * @tutorial 
  * CONEXION A LA BASE DE DATOS EN LA NUVE **RAILWAY**
  */
-const connection = await mysql.createConnection(
-    process.env.DATABASE_URL
-);
+// const connection = await mysql.createConnection(
+//     process.env.DATABASE_URL
+// );
 
 connection.connect((error) => {
   if (error) {
@@ -154,6 +146,7 @@ app.get('/register', (req, res)=>{
 app.post('/api/login', autentificador.login)
 app.post('/api/register', autentificador.register)
 app.post('/api/usuarios', autentificador.sacarUsuariosChat)
+app.post('/api/usuarioExistente', autentificador.sacarUsuarios)
 // app.post('/api/crearMazo', autentificador.crearMazo)
 
 

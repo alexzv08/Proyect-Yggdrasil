@@ -1,17 +1,17 @@
 import mysql from 'mysql2/promise';
 import bcryptjs from 'bcryptjs';
 
-// const connection = await mysql.createConnection({
-//     host: 'localhost',
-//     port: 3306,
-//     user: 'root',
-//     password: 'admini',
-//     database: 'prueba',
-//     authPlugins: ['mysql_native_password'] // Add this line
-// });
-const connection = await mysql.createConnection(
-    process.env.DATABASE_URL
-);
+const connection = await mysql.createConnection({
+    host: 'rdsprueba.cjai24wcmz26.eu-west-3.rds.amazonaws.com',
+    port: 3306,
+    user: 'admin',
+    password: 'Altarejos2_',
+    database: 'prueba',
+    authPlugins: ['mysql_native_password'] // Add this line
+});
+// const connection = await mysql.createConnection(
+//     process.env.DATABASE_URL
+// );
 
 connection.connect((error) => {
     if (error) {
@@ -84,9 +84,22 @@ function isValidEmail(email) {
 async function sacarUsuariosChat(req, res){
 
     let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
-            'SELECT DISTINCT id_usuarioRecibe AS usuario FROM mensajes WHERE id_usuarioEnvia = ? UNION SELECT DISTINCT id_usuarioEnvia AS usuario FROM mensajes WHERE id_usuarioRecibe = ?',[req.body.user, req.body.user]
+            'SELECT usuario FROM ( SELECT DISTINCT id_usuarioRecibe AS usuario FROM mensajes WHERE id_usuarioEnvia = ? UNION SELECT DISTINCT id_usuarioEnvia AS usuario FROM mensajes WHERE id_usuarioRecibe = ? UNION SELECT DISTINCT Usuario_ID_2 AS usuario FROM Amistades WHERE Usuario_ID_1 = ? UNION SELECT DISTINCT Usuario_ID_1 AS usuario FROM Amistades WHERE Usuario_ID_2 = ?) as chat',[req.body.user, req.body.user,req.body.user,req.body.user]
             );
     res.status(201).send({status: "OK", result: result})
+} 
+
+
+async function sacarUsuarios(req, res){
+
+    let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+            'SELECT usuario FROM usuarios WHERE usuario=?',[req.body.user]
+            );
+    if(result.length <= 0){
+        res.status(204).send({status: "Error", result: result})
+    }else{
+        res.status(200).send({status: "OK", result: result})
+    }
 } 
 
 async function crearMazo(req, res){
@@ -94,11 +107,12 @@ async function crearMazo(req, res){
     let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
             'INSERT INTO usuarioMazos VALUES(nombre,id_usuario)',[req.body.user]
             );
-    res.status(201).send({status: "OK", result: result})
+
+
 } 
 
 export const methods = {
-    login, register, sacarUsuariosChat,crearMazo
+    login, register, sacarUsuariosChat,crearMazo,sacarUsuarios
 }
 
 
