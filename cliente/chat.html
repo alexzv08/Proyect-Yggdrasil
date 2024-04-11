@@ -34,10 +34,11 @@
         }
         
         function cargarChat(){
+            console.log("asdf")
             message.innerText=''
-            localStorage.setItem('usuarioEnviarMensaje',this.lastElementChild.firstElementChild.innerText)
+            localStorage.setItem('usuarioEnviarMensaje',this.querySelector('.name-user').firstElementChild.innerText)
             // socket.auth.username2 = this.lastElementChild.firstElementChild.innerText
-            console.log(socket.auth.username2)
+            console.log(this.querySelector('.name-user').firstElementChild.innerText)
             socket.emit('chat charge', ([socket.auth.username,localStorage.getItem('usuarioEnviarMensaje')]))
         }
 
@@ -75,9 +76,9 @@
 
         async function cargarUsuarios(){
             // PETICION POR SERVIDOR AWS
-            // const res = await fetch("http://35.181.125.245:3001/api/usuarios",{
+            const res = await fetch("http://35.181.125.245:3000/api/usuarios",{
             // PETICION POR SERVIDOR LOCAL
-            const res = await fetch("http://localhost:3000/api/usuarios",{
+            // const res = await fetch("http://localhost:3000/api/usuarios",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -158,9 +159,9 @@
                 }
 
                 // PETICION POR SERVIDOR AWS
-                // const res = await fetch("http://35.181.125.245:3001/api/login",{
+                const res = await fetch("http://35.181.125.245:3000/api/login",{
                 // PETICION POR SERVIDOR LOCAL
-                const res = await fetch("http://localhost:3000/api/usuarioExistente",{
+                //const res = await fetch("http://localhost:3000/api/usuarioExistente",{
                     method:"POST",
                     headers:{
                         "Content-Type":"application/json"
@@ -179,7 +180,7 @@
                     usuarioExistentesChat.forEach(element => {
                         if(element.innerText==e.target.children[0].value){
                             pintarUsuario = false
-                            alert("Se a enviado peticion de amistad al usuario " + e.target.children[0].value)
+                            // alert("Se a enviado peticion de amistad al usuario " + e.target.children[0].value)
                         }
                     });
                     if(pintarUsuario){

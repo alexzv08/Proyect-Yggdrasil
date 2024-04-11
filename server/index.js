@@ -89,7 +89,7 @@ io.on("connection", async (socket) =>{
     })
     
     socket.on("chat charge", async (username)=>{
-        // console.log("cargando chat")
+        console.log(username)
         // console.log(username[0])
 
         const prueba = await query(username[0], username[1],"0")
