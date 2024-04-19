@@ -87,6 +87,7 @@ async function sacarUsuariosChat(req, res){
             'SELECT usuario FROM ( SELECT DISTINCT id_usuarioRecibe AS usuario FROM mensajes WHERE id_usuarioEnvia = ? UNION SELECT DISTINCT id_usuarioEnvia AS usuario FROM mensajes WHERE id_usuarioRecibe = ? UNION SELECT DISTINCT Usuario_ID_2 AS usuario FROM Amistades WHERE Usuario_ID_1 = ? UNION SELECT DISTINCT Usuario_ID_1 AS usuario FROM Amistades WHERE Usuario_ID_2 = ?) as chat',[req.body.user, req.body.user,req.body.user,req.body.user]
             );
     res.status(201).send({status: "OK", result: result})
+    // 'SELECT * FROM chatRooms WHERE (id_usuario_1 like ? or id_usuario_2 like ?)',[req.body.user,req.body.user]
 } 
 
 
@@ -98,6 +99,9 @@ async function sacarUsuarios(req, res){
     if(result.length <= 0){
         res.status(204).send({status: "Error", result: result})
     }else{
+        let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+            'SELECT usuario FROM usuarios WHERE usuario=?',[req.body.user]
+            );
         res.status(200).send({status: "OK", result: result})
     }
 } 
@@ -113,8 +117,6 @@ async function crearMazo(req, res){
             'SELECT * FROM usuarioMazos'
             );
     console.log(result)
-
-
 } 
 
 export const methods = {

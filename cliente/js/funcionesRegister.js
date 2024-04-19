@@ -31,6 +31,5 @@ window.onload = () => {
     login.addEventListener("click" ,(e)=>{
         e.preventDefault();
         window.location.href = "/login";
-
     })
 }

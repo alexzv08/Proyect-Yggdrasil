@@ -1,3 +1,28 @@
+/**
+ * @todo 
+ * ADMINISTRAR LOS CHATS EN LA BSE DE DATOS
+ *      ->CREAR TABLE DONDE SE CREEN LAS SALAS DE LOS DISTINTOS CHATS CON LOS USUARIOS 
+ *          -> ID_CHAT, USUARIO_1, USUARIO_2
+ *      ->MODIFICAR LA TABLA DE CHAT ACTUAL
+ *          -> ID_CHAT, USUARIO_ENVIA, MENSAJE, FECHA, VISTO
+ * AL CARGAR LOS DISTINTOS CHATS ALMACENAR EL ID DE LA SALA PARA PODER ACCEDER A ELLA
+ *      ->CARGAR LOS MENSAJES DE DICHA SALA 
+ * AL INICIAR CONVERSACION NUEVA, CON UN NUEVO USUARIO
+ *      ->COGER EL ULTIMO ID/ HACERLO AUTO INCREMENT
+ *      ->CORREGUIR POSIBLE ERROR BUSCA UN NUEVO USUARIO QUE NO SE GENERE NUEVO ID
+ * MODIFICAR LA FORMA DE ENVIAR LOS MENSAJES 
+ *      ->ENVIARLOS APARTIR DEL ID DE LA SALA
+ *      ->ENVIAR TAMBIEN LA INFORMACION DE USUARIO QUE ENVIA, CONTENIDO
+ * VER COMO HACER PARA QUE SALGAN NOTIDICACIONES DE LOS NUEVOS MENSAJES
+ *      ->DETRO DEL CHAT NOTIDICACION DE NUEVO MENSAJE
+ *      ->CUALQUIR OTRA PARTE, BADGE DE NUEVO MENSAJE/CANTIDAD DE MENSAJES NUEVOS¿?
+ * 
+ * PARA LOS MENSAJES INFORMARSE QUE ES MEJOR ROOM'S O HACER JOIN DE LOS USUARIOS
+ *      ->JOIN INPORTA EL ORDEN DE LOS USUARIOS QUE SE CONECTAN¿?
+ *      ->ROOM VERIFICACION QUE AL CREAR UNA SALA NO EXISTE NINGUNA OTRA CON LOS MISMOS USUARIOS
+ */
+
+
 import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js"
 import { methods as windowOnLoad } from "./sideBar.js";
 
@@ -14,18 +39,16 @@ window.onload= async ()=>{
     windowOnLoad.navBarRediretions()
     añadirChat()
     
-    
     let user=document.querySelectorAll('.user');
     user.forEach(element => {
         element.addEventListener("click", cargarChat)   
     });
 }
 
-function cargarChat(){
+function cargarChat(user){
     message.innerText=''
     localStorage.setItem('usuarioEnviarMensaje',this.querySelector('.name-user').firstElementChild.innerText)
-    // socket.auth.username2 = this.lastElementChild.firstElementChild.innerText
-    console.log(this.querySelector('.name-user').firstElementChild.innerText)
+    // console.log(this.querySelector('.name-user').firstElementChild.innerText)
     socket.emit('chat charge', ([socket.auth.username,localStorage.getItem('usuarioEnviarMensaje')]))
 }
 
@@ -69,7 +92,7 @@ async function cargarUsuarios(){
         "Content-Type":"application/json"
     },
     body: JSON.stringify({
-        user: sessionStorage.getItem("user")
+        user: sessionStorage.getItem("user"),
     })
     })
     if(res.ok){
@@ -78,6 +101,7 @@ async function cargarUsuarios(){
         resJson.result.forEach(element => {
             let div = document.createElement("div")
             div.classList.add("user")
+            div.dataset.element.id_chat
 
             let div2 = document.createElement("div")
             div2.classList.add("icon-user")                    
@@ -103,8 +127,6 @@ async function cargarUsuarios(){
             div3.appendChild(h)
             div.appendChild(divMore)
             divMore.appendChild(img2)
-
-
         });
     }
 }
@@ -122,9 +144,6 @@ function formatearFecha(fechaF){
     if(mes<10){mes='0'+mes}
     if(minutos<10){minutos='0'+minutos}
     if(hora<10){hora='0'+hora}
-
-
-
 
     const fechaNormal = `${dia}/${mes}/${año} ${hora}:${minutos}`;
 
@@ -195,6 +214,9 @@ function añadirChat(){
                 div3.appendChild(h)
                 div.appendChild(divMore)
                 divMore.appendChild(img2)
+            }else{
+                // ABRIR EL CHAT DEL USUARIO AL CUAL SE A BUSCADO Y YA SE TIENE UN CHAT ACTIVO
+                cargarChat(e.target.children[0].value)
             }
             return
         }
