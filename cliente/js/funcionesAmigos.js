@@ -47,9 +47,11 @@ window.onload= async ()=>{
 
 function cargarChat(user){
     message.innerText=''
-    localStorage.setItem('usuarioEnviarMensaje',this.querySelector('.name-user').firstElementChild.innerText)
     // console.log(this.querySelector('.name-user').firstElementChild.innerText)
-    socket.emit('chat charge', ([socket.auth.username,localStorage.getItem('usuarioEnviarMensaje')]))
+    if(user!=''){
+        localStorage.setItem('usuarioEnviarMensaje',this.querySelector('.name-user').firstElementChild.innerText)
+    }
+    socket.emit('chat charge', ([socket.auth.username,user]))
 }
 
 const form = document.getElementById("form")
