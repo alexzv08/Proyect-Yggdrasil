@@ -46,12 +46,14 @@ window.onload= async ()=>{
 }
 
 function cargarChat(user){
+    localStorage.setItem('id_actual',this.dataset.id_sala)
+    socket.emit('solicitarSala', this.dataset.id_sala);
     message.innerText=''
-    // console.log(this.querySelector('.name-user').firstElementChild.innerText)
     if(user!=''){
         localStorage.setItem('usuarioEnviarMensaje',this.querySelector('.name-user').firstElementChild.innerText)
     }
-    socket.emit('chat charge', ([socket.auth.username,user]))
+    ([socket.auth.username,this.querySelector('.name-user').firstElementChild.innerText])
+    socket.emit('chat charge', ([socket.auth.username,this.querySelector('.name-user').firstElementChild.innerText]))
 }
 
 const form = document.getElementById("form")
@@ -74,12 +76,11 @@ socket.on('chat message', (msg, serverOffset, username, fecha) => {
 
 form.addEventListener("submit", (e) =>{
     e.preventDefault()
-
     if(input.value){
     // localStorage.setItem('usuarioEnviarMensaje',this.lastElementChild.firstElementChild.innerText)
     let fecha = new Date
-    console.log(fecha)
-    socket.emit("chat message", input.value,localStorage.getItem('usuarioEnviarMensaje'),fecha)
+    recuperarSala(socket.auth.username, localStorage.getItem('usuarioEnviarMensaje'))
+    socket.emit("chat message", input.value,localStorage.getItem('usuarioEnviarMensaje'),fecha, localStorage.getItem('id_actual'))
     input.value = ""
     }
 })
@@ -99,11 +100,10 @@ async function cargarUsuarios(){
     })
     if(res.ok){
         const resJson = await res.json()
-        console.log(resJson)
         resJson.result.forEach(element => {
             let div = document.createElement("div")
             div.classList.add("user")
-            div.dataset.element.id_chat
+            div.dataset.id_sala = element.id_sala
 
             let div2 = document.createElement("div")
             div2.classList.add("icon-user")                    
@@ -115,20 +115,20 @@ async function cargarUsuarios(){
             div3.classList.add("name-user") 
 
             let h = document.createElement("h3")
-            h.innerText=element.usuario
+            h.innerText=element.usuario_contrario
 
-            let divMore = document.createElement("div")
-            divMore.classList.add("more")
-            let img2 = document.createElement("img")
-            img2.src="src/icons/more-horizontal-svgrepo-com.svg"
+            // let divMore = document.createElement("div")
+            // divMore.classList.add("more")
+            // let img2 = document.createElement("img")
+            // img2.src="src/icons/more-horizontal-svgrepo-com.svg"
             
             document.querySelector("#friends-list").appendChild(div)
             div.appendChild(div2)
             div2.appendChild(img)
             div.appendChild(div3)
             div3.appendChild(h)
-            div.appendChild(divMore)
-            divMore.appendChild(img2)
+            // div.appendChild(divMore)
+            // divMore.appendChild(img2)
         });
     }
 }
@@ -155,7 +155,6 @@ function formatearFecha(fechaF){
 function añadirChat(){
     document.getElementById("addFriend").addEventListener("submit", async (e)=>{
         e.preventDefault();
-
         if(e.target.children[0].value==='' || e.target.children[0].value == sessionStorage.getItem('user')){
             alert("Inserte un usuario valido")
             return
@@ -188,6 +187,7 @@ function añadirChat(){
             if(pintarUsuario){
                 let div = document.createElement("div")
                 div.classList.add("user")
+                div.dataset.id_sala = await ultimoIdSalaPosible()
                 div.addEventListener("click", cargarChat)
                 
                 let div2 = document.createElement("div")
@@ -202,20 +202,18 @@ function añadirChat(){
                 let h = document.createElement("h3")
                 h.innerText=e.target.children[0].value
                 
-                let divMore = document.createElement("div")
-                divMore.classList.add("more")
-                let img2 = document.createElement("img")
-                img2.src="src/icons/more-horizontal-svgrepo-com.svg"
+                // let divMore = document.createElement("div")
+                // divMore.classList.add("more")
+                // let img2 = document.createElement("img")
+                // img2.src="src/icons/more-horizontal-svgrepo-com.svg"
                 
-
-
                 document.querySelector("#friends-list").appendChild(div)
                 div.appendChild(div2)
                 div2.appendChild(img)
                 div.appendChild(div3)
                 div3.appendChild(h)
-                div.appendChild(divMore)
-                divMore.appendChild(img2)
+                // div.appendChild(divMore)
+                // divMore.appendChild(img2)
             }else{
                 // ABRIR EL CHAT DEL USUARIO AL CUAL SE A BUSCADO Y YA SE TIENE UN CHAT ACTIVO
                 cargarChat(e.target.children[0].value)
@@ -223,4 +221,30 @@ function añadirChat(){
             return
         }
     })
+}
+
+async function recuperarSala(user1, user2){
+    const res = await fetch("http://localhost:3000/api/idSalaChat",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+            user1: user1,
+            user2: user2
+        })
+    })
+    const resJson = await res.json()
+    return resJson.result[0].id_sala
+}
+
+async function ultimoIdSalaPosible(){
+    const res = await fetch("http://localhost:3000/api/ultimoIdChat",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+        })
+    const data = await res.json()
+    return data.result[0].ultimo_id_sala
 }

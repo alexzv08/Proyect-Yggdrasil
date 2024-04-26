@@ -1,3 +1,5 @@
+create database prueba;
+use prueba;
 create table rol(
 id_rol int auto_increment,
   n_rol varchar(20),
@@ -40,17 +42,26 @@ create table cartas(
   FOREIGN KEY (id_coleccion) REFERENCES coleccion(id_coleccion),
   FOREIGN KEY (id_Juego) REFERENCES coleccion(id_Juego)
 );
-
-create table mensajes(
-id_mensaje int AUTO_INCREMENT,
-  id_usuarioEnvia varchar(50),
-  id_usuarioRecibe varchar(50),
-  contenid text,
-  fecha_envio DATETIME DEFAULT CURRENT_TIMESTAMP,
-  visto boolean,
-  PRIMARY KEY (id_mensaje),
-  FOREIGN KEY (id_usuarioEnvia) REFERENCES usuarios(usuario),
-  FOREIGN KEY (id_usuarioRecibe) REFERENCES usuarios(usuario)
+CREATE TABLE salas_chat (
+    id_sala INT AUTO_INCREMENT,
+    id_usuario1 VARCHAR(50),
+    id_usuario2 VARCHAR(50),
+    PRIMARY KEY (id_sala),
+    FOREIGN KEY (id_usuario1) REFERENCES usuarios(usuario),
+    FOREIGN KEY (id_usuario2) REFERENCES usuarios(usuario)
+);
+CREATE TABLE mensajes (
+    id_mensaje INT AUTO_INCREMENT,
+    id_usuarioEnvia VARCHAR(50),
+    -- id_usuarioRecibe VARCHAR(50),
+    contenido TEXT,
+    fecha_envio DATETIME DEFAULT CURRENT_TIMESTAMP,
+    visto BOOLEAN DEFAULT FALSE,
+    id_sala INT,
+    PRIMARY KEY (id_mensaje),
+    FOREIGN KEY (id_usuarioEnvia) REFERENCES usuarios(usuario),
+    -- FOREIGN KEY (id_usuarioRecibe) REFERENCES usuarios(usuario),
+    FOREIGN KEY (id_sala) REFERENCES salas_chat(id_sala)
 );
 create table post(
 id_post int AUTO_INCREMENT,

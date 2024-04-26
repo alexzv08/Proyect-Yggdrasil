@@ -1,0 +1,51 @@
+Cosas por hacer:
+
+Terminar el css de las paguinas ya diseñadas
+    -> Que sea responsive tanto en desktop como en movil y tablet
+
+Terminar de diseñar las paguinas que quedan
+    ->?¿
+
+Darle funcionalidad al boton de logout
+
+chequear la base de datos para los chats
+    ->si  se elimina un usuario que las salas de ese usuario se eliminen y los chats tambien
+
+chekear funcionalidad chat
+    -> ver que se puede añadir correctamente un nuevo chat
+    -> probar bien que no se mezclen los mensajes para cada uno de las salas
+    -> probar que se crean correctamente las salas
+
+seccion de mazos
+    -> crear pantalla donde se visualicen los distintos mazos y que se pueda crear uno nuevo
+    -> redireccionar a un mazo nuevo o a un mazo ya creado
+
+creacion de mazos
+    -> rediseñar como se vera tanto los filtros como la informacion de los menus
+    -> pasar la informacion de la api a la base de datos
+        ->chekear que los colores de las cartas estan bien establecidos
+        ->chekear los efectos
+            ->triggers intentar marcarlos con []
+    -> visualizar correctamente las cartas añadidas en el mazo
+    -> al pasar el raton por encima de una carta en la lista del mazo que salga la imagen en grande
+    -> controlar el boton de coleccion para que solo salgan las cartas de la coleccion
+    -> quizas poner un voton para poder visualizar el mazo en grande
+    -> al clicar en una carta que este para poner que salgan en grande con toda la informacion
+    -> mejorar el filtro y hacerlo mas entendible
+    -> la funcionalidad del filtro actual darle una vuelta para que pueda filtrar correctamente
+        ->diseñar la api para que pueda funcionar correctamente con la base de datos
+    -> hacer algo para que no tarde tanto en cargar la lista de imagenes
+        -> hacer un loading o hacer una paginacion de la lista de cartas
+            -> si se hace paginacion tener en cuenta como hacerlo para que funcione para todas las cartas y las de la coleccion de la misma forma
+    
+seccion de torneos
+    -> administrar que un usuario pueda apuntarse a un torneo o retirarse antes de que se inice
+    -> pantalla para apuntarse al torneo
+        -> que tenga que indicar con que mazo participara y si cumple las reglas establecidas
+    -> pantalla de torneo ya iniciado
+        ->tabla de puntuacion de torneo
+        ->formacion del paring del torneo para el funcionamiento
+        ->formacion de las rondas si es round robin
+        
+
+refactorizar el codigo para agilizar procesos
