@@ -152,7 +152,7 @@ app.get('/deckbuilder', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/deckBuilder.html")
 })
 app.get('/decks', (req, res)=>{
-    res.sendFile(process.cwd()+"/views/decks.html")
+    res.sendFile(process.cwd()+"/cliente/decks.html")
 })
 app.get('/login', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/login.html")
@@ -167,6 +167,7 @@ app.post('/api/register', autentificador.register)
 app.post('/api/usuarios', autentificador.sacarUsuariosChat)
 app.post('/api/usuarioExistente', autentificador.sacarUsuarios)
 app.post('/api/crearMazo', autentificador.crearMazo)
+app.post('/api/recuperarMazosUsuario', autentificador.recuperarMazosUsuario)
 app.post('/api/idSalaChat', autentificador.recuperarSala)
 app.post('/api/ultimoIdChat', autentificador.ultimoIdChat)
 

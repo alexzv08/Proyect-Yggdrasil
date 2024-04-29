@@ -36,6 +36,7 @@ let socket = io({
 window.onload= async ()=>{
     await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
     await cargarUsuarios()
+    await document.getElementById('chatSide').classList.add('active')
     await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
 
     windowOnLoad.navBarRediretions()

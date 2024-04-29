@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <title>Document</title>
+    <script type="module">
+        import { methods as windowOnLoad } from "./js/sideBar.js";
+
+        window.onload = async ()=>{
+            await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
+            await document.getElementById('deckbuilder').classList.add('active')
+            await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
+            crear.addEventListener("click", crearMazo)
+            recuperarMazos()
+        }
+        async function crearMazo(){
+            // PETICION POR SERVIDOR AWS
+            // const res = await fetch("http://35.181.125.245:3000/api/crearMazo",{
+            // PETICION POR SERVIDOR LOCAL
+            if(nombreMazo.value !=''){
+                const res = await fetch("http://localhost:3000/api/crearMazo",{
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body: JSON.stringify({
+                        nombre: nombreMazo.value,
+                        user: sessionStorage.getItem("user")
+                    })
+                })
+                const resJson = await res.json()
+                if(resJson.redirect){
+                    window.location.href = "/deckBuilder";
+                }
+            }else{
+                alert('Tiene que darle un nombre al mazo')
+            }
+        }
+        async function recuperarMazos(){
+            const res = await fetch("http://localhost:3000/api/recuperarMazosUsuario",{
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body: JSON.stringify({
+                        user: sessionStorage.getItem("user")
+                    })
+                })
+                const resJson = await res.json()
+                resJson.result[0].forEach(element => {
+                    // console.log(element)
+                    crearContainerMazo(element)
+                });
+        }
+        function crearContainerMazo(element){
+            console.log(element)
+            let divContainer = document.createElement('div')
+            divContainer.classList.add('deck')
+
+            let divColor = document.createElement('div')
+            divColor.classList.add('colorMazo')
+
+            let hNombre = document.createElement('h3')
+            hNombre.innerText = element.nombre_mazo
+
+            let hNCartas = document.createElement('h4')
+            hNCartas.innerText = "element.nCartas" + '/' + '55'
+
+            let hFechaCre = document.createElement('h4')
+            hFechaCre.innerText = "element.fechaCre"
+
+            let divBotones = document.createElement('div')
+            divBotones.classList.add('botonoes')
+
+            let butn1 = document.createElement('button')
+            butn1.classList.add('Editar')
+            butn1.innerText ="Editar"
+
+            let butn2 = document.createElement('button')
+            butn2.classList.add('Eliminar')
+            butn2.innerText ="Eliminar"
+
+            decksContainer.appendChild(divContainer)
+            divContainer.appendChild(divColor)
+            divContainer.appendChild(hNombre)
+            divContainer.appendChild(hNCartas)
+            divContainer.appendChild(hFechaCre)
+            divContainer.appendChild(divBotones)
+            divBotones.appendChild(butn1)
+            divBotones.appendChild(butn2)
+        }
+    </script>
+</head>
+<style>
+    #decksContainer{
+        height: auto;
+        width: calc(100% - 100px);
+        margin-left: 100px;
+        display: flex;
+        flex-wrap: wrap;
+        border: 1px solid red;
+        gap:20px 30px;
+    }
+    .newDeck{
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+        height: 175px;
+        border: 1px solid red;
+        border-radius: 20px;
+        gap: 20px;
+    }
+    .deck{
+        height: 175px;
+        width: 175px;
+        border: 1px solid red;
+        border-radius: 20px;
+        padding: 5px;
+    }
+</style>
+<body>
+    <div id="decksContainer">
+        <div class="newDeck">
+            <h3>Crea un nuevo deck</h3>
+            <input id="nombreMazo" type="text" placeholder="Nombre del deck">
+            <button type="submit" id="crear">Crear</button>
+        </div>
+    </div>
+</body>
+</html>

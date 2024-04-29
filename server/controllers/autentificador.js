@@ -120,7 +120,6 @@ async function sacarUsuarios(req, res){
 } 
 
 async function recuperarSala(req, res){
-
     let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
         // "SELECT * FROM mensajes WHERE (id_usuarioEnvia = ? AND id_usuarioRecibe = ?) OR (id_usuarioEnvia = ? AND id_usuarioRecibe = ?) AND id_mensaje > ? ORDER BY fecha_envio",[idUser1,idUser2,idUser2,idUser1,variable ?? 0]
         "SELECT id_sala FROM salas_chat WHERE (id_usuario1 = ? AND id_usuario2 = ?) OR (id_usuario1 = ? AND id_usuario2 = ?)",[req.body.user1,req.body.user2,req.body.user2,req.body.user1]
@@ -128,18 +127,26 @@ async function recuperarSala(req, res){
     res.status(200).send({status: "OK", result: result})
 }
 async function crearMazo(req, res){
-
     // HAY QUE AÑADIR UN CAMPO A LA TABLA PARA PONER EL NOMBRE DEL MAZO
     // AÑADIR EL MAZO
     // Y RECOGER LA ID DE ESE MAZO AL INSERTAR PARA CUANDO SE REDIRECCIONA TENERLO GUARDADO
-    let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
-            // 'INSERT INTO usuarioMazos(id_usuario) VALUES(?)',[req.body.user]
-            'SELECT * FROM usuarioMazos'
-            );
+    let result = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+    'insert into mazos (id_usuario,nombre_mazo) values (?,?);',[req.body.user, req.body.nombre]
+    );
+    return res.status(201).send({status: "OK", message: "Mazo registrado correctamente", redirect:"/deckBuilder"})
+} 
+async function recuperarMazosUsuario(req, res){
+    // HAY QUE AÑADIR UN CAMPO A LA TABLA PARA PONER EL NOMBRE DEL MAZO
+    // AÑADIR EL MAZO
+    // Y RECOGER LA ID DE ESE MAZO AL INSERTAR PARA CUANDO SE REDIRECCIONA TENERLO GUARDADO
+    let result = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+        "SELECT * FROM mazos WHERE id_usuario = ?",[req.body.user]
+    );
+    return res.status(200).send({status: "OK", result: result})
 } 
 
 export const methods = {
-    login, register, sacarUsuariosChat,crearMazo, sacarUsuarios, recuperarSala, ultimoIdChat
+    login, register, sacarUsuariosChat,crearMazo, recuperarMazosUsuario, sacarUsuarios, recuperarSala, ultimoIdChat
 }
 
 

@@ -97,18 +97,24 @@ create table usuarioColeccion(
   FOREIGN KEY (id_coleccion) REFERENCES cartas(id_coleccion),
   FOREIGN KEY (id_carta) REFERENCES cartas(id_carta)
 );
-create table usuarioMazos(
-  id_usuarioMazos int AUTO_INCREMENT,
-  id_carta varchar(10),
-  id_Juego varchar(10),
-  id_coleccion varchar(10),
-  cantidad int,
-  id_usuario varchar(50) not null unique,
-  PRIMARY KEY (id_usuarioMazos),
-  FOREIGN KEY (id_usuario) REFERENCES usuarios(usuario),
-  FOREIGN KEY (id_Juego) REFERENCES cartas(id_Juego),
-  FOREIGN KEY (id_coleccion) REFERENCES cartas(id_coleccion),
-  FOREIGN KEY (id_carta) REFERENCES cartas(id_carta)
+CREATE TABLE mazos (
+    id_mazo INT AUTO_INCREMENT,
+    id_usuario VARCHAR(50),
+    nombre_mazo VARCHAR(50),
+    PRIMARY KEY (id_mazo),
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(usuario)
+);
+CREATE TABLE mazo_cartas (
+    id_mazo INT,
+    id_carta VARCHAR(10),
+    id_coleccion VARCHAR(10),
+    id_juego VARCHAR(10),
+    cantidad INT,
+    PRIMARY KEY (id_mazo, id_carta),
+    FOREIGN KEY (id_mazo) REFERENCES mazos(id_mazo),
+    FOREIGN KEY (id_carta) REFERENCES cartas(id_carta),
+    FOREIGN KEY (id_coleccion) REFERENCES cartas(id_coleccion),
+    FOREIGN KEY (id_juego) REFERENCES cartas(id_juego)
 );
 CREATE TABLE Amistades (
     Usuario_ID_1 varchar(50),
@@ -117,5 +123,3 @@ CREATE TABLE Amistades (
     FOREIGN KEY (Usuario_ID_2) REFERENCES usuarios(usuario),
     PRIMARY KEY (Usuario_ID_1, Usuario_ID_2)
 );
-
-

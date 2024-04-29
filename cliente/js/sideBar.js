@@ -6,6 +6,7 @@ let ocultoChat=false;
 
 window.onload = async()=>{
     await addHtmlDocumentAtBeginning("./components/sideBar.html")
+    await document.getElementById('home').classList.add('active')
     await document.getElementById("toogleMenu").addEventListener("click", toggleMenuChange)
     navBarRediretions()
     // funcionesFiltro.onLoad()
