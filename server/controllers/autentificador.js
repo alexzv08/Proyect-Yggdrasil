@@ -1,17 +1,23 @@
 import mysql from 'mysql2/promise';
 import bcryptjs from 'bcryptjs';
 
+// const connection = await mysql.createConnection({
+//     host: '127.0.0.1',
+//     port: 3306,
+//     user: 'root',
+//     password: '',
+//     database: 'prueba',
+//     authPlugins: ['mysql_native_password'] // Add this line
+// });
 const connection = await mysql.createConnection({
-    host: '127.0.0.1',
-    port: 3306,
-    user: 'root',
-    password: '',
-    database: 'prueba',
-    authPlugins: ['mysql_native_password'] // Add this line
+
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+    authPlugins: process.env.DB_AUTH_PLUGINS
 });
-// const connection = await mysql.createConnection(
-//     process.env.DATABASE_URL
-// );
 
 connection.connect((error) => {
     if (error) {

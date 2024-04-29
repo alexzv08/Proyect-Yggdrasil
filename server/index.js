@@ -27,22 +27,28 @@ let resultsDatabase;
  * @tutorial 
  * CONEXION A LA BASE DE DATOS LOCAL
  */
-const connection = await mysql.createConnection({
-    host: '127.0.0.1',
-    port: 3306,
-    user: 'root',
-    password: '',
-    database: 'prueba',
-    authPlugins: ['mysql_native_password'] // Add this line
-});
+// const connection = await mysql.createConnection({
+//     host: '127.0.0.1',
+//     port: 3306,
+//     user: 'root',
+//     password: '',
+//     database: 'prueba',
+//     authPlugins: ['mysql_native_password'] // Add this line
+// });
 
 /**
  * @tutorial 
  * CONEXION A LA BASE DE DATOS EN LA NUVE **RAILWAY**
  */
-// const connection = await mysql.createConnection(
-//     process.env.DATABASE_URL
-// );
+const connection = await mysql.createConnection({
+
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+    authPlugins: process.env.DB_AUTH_PLUGINS
+});
 
 connection.connect((error) => {
   if (error) {

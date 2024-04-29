@@ -4,10 +4,11 @@ import { methods as funcionesFiltro } from "./funcionesFiltroCartas.js";
 let ocultoMenu, ocultoChatHamburger=false;
 let ocultoChat=false;
 
-window.onload = ()=>{
-    toogleMenu.addEventListener("click", toggleMenuChange)
+window.onload = async()=>{
+    await addHtmlDocumentAtBeginning("./components/sideBar.html")
+    await document.getElementById("toogleMenu").addEventListener("click", toggleMenuChange)
     navBarRediretions()
-    funcionesFiltro.onLoad()
+    // funcionesFiltro.onLoad()
     // funcionesCartas.onLoad()
     // hamnurgerMenu.addEventListener("click", toggleMenuChangeHamburger)
 
@@ -106,6 +107,30 @@ function redireccion(){
 //     }
 // }
 
+// Función para cargar y añadir la sección de HTML
+async function addHtmlDocumentAtBeginning(url) {
+    try {
+        // Cargar el documento HTML desde la URL proporcionada
+        const response = await fetch(url);
+        const htmlContent = await response.text();
+
+        // Crear un elemento div temporal y asignar el contenido HTML cargado
+        const tempElement = document.createElement('div');
+        tempElement.innerHTML = htmlContent;
+
+        // Seleccionar el cuerpo del documento destino
+        const body = document.body;
+
+        // Insertar todo el contenido del archivo HTML cargado al principio del body
+        while (tempElement.firstChild) {
+            body.insertBefore(tempElement.firstChild, body.firstChild);
+        }
+    } catch (error) {
+        console.error('Error al cargar o añadir el documento HTML:', error);
+    }
+}
+
+
 export const methods = {
-    toggleMenuChange,navBarRediretions
+    toggleMenuChange,navBarRediretions,addHtmlDocumentAtBeginning
 }

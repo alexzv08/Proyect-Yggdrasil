@@ -34,8 +34,10 @@ let socket = io({
     }
 })
 window.onload= async ()=>{
+    await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
     await cargarUsuarios()
-    toogleMenu.addEventListener("click", windowOnLoad.toggleMenuChange)
+    await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
+
     windowOnLoad.navBarRediretions()
     añadirChat()
     

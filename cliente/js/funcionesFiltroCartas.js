@@ -1,6 +1,14 @@
+import { methods as windowOnLoad } from "./sideBar.js";
+
+
 let colores = ["Rojo", "Azul", "Verde", "Amarillo", "Negro","Morado","Blanco"]
         let keywordA = ["Alliance", "Armore Purge", "Barrier", "Blast Digivolve", "Blitz","Blocker","Decoy","De-Digivolve","Delay","Digi-Busrt","Digisorption","Draw","Fortitude","Jamming","Material Save","Mind Link","Pircing","Raid","Reboot","Recovery","Retalation","Rush","Save","Security Attack"]
         let datosFiltro=[];
+window.onload=async ()=>{
+    onLoad()
+    await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
+    await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
+}   
 function onLoad(){
     for (let i = 1; i < 13; i++) {
         option = document.createElement("option")
