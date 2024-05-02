@@ -1,0 +1,27 @@
+#main-container{
+    width: calc(20% - 100px);
+    height: 100vh;
+    margin-left: 100px;
+    border: 1px solid red;
+}
+#filtroEscritorio{
+    display: flex;
+    flex-direction: column;
+    color:white;
+    position: relative;
+    padding: 20px;
+    & #cerrar{
+        height: 30px;
+        width: 30px;
+        position: absolute;
+        right: 15px;
+        border: 1px solid red;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    & div h2{
+        text-align: center;
+    }
+}
