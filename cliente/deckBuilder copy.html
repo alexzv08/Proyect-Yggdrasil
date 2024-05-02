@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="css/deckBuilder2.css">
-    <script type="module" src="js/sideBar.js"></script>
+    <!-- <script type="module" src="js/sideBar.js"></script> -->
     <script type="module" src="js/funcionesCartas.js"></script>
 
     <title>Document</title>
@@ -19,11 +19,12 @@
         let mostarEstadisticasToogle = true;
         let mostarEstadisticasToogleMovil = true;
         window.onload = async() => {
-            desplegaDetalle.addEventListener("click", ocultarEstadisticas)
-            desplegaDetalleMovil.addEventListener("click", ocultarEstadisticasMovil)
-            guardarMazoB.addEventListener("click" , guardarMazo)
-            guardarMazoBM.addEventListener("click" , guardarMazo)
-            limpiarMazoB.addEventListener("click" , limpiarMazo)
+            // desplegaDetalle.addEventListener("click", ocultarEstadisticas)
+            // desplegaDetalleMovil.addEventListener("click", ocultarEstadisticasMovil)
+            // guardarMazoB.addEventListener("click" , guardarMazo)
+            // guardarMazoBM.addEventListener("click" , guardarMazo)
+            // limpiarMazoB.addEventListener("click" , limpiarMazo)
+            console.log('he')
             imgCartas()
         }
 
@@ -79,7 +80,7 @@
             div.dataset.type =  element.type
             let img = document.createElement("img")
             img.src = element.image_url
-            containerCartas.appendChild(div)
+            containerListaCartas.appendChild(div)
             div.appendChild(img)
         }
 
@@ -147,139 +148,287 @@
             <div id="cerrar"><div>X</div></div>
             <div><h2>Filtro cartas</h2></div>
             <form action="">
+
                 <label for="">Palabra libre</label>
                 <input type="text" placeholder="Palabra libre">
 
                 <label for="">Nombre</label>
                 <input type="text" placeholder="Nombre">
 
-                <input type="checkbox" name="" id="">
-                <label for="">Filtrar cartas en colección</label>
-
-                <details>
-                    <summary>Edicion de carta</summary>
-
-                    <input type="checkbox" name="" id="">
-                    <label for="">BT-01</label>
-                    <input type="checkbox" name="" id="">
-                    <label for="">BT-02</label>
-                    <input type="checkbox" name="" id="">
-                    <label for="">BT-03</label>
+                <details class="detallesForm" id="FiltroEdicion">
+                    <summary>Filtrar cartas por colección</summary>
+                    <label>
+                        BT-01<input type="checkbox" id="cbox1" value="first_checkbox" />
+                    </label>
+                    <label>
+                        BT-02<input type="checkbox" id="cbox1" value="first_checkbox" />
+                    </label>
+                    <label>
+                        BT-03<input type="checkbox" id="cbox1" value="first_checkbox" />
+                    </label>
                 </details>
-                
-                <details>
-                    <summary>Filtro avanzado</summary>
-
-                    <label for="">Numero de carta</label>
-                    <input type="text" placeholder="Numero de carta">
-                    
-                    <label for="">Texo en la carta</label>
-                    <input type="text" placeholder="Texo en la carta">
-
-                    <label for="">Rareza</label>
-                    <label for="">C</label><input type="checkbox" name="" id="">
-                    <label for="">U</label><input type="checkbox" name="" id="">
-                    <label for="">R</label><input type="checkbox" name="" id="">
-                    <label for="">SR</label><input type="checkbox" name="" id="">
-                    <label for="">P</label><input type="checkbox" name="" id="">
-                    <label for="">SEC</label><input type="checkbox" name="" id="">
-
-                    <label for="">Tipo de carta</label>
-                    <label for="">Egg</label><input type="checkbox" name="" id="">
-                    <label for="">Tamer</label><input type="checkbox" name="" id="">
-                    <label for="">Digimon</label><input type="checkbox" name="" id="">
-                    <label for="">Option</label><input type="checkbox" name="" id="">
-
-                    <label for="">LV</label>
-                    <label for="">2</label><input type="checkbox" name="" id="">
-                    <label for="">3</label><input type="checkbox" name="" id="">
-                    <label for="">5</label><input type="checkbox" name="" id="">
-                    <label for="">6</label><input type="checkbox" name="" id="">
-                    <label for="">7</label><input type="checkbox" name="" id="">
-
-                    <label for="">Color</label>
-                    <label for="">Red</label><input type="checkbox" name="" id="">
-                    <label for="">Blue</label><input type="checkbox" name="" id="">
-                    <label for="">Yellow</label><input type="checkbox" name="" id="">
-                    <label for="">Green</label><input type="checkbox" name="" id="">
-                    <label for="">White</label><input type="checkbox" name="" id="">
-                    <label for="">Black</label><input type="checkbox" name="" id="">
-                    <label for="">purple</label><input type="checkbox" name="" id="">
-
-                    <label for="">Efecto al digivolucionar</label>
-                    <input type="text" placeholder="Efecto al digivolucionar">
-
-                    <label for="">Forma</label>
-                    <label for="">In-Train</label><input type="checkbox" name="" id="">
-                    <label for="">Rookie</label><input type="checkbox" name="" id="">
-                    <label for="">Champion</label><input type="checkbox" name="" id="">
-                    <label for="">Mega</label><input type="checkbox" name="" id="">
-                    <label for="">Armor Form</label><input type="checkbox" name="" id="">
-                    <label for="">Hybrid</label><input type="checkbox" name="" id="">
-                    <label for="">D-Reaper</label><input type="checkbox" name="" id="">
-                    <label for="">Unknow</label><input type="checkbox" name="" id="">
-
-                    <label for="">Atributo</label>
-                    <label for="">Blue flare</label><input type="checkbox" name="" id="">
-                    <label for="">Ceraptosian</label><input type="checkbox" name="" id="">
-                    <label for="">Data</label><input type="checkbox" name="" id="">
-                    <label for="">Four great dragons</label><input type="checkbox" name="" id="">
-                    <label for="">Free</label><input type="checkbox" name="" id="">
-                    <label for="">Legend Arms</label><input type="checkbox" name="" id="">
-                    <label for="">Royal Knight</label><input type="checkbox" name="" id="">
-                    <label for="">Twilight</label><input type="checkbox" name="" id="">
-                    <label for="">Unidentifiedc</label><input type="checkbox" name="" id="">
-                    <label for="">Unknow</label><input type="checkbox" name="" id="">
-                    <label for="">Vaccine</label><input type="checkbox" name="" id="">
-                    <label for="">Virus</label><input type="checkbox" name="" id="">
-                    <label for="">Xros Heart</label><input type="checkbox" name="" id="">
-
-                    <label for="">Rango DP</label>
-                    <label for="">Min DP</label>
-                    <input type="range" name="" id="" min="0" max="16000" value="0" step="1000">
-                    <label for="">Max DP</label>
-                    <input type="range" name="" id="" min="0" max="16000" value="16000" step="1000">
-
-                    <label for="">Coste de juego</label>
-                    <div>
-                        <input type="text" placeholder="Min" value="0">
-                        <input type="text" placeholder="Max" value="30">
-                    </div>
-                </details>
-                <button id="clear">Limpiar</button>
-                <button id="search">Buscar</button>
+  
+                <div>
+                    <details class="detallesForm" id="FiltroAvanzado">
+                        <summary>Filtro avanzado</summary>
+                        <div class="inputDetail">
+                            <label for="">Numero de carta</label>
+                            <input type="text" placeholder="Numero de carta">
+                        </div>
+                        <div class="inputDetail">
+                            <label for="">Texo en la carta</label>
+                            <input type="text" placeholder="Texo en la carta">
+                        </div>
+                        <div class="detailCheckbox">
+                            <label for="">Rareza</label>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">C</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">U</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">R</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">SR</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">P</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">SEC</label>
+                            </div>
+                        </div>
+                        <div class="detailCheckbox">
+                            <label for="">Tipo de carta</label>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Egg</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Tamer</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Digimon</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Option</label>
+                            </div>
+                        </div>
+                        <div class="detailCheckbox">
+                            <label for="">LV</label>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">2</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">3</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">5</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">6</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">7</label>
+                            </div>
+                        </div>
+                        <div class="detailCheckbox">
+                            <label for="">Color</label>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Red</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Blue</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Yellow</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Green</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">White</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Black</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">purple</label>
+                            </div>
+                        </div>
+                        <div class="inputDetail">
+                            <label for="">Efecto al digivolucionar</label>
+                            <input type="text" placeholder="Efecto al digivolucionar">
+                        </div>
+                        <div class="detailCheckbox">
+                            <label for="">Forma</label>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">In-Train</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Rookie</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Champion</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Mega</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Armor Form</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Hybrid</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">D-Reaper</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Unknow</label>
+                            </div>
+                        </div>
+                        <div class="detailCheckbox">
+                            <label for="">Atributo</label>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Blue flare</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Ceraptosian</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Data</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Four great dragons</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Free</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Legend Arms</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Royal Knight</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Twilight</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Unidentifiedc</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">                           
+                                <label for="">Unknow</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">                               
+                                <label for="">Vaccine</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">                               
+                                <label for="">Virus</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="" id="">
+                                <label for="">Xros Heart</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="">Rango DP</label>
+                            <label for="">Min DP</label>
+                            <input type="range" name="" id="" min="0" max="16000" value="0" step="1000">
+                            <label for="">Max DP</label>
+                            <input type="range" name="" id="" min="0" max="16000" value="16000" step="1000">
+                        </div>
+                        <div>
+                            <label for="">Coste de juego</label>
+                            <div class="inputDetail"> 
+                                <input type="number" placeholder="Min" value="0">
+                                <input type="number" placeholder="Max" value="30">
+                            </div>
+                        </div>
+                    </details>
+                </div>
+                <div class="buttonsForm">
+                    <button id="clear">Limpiar</button>
+                    <button id="search">Buscar</button>
+                </div>
             </form>
         </div>
         <div class="containerDeckBuilder">
             <div>
-                <h1>Deck Builder</h1>
+                <!-- <h1>Deck Builder</h1> -->
             </div>
             <div id="containerListaCartas"></div>
             <div id="containerListaMazo">
-                <div>
+                <div id="info">
                     <h4>Arrastra o haz click para añadir cartas</h4>
                     <select name="" id="" >
-                        <option disabled selected>Ordenar</option>
-                        <option disabled selected>LV. Orden Ascendente</option>
-                        <option disabled selected>LV. Orden Descendente</option>
-                        <option disabled selected>Color Orden Ascendente</option>
-                        <option disabled selected>Color Orden Descendente</option>
-                        <option disabled selected>Tipo de carta Orden Ascendente</option>
-                        <option disabled selected>Tipo de carta Orden Descendente</option>
+                        <option style="color: black;" selected>Ordenar</option>
+                        <option style="color: black;">LV. Orden Ascendente</option>
+                        <option style="color: black;">LV. Orden Descendente</option>
+                        <option style="color: black;">Color Orden Ascendente</option>
+                        <option style="color: black;">Color Orden Descendente</option>
+                        <option style="color: black;">Tipo de carta Orden Ascendente</option>
+                        <option style="color: black;">Tipo de carta Orden Descendente</option>
                     </select>
                 </div>
-                <div>
-                    <div>Main Deck</div>
-                    <div>Egg Deck</div>
-                    <div id="dropZone"></div>
+                <div id="mazo">
+                    <div class="tipoMazo">
+                        <div class="active">Main Deck</div>
+                        <div>Egg Deck</div>
+                    </div>
+                    <div class="cont">
+                        <div id="dropZone"></div>
+                    </div>
                 </div>
             </div>
         </div>
         <!-- MOVIL -->
-        <div id="filtroCartas">
+        <!-- <div id="filtroCartas">
             <img src="" alt="">
             <h2>Filtrar cartas</h2>
-        </div>
+        </div> -->
     </section>
 </body>
 </html>

@@ -25,7 +25,7 @@ function cargarImg(element){
     div.dataset.type =  element.type
     let img = document.createElement("img")
     img.src = element.image_url
-    containerCartas.appendChild(div)
+    containerListaCartas.appendChild(div)
     div.appendChild(img)
 }
 

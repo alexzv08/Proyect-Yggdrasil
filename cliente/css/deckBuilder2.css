@@ -1,21 +1,25 @@
 #main-container{
     width: calc(20% - 100px);
     height: 100vh;
+    width: 100vw;
     margin-left: 100px;
-    border: 1px solid red;
+    display: flex;
+    flex-direction: row;
 }
+/* TAMAÑO 1536px A MAS */
 #filtroEscritorio{
     display: flex;
     flex-direction: column;
     color:white;
     position: relative;
     padding: 20px;
+    overflow: auto;
+    max-width: 300px;
     & #cerrar{
         height: 30px;
         width: 30px;
         position: absolute;
         right: 15px;
-        border: 1px solid red;
         border-radius: 50%;
         display: flex;
         justify-content: center;
@@ -23,5 +27,148 @@
     }
     & div h2{
         text-align: center;
+    }
+    & form{
+        & #FiltroEdicion{
+            display: flex;
+            flex-direction: column;
+
+            & label{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+
+                & input{
+                    width: 20%;
+                }
+            }
+        }
+        & .detallesForm{
+            padding: 15px 0;
+            margin: 5px 0;
+            
+            & div{
+                margin: 15px 15px;
+            }
+            & .inputDetail{
+                & input{
+                    margin: 15px 0;
+                    color: white;
+                }
+            }
+            & .detailCheckbox{
+                display: flex;
+                flex-direction: column;
+
+                & div{
+                    display: flex;
+                    flex-direction: row;
+                    /* justify-content: ; */
+                    align-items: center;
+
+                    & label{
+                        width: 100%;
+                    }
+                    & input{
+                        width: 15%;
+                        &:focus{
+                            color: white;
+                        }
+                    }
+                }
+            }
+        }
+        & .buttonsForm{
+            padding: 0px 10px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}
+.containerDeckBuilder{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    & #containerListaCartas{
+        border: 1px green solid;
+        height: calc(55vh - 0px);
+        overflow-y: scroll;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+        & div {
+            & img{
+            height: 160px;
+            border-radius: 5%;
+            width: 118px;
+        }
+    }
+    }
+    & #containerListaMazo{
+        color: white;
+        background-color: rgb(66, 66, 66);
+        & #info {
+            height: 60px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+            padding: 10px 0;
+            & select{
+                width: auto;
+                margin-left: 15px;
+            }
+        }
+        & #mazo {
+            & .tipoMazo{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                padding-bottom: 5px;  
+                background-color: rgb(49, 49, 49);
+                
+                & .active{
+                    border-bottom:1px solid red;
+                }
+                & div:hover{
+                    border-bottom:1px solid red;
+                    cursor: pointer;
+                }
+            }
+            & .cont{
+                height: calc(50vh - 100px);
+                padding: 10px;
+                #dropZone{
+                    border:1px dashed white;
+                    height: 100%;
+                }
+            }
+        }
+    }
+}
+@media (1533px >= width >= 1200px){
+    #main-container{
+        border: 1px solid rgb(123, 255, 0);
+    }
+    #filtroEscritorio{
+        width: 300px;
+        padding: 20px 5px 200px 5px;
+        border: 1px solid rgb(200, 255, 0);
+        margin-right: 20px;
+        & #cerrar{
+            height: 30px;
+            width: 30px;
+            position: absolute;
+            right: 15px;
+            border: 1px solid rgb(200, 255, 0);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 }
