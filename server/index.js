@@ -149,7 +149,7 @@ app.get('/chat', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/chat.html")
 })
 app.get('/deckbuilder', (req, res)=>{
-    res.sendFile(process.cwd()+"/cliente/deckBuilder.html")
+    res.sendFile(process.cwd()+"/cliente/deckBuilder copy.html")
 })
 app.get('/decks', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/decks.html")

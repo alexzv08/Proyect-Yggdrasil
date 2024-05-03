@@ -9,8 +9,8 @@ window.onload = async()=>{
     await document.getElementById('home').classList.add('active')
     await document.getElementById("toogleMenu").addEventListener("click", toggleMenuChange)
     navBarRediretions()
+    funcionesCartas.onLoad()
     // funcionesFiltro.onLoad()
-    // funcionesCartas.onLoad()
     // hamnurgerMenu.addEventListener("click", toggleMenuChangeHamburger)
 
     // toogleChat.addEventListener("click", toggleChatChange)

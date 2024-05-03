@@ -1,5 +1,11 @@
-function onLoad() {
-    console.log("h")
+import { methods as windowOnLoad } from "./sideBar.js";
+
+
+async function onLoad() {
+    await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
+    await document.getElementById('deckbuilder').classList.add('active')
+    await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
+    windowOnLoad.navBarRediretions()
     imgCartas()    
 }
 
