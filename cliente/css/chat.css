@@ -21,21 +21,26 @@
             align-items: center;
             justify-content: space-around;
             input{
-                height: 25px;
-                width: 80%;
-                border: 1px solid black;
-                border-radius: 25px;
-                color: rgb(0, 0, 0);
-                padding: 15px;
+                height: 25px !important;
+                width: 80% !important;
+                border: 1px solid black !important;
+                border-radius: 25px !important;
+                color: rgb(0, 0, 0) !important;
+                padding: 15px !important;
 
                 &:target{
                     border: 1px solid #7922d0; 
                 }
             }
             button{
-                border-radius: 50%;
-                border: 2px solid transparent;
-                padding: 5px;
+                border-radius: 50% !important;
+                border: 2px solid transparent !important;
+                padding: 5px !important;
+                width: 40px;
+                height: 40px;
+                min-width: auto;
+                background-color: white;
+                font-weight: normal;
 
                 & img{
                     height: 25px;
@@ -169,11 +174,11 @@
                 padding: 0 15px;
         
                 & #input{
-                    border-radius: 9999px;
-                    border: 1px solid #eee;
-                    flex: 2;
-                    margin: 4px;
-                    padding: 0 8px;
+                    border-radius: 9999px !important;
+                    border: 1px solid #eee !important;
+                    flex: 2 !important;
+                    margin: 4px !important;
+                    padding: 0 8px !important;
                 }
                 & button{
                     background-color: #09f;
