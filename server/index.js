@@ -89,7 +89,7 @@ io.on("connection", async (socket) =>{
         // const username2 = socket.handshake.auth.username2
         // result = await connection.query('INSERT INTO mensajes (id_usuarioEnvia, id_usuarioRecibe,contenido, id_sala) VALUES (?,?,?,?);', [username,username2, msg,id_sala])
         try {
-            result = await connection.query('INSERT INTO mensajes (id_usuarioEnvia, id_usuarioRecibe, contenido, id_sala) VALUES (?,?,?,?);', [username, username2, msg, id_sala]);
+            result = await connection.query('INSERT INTO mensajes (id_usuarioEnvia, contenido, id_sala) VALUES (?,?,?);', [username, msg, id_sala]);
         } catch (error) {
             console.error('Error al insertar mensaje:', error);
             // Maneja el error aquí, por ejemplo, enviando una respuesta de error o notificando al cliente
