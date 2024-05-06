@@ -11,7 +11,13 @@
 
     <title>Document</title>
     <script>
-        
+        // @TODO
+        // AL CLIKAR O AL HACER DROP REVISAR SI LA CARTA YA EXISTE EN EL MAZO Y MODIFICAR LA CANTIDAD DE ESA CARTA
+        // SI NO ESTA LA CARTA EN EL MAZO AÑADIR EL CONTADOR DE CARTAS CON UN MAS Y MENOS [-|X|+] 
+        // HACER QUE LOS BOTONES EN EL MAZO MODIFIQUE LA CANTIDAD DE CARTAS
+        // OBLIGAR AL USUARIO A QUE GUARDE EL MAZO O QUE SE GUARDE AUTOMATICAMENTE, Y QUE AL SALIR DE ESA PESTAÑA INSERTAR EL MAZO O MODIFICARLO
+
+        let elementoDrag;
         let mazo = {
             "eggDeck": {},
             "deck": {}
@@ -24,7 +30,6 @@
             // guardarMazoB.addEventListener("click" , guardarMazo)
             // guardarMazoBM.addEventListener("click" , guardarMazo)
             // limpiarMazoB.addEventListener("click" , limpiarMazo)
-            console.log('he')
             imgCartas()
         }
 
@@ -39,7 +44,6 @@
                 infoMazo.style.height = "120px"
                 desplegaDetalle.style.top ="110px"
                 mostarEstadisticasToogle =true
-
             }
         }
         function ocultarEstadisticasMovil(){
@@ -59,6 +63,7 @@
             }
         }
 
+        // CARGA LA LISTA DE CARTAS FILTRADAS
         function imgCartas(){
             fetch("https://digimoncard.io/api-public/search.php?n=Agumon&sort=power&series=Digimon Card Game")
             .then(data => data.json())
@@ -70,10 +75,12 @@
                 imgCard.src = data[0].image_url
             })  
         }
-        
+        // MOSTRAR TODAS LAS CARTAS 
         function cargarImg(element){
             let div = document.createElement("div")
             div.addEventListener("click", añadirCartaMazo)
+            div.addEventListener("dragstart", drag(event))
+            div.draggable="true"
             div.dataset.nombre =  element.name 
             div.dataset.cardnumber =  element.cardnumber 
             div.dataset.color =  element.color
@@ -86,31 +93,38 @@
 
         let eggDeck = 0;
         let deck = 0;
-        function añadirCartaMazo() {
-            if (this.dataset.type == "Digi-Egg" && eggDeck < 5) {
-                if (typeof mazo["eggDeck"][this.dataset.cardnumber] !== 'number') {
-                    mazo["eggDeck"][this.dataset.cardnumber] = 0;
-                    actualizarDeck(this);
-                }
-                if (mazo["eggDeck"][this.dataset.cardnumber] < 4) {
-                    mazo["eggDeck"][this.dataset.cardnumber] += 1;
-                    eggDeck++;
-                    console.log(eggDeck);
-                    document.getElementById(this.dataset.cardnumber).innerText =  this.dataset.nombre + " " + this.dataset.cardnumber + " X "+mazo["eggDeck"][this.dataset.cardnumber]
-                }
-            } else if(this.dataset.type != "Digi-Egg" && deck < 50){
-                if (typeof mazo["deck"][this.dataset.cardnumber] !== 'number') {
-                    mazo["deck"][this.dataset.cardnumber] = 0;
-                    actualizarDeck(this);
-                }
-                if (mazo["deck"][this.dataset.cardnumber] < 4) {
-                    mazo["deck"][this.dataset.cardnumber] += 1;
-                    deck++;
-                    console.log(mazo["deck"]);
-                    document.getElementById(this.dataset.cardnumber).innerText =  this.dataset.nombre + " " + this.dataset.cardnumber + " X "+mazo["deck"][this.dataset.cardnumber]
-                }
-            }
-        }
+        // function añadirCartaMazo() {
+        //     dropZone.appendChild(this.cloneNode(true));
+        //     if(this.dataset.type == "Egg"){
+        //         mazo.eggDeck.push(this.dataset.cardnumber)
+        //     }else{
+        //         mazo.deck.push(this.dataset.cardnumber)
+        //     }
+        //     console.log(mazo)
+        //     // if (this.dataset.type == "Digi-Egg" && eggDeck < 5) {
+        //     //     if (typeof mazo["eggDeck"][this.dataset.cardnumber] !== 'number') {
+        //     //         mazo["eggDeck"][this.dataset.cardnumber] = 0;
+        //     //         actualizarDeck(this);
+        //     //     }
+        //     //     if (mazo["eggDeck"][this.dataset.cardnumber] < 4) {
+        //     //         mazo["eggDeck"][this.dataset.cardnumber] += 1;
+        //     //         eggDeck++;
+        //     //         console.log(eggDeck);
+        //     //         document.getElementById(this.dataset.cardnumber).innerText =  this.dataset.nombre + " " + this.dataset.cardnumber + " X "+mazo["eggDeck"][this.dataset.cardnumber]
+        //     //     }
+        //     // } else if(this.dataset.type != "Digi-Egg" && deck < 50){
+        //     //     if (typeof mazo["deck"][this.dataset.cardnumber] !== 'number') {
+        //     //         mazo["deck"][this.dataset.cardnumber] = 0;
+        //     //         actualizarDeck(this);
+        //     //     }
+        //     //     if (mazo["deck"][this.dataset.cardnumber] < 4) {
+        //     //         mazo["deck"][this.dataset.cardnumber] += 1;
+        //     //         deck++;
+        //     //         console.log(mazo["deck"]);
+        //     //         document.getElementById(this.dataset.cardnumber).innerText =  this.dataset.nombre + " " + this.dataset.cardnumber + " X "+mazo["deck"][this.dataset.cardnumber]
+        //     //     }
+        //     // }
+        // }
 
         function actualizarDeck(cardElement) {
             let div = document.createElement("div");
@@ -136,6 +150,18 @@
                     console.log(mazo)
                 }
             }
+        }
+    
+        // REALIZAR EL DRAG AND DROP
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+        function drag(ev) {
+            elementoDrag = this;
+        }
+        function drop(ev) {
+            ev.preventDefault(); // Evitar el comportamiento predeterminado del evento drop
+            ev.target.appendChild(elementoDrag.cloneNode(true));
         }
     </script>
 </head>
@@ -419,7 +445,7 @@
                         <div>Egg Deck</div>
                     </div>
                     <div class="cont">
-                        <div id="dropZone"></div>
+                        <div id="dropZone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
                     </div>
                 </div>
             </div>

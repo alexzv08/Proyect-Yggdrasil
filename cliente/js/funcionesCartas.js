@@ -1,7 +1,10 @@
 import { methods as windowOnLoad } from "./sideBar.js";
-
-
-async function onLoad() {
+let elementoDrag;
+let mazo = {
+    "eggDeck": [],
+    "deck": []
+};
+window.onload = async() => {
     await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
     await document.getElementById('deckbuilder').classList.add('active')
     await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
@@ -9,11 +12,9 @@ async function onLoad() {
     imgCartas()    
 }
 
-
-
-
 function imgCartas(){
-    fetch("https://digimoncard.io/api-public/search.php?sort=code&series=Digimon Card Game")
+    // fetch("https://digimoncard.io/api-public/search.php?sort=code&series=Digimon Card Game")
+    fetch("https://digimoncard.io/api-public/search.php?n=Agumon&sort=power&series=Digimon Card Game")
     .then(data => data.json())
     .then(data =>{
         console.log(data)
@@ -25,6 +26,8 @@ function imgCartas(){
 function cargarImg(element){
     let div = document.createElement("div")
     div.addEventListener("click", añadirCartaMazo)
+    div.addEventListener("dragstart", drag)
+    div.draggable="true"
     div.dataset.nombre =  element.name 
     div.dataset.cardnumber =  element.cardnumber 
     div.dataset.color =  element.color
@@ -34,43 +37,52 @@ function cargarImg(element){
     containerListaCartas.appendChild(div)
     div.appendChild(img)
 }
-
+let eggDeck = 0;
+let deck = 0;
 function añadirCartaMazo() {
     if (this.dataset.type == "Digi-Egg" && eggDeck < 5) {
         if (typeof mazo["eggDeck"][this.dataset.cardnumber] !== 'number') {
             mazo["eggDeck"][this.dataset.cardnumber] = 0;
-            actualizarDeck(this);
+            dropZone.appendChild(this.cloneNode(true));
+            eggDeck++;
         }
         if (mazo["eggDeck"][this.dataset.cardnumber] < 4) {
             mazo["eggDeck"][this.dataset.cardnumber] += 1;
             eggDeck++;
-            console.log(eggDeck);
-            document.getElementById(this.dataset.cardnumber).innerText =  this.dataset.nombre + " " + this.dataset.cardnumber + " X "+mazo["eggDeck"][this.dataset.cardnumber]
         }
-    } else if(this.dataset.type != "Digi-Egg" && deck < 50){
-        if (typeof mazo["deck"][this.dataset.cardnumber] !== 'number') {
-            mazo["deck"][this.dataset.cardnumber] = 0;
-            actualizarDeck(this);
-        }
-        if (mazo["deck"][this.dataset.cardnumber] < 4) {
-            mazo["deck"][this.dataset.cardnumber] += 1;
-            deck++;
-            console.log(mazo["deck"]);
-            document.getElementById(this.dataset.cardnumber).innerText =  this.dataset.nombre + " " + this.dataset.cardnumber + " X "+mazo["deck"][this.dataset.cardnumber]
+    }else{
+        if(deck<50){
+            if (typeof mazo["deck"][this.dataset.cardnumber] !== 'number') {
+                mazo["deck"][this.dataset.cardnumber] = 0;
+                copia = this.cloneNode(true)
+                copia.removeEventListener("click",añadirCartaMazo)
+                copia.removeEventListener("dragstart", drag)
+                copia.addEventListener("click", restarCartaMazo)
+                dropZone.appendChild(this.cloneNode(true));
+                deck++;
+            }
+            if (mazo["deck"][this.dataset.cardnumber] < 4) {
+                mazo["deck"][this.dataset.cardnumber] += 1;
+                deck++;
+            }
         }
     }
+    console.log(mazo)
 }
-
-function actualizarDeck(cardElement) {
-    let div = document.createElement("div");
-    div.style.backgroundColor = cardElement.dataset.color;
-    div.id = cardElement.dataset.cardnumber
-    listDeck.appendChild(div);
+function restarCartaMazo(){
+    if (this.dataset.type == "Digi-Egg") {
+        mazo["eggDeck"][this.dataset.cardnumber] -= 1;
+    }else{
+        mazo["deck"][this.dataset.cardnumber] -= 1;
+    }
 }
-
 function guardarMazo(){
     for (const element in mazo.eggDeck) {
-        sql = 'INSERT INTO listaCartasMazo ("idMazo", "DG","'+element.split("-")[0]+'", "'+element.split("-")[1]+'","'+mazo.eggDeck[element]+'")'  
+        sql = 'INSERT INTO mazo_cartas ("idMazo", "DG","'+element.split("-")[0]+'", "'+element.split("-")[1]+'","'+mazo.eggDeck[element]+'")'  
+        console.log(sql)
+    }
+    for (const element in mazo.deck) {
+        sql = 'INSERT INTO mazo_cartas ("idMazo", "DG","'+element.split("-")[0]+'", "'+element.split("-")[1]+'","'+mazo.eggDeck[element]+'")'  
         console.log(sql)
     }
 }
@@ -86,9 +98,23 @@ function limpiarMazo(){
         }
     }
 }
+// REALIZAR EL DRAG AND DROP
+// function allowDrop(ev) {
+//     ev.preventDefault();
+// }
 
+// function drag(ev) {
+//     ev.dataTransfer.setData("text", ev.target.id);
+// }
+
+// function drop(ev) {
+//     ev.preventDefault();
+//     console.log("dropeado")
+//     var data = ev.dataTransfer.getData("text");
+//     ev.target.appendChild(document.getElementById(data));
+// }
 export const methods = {
     imgCartas: imgCartas,
     cargarImg: cargarImg,
     onLoad: onLoad
-};
+}

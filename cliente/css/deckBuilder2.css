@@ -97,6 +97,20 @@
         }
     }
 }
+#dropZone{
+    & div {
+        background-color: red;
+        height: 160px;
+        width: 118px;
+        z-index: 5;
+        & img{
+        
+        height: 100%;
+        border-radius: 5%;
+        /* width: 118px; */
+        }
+    }
+}
 .containerDeckBuilder{
     display: flex;
     flex-direction: column;
@@ -110,10 +124,15 @@
         flex-wrap: wrap;
         gap: 10px;
         & div {
-            & img{
+            background-color: red;
             height: 160px;
-            border-radius: 5%;
             width: 118px;
+            z-index: 5;
+            & img{
+            
+            height: 100%;
+            border-radius: 5%;
+            /* width: 118px; */
         }
     }
     }

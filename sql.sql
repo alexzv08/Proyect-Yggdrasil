@@ -106,9 +106,9 @@ CREATE TABLE mazos (
 );
 CREATE TABLE mazo_cartas (
     id_mazo INT,
-    id_carta VARCHAR(10),
-    id_coleccion VARCHAR(10),
     id_juego VARCHAR(10),
+    id_coleccion VARCHAR(10),
+    id_carta VARCHAR(10),
     cantidad INT,
     PRIMARY KEY (id_mazo, id_carta),
     FOREIGN KEY (id_mazo) REFERENCES mazos(id_mazo),
