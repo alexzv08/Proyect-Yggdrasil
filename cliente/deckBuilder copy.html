@@ -30,7 +30,7 @@
             // guardarMazoB.addEventListener("click" , guardarMazo)
             // guardarMazoBM.addEventListener("click" , guardarMazo)
             // limpiarMazoB.addEventListener("click" , limpiarMazo)
-            imgCartas()
+            // imgCartas()
         }
 
         function ocultarEstadisticas(){
@@ -151,7 +151,11 @@
                 }
             }
         }
-    
+        function filtroBusqueda(event){
+            event.preventDefault()
+            console.log("hey")
+            console.log(document.querySelectorAll("#FiltroEdicion input"))
+        }
         // REALIZAR EL DRAG AND DROP
         function allowDrop(ev) {
             ev.preventDefault();
@@ -171,7 +175,7 @@
         <!-- ESCRITORIO -->
         <!-- FILTRO -->
         <div id="filtroEscritorio">
-            <div id="cerrar"><div>X</div></div>
+            <!-- <div id="cerrar"><div>X</div></div> -->
             <div><h2>Filtro cartas</h2></div>
             <form action="">
 
@@ -184,7 +188,7 @@
                 <details class="detallesForm" id="FiltroEdicion">
                     <summary>Filtrar cartas por colección</summary>
                     <label>
-                        BT-01<input type="checkbox" id="cbox1" value="first_checkbox" />
+                        BT-01<input type="checkbox" id="cbox1" value="first_checkbox"/>
                     </label>
                     <label>
                         BT-02<input type="checkbox" id="cbox1" value="first_checkbox" />
@@ -199,218 +203,218 @@
                         <summary>Filtro avanzado</summary>
                         <div class="inputDetail">
                             <label for="">Numero de carta</label>
-                            <input type="text" placeholder="Numero de carta">
+                            <input id="numCarta" type="text" placeholder="Numero de carta">
                         </div>
                         <div class="inputDetail">
                             <label for="">Texo en la carta</label>
-                            <input type="text" placeholder="Texo en la carta">
+                            <input id="textoCarta" type="text" placeholder="Texo en la carta">
                         </div>
-                        <div class="detailCheckbox">
+                        <div class="detailCheckbox" id="rarezas">
                             <label for="">Rareza</label>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="c">
                                 <label for="">C</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="u">
                                 <label for="">U</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="r">
                                 <label for="">R</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="sr">
                                 <label for="">SR</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="p">
                                 <label for="">P</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="sec">
                                 <label for="">SEC</label>
                             </div>
                         </div>
-                        <div class="detailCheckbox">
+                        <div class="detailCheckbox" id="tipoCarta">
                             <label for="">Tipo de carta</label>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="egg">
                                 <label for="">Egg</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="tamer">
                                 <label for="">Tamer</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="digimon">
                                 <label for="">Digimon</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="option">
                                 <label for="">Option</label>
                             </div>
                         </div>
-                        <div class="detailCheckbox">
+                        <div class="detailCheckbox" id="level">
                             <label for="">LV</label>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="2">
                                 <label for="">2</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="3">
                                 <label for="">3</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="4">
                                 <label for="">5</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="6">
                                 <label for="">6</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="7">
                                 <label for="">7</label>
                             </div>
                         </div>
-                        <div class="detailCheckbox">
+                        <div class="detailCheckbox" id="colores">
                             <label for="">Color</label>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="red">
                                 <label for="">Red</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="blue">
                                 <label for="">Blue</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="yellow">
                                 <label for="">Yellow</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="green">
                                 <label for="">Green</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="white">
                                 <label for="">White</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="black">
                                 <label for="">Black</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="purple">
                                 <label for="">purple</label>
                             </div>
                         </div>
                         <div class="inputDetail">
                             <label for="">Efecto al digivolucionar</label>
-                            <input type="text" placeholder="Efecto al digivolucionar">
+                            <input id="efectEvolve" type="text" placeholder="Efecto al digivolucionar">
                         </div>
-                        <div class="detailCheckbox">
+                        <div class="detailCheckbox" id="formaEvo">
                             <label for="">Forma</label>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="in-train">
                                 <label for="">In-Train</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="rookie">
                                 <label for="">Rookie</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="champion">
                                 <label for="">Champion</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="mega">
                                 <label for="">Mega</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="armor form">
                                 <label for="">Armor Form</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="hybrid">
                                 <label for="">Hybrid</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="d-reaper">
                                 <label for="">D-Reaper</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="unknow">
                                 <label for="">Unknow</label>
                             </div>
                         </div>
-                        <div class="detailCheckbox">
+                        <div class="detailCheckbox" id="atributo">
                             <label for="">Atributo</label>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="blue flare">
                                 <label for="">Blue flare</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="ceraptosian">
                                 <label for="">Ceraptosian</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="data">
                                 <label for="">Data</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="four great dragons">
                                 <label for="">Four great dragons</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="free">
                                 <label for="">Free</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="legend arms">
                                 <label for="">Legend Arms</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="royal knight">
                                 <label for="">Royal Knight</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="twilight">
                                 <label for="">Twilight</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="unidentifiedc">
                                 <label for="">Unidentifiedc</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">                           
+                                <input type="checkbox" name="" id="" value="unknow">                           
                                 <label for="">Unknow</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">                               
+                                <input type="checkbox" name="" id="" value="vaccine">                               
                                 <label for="">Vaccine</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">                               
+                                <input type="checkbox" name="" id="" value="virus">                               
                                 <label for="">Virus</label>
                             </div>
                             <div>
-                                <input type="checkbox" name="" id="">
+                                <input type="checkbox" name="" id="" value="xros heart">
                                 <label for="">Xros Heart</label>
                             </div>
                         </div>
                         <div>
                             <label for="">Rango DP</label>
                             <label for="">Min DP</label>
-                            <input type="range" name="" id="" min="0" max="16000" value="0" step="1000">
+                            <input type="range" name="" id="minDP" min="0" max="16000" value="0" step="1000">
                             <label for="">Max DP</label>
-                            <input type="range" name="" id="" min="0" max="16000" value="16000" step="1000">
+                            <input type="range" name="" id="maxDP" min="0" max="16000" value="16000" step="1000">
                         </div>
                         <div>
                             <label for="">Coste de juego</label>
                             <div class="inputDetail"> 
-                                <input type="number" placeholder="Min" value="0">
-                                <input type="number" placeholder="Max" value="30">
+                                <input id="minCost" type="number" placeholder="Min" value="0">
+                                <input id="maxCost" type="number" placeholder="Max" value="30">
                             </div>
                         </div>
                     </details>

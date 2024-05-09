@@ -1,15 +1,32 @@
 import { methods as windowOnLoad } from "./sideBar.js";
 let elementoDrag;
+let listaFiltro = {
+    ListaEdiciones: [],
+    numCarta: "",
+    textoCarta: "",
+    rarezas: [],
+    tipoCarta:[],
+    level: [],
+    colores: [],
+    efectEvolve: [],
+    formaEvo: [],
+    atributo: [],
+    minDP: [],
+    maxDP: [],
+    minCost: [],
+    maxCost: [],
+}
 let mazo = {
     "eggDeck": [],
     "deck": []
 };
-window.onload = async() => {
+async function onLoad() {
     await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
     await document.getElementById('deckbuilder').classList.add('active')
     await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
     windowOnLoad.navBarRediretions()
     imgCartas()    
+    document.getElementById("search").addEventListener("click", filtroBusqueda)
 }
 
 function imgCartas(){
@@ -97,6 +114,54 @@ function limpiarMazo(){
             console.log(mazo)
         }
     }
+}
+
+function filtroBusqueda(event){
+    event.preventDefault()
+    document.querySelectorAll("#FiltroEdicion input").forEach(element => {
+        if(element.checked){
+            listaFiltro.ListaEdiciones.push(element.value);
+        }
+    });
+    listaFiltro.numCarta = numCarta.value
+    listaFiltro.textoCarta = textoCarta.value
+    document.querySelectorAll("#rarezas div input").forEach(element => {
+        if(element.checked){
+            listaFiltro.rarezas.push(element.value);
+        }
+    });
+    document.querySelectorAll("#tipoCarta div input").forEach(element => {
+        if(element.checked){
+            listaFiltro.tipoCarta.push(element.value);
+        }
+    });
+    document.querySelectorAll("#level div input").forEach(element => {
+        if(element.checked){
+            listaFiltro.level.push(element.value);
+        }
+    });
+    document.querySelectorAll("#colores div input").forEach(element => {
+        if(element.checked){
+            listaFiltro.colores.push(element.value);
+        }
+    });
+    listaFiltro.efectEvolve = efectEvolve.value
+    document.querySelectorAll("#formaEvo div input").forEach(element => {
+        if(element.checked){
+            listaFiltro.formaEvo.push(element.value);
+        }
+    });
+    document.querySelectorAll("#atributo div input").forEach(element => {
+        if(element.checked){
+            listaFiltro.atributo.push(element.value);
+        }
+    });
+    listaFiltro.minDP = minDP.value
+    listaFiltro.maxDP = maxDP.value
+    listaFiltro.minCost = minCost.value
+    listaFiltro.maxCost = maxCost.value
+
+    console.log(listaFiltro)
 }
 // REALIZAR EL DRAG AND DROP
 // function allowDrop(ev) {
