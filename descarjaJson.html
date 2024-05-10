@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Generar Sentencias SQL</title>
+</head>
+
+<body>
+
+    <!-- Elemento de entrada para permitir que el usuario seleccione un archivo JSON -->
+    <input type="file" id="jsonFileInput" accept="application/json">
+
+    <script>
+        // Función para generar sentencias SQL de inserción a partir de una lista de objetos JSON
+        function generateSQLStatements(jsonArray) {
+            // Define las columnas que quieres insertar en la tabla MySQL
+            const columns = [
+                'name', 'type', 'color', 'stage', 'digi_type', 'attribute', 'level', 'play_cost',
+                'evolution_cost', 'cardrarity', 'artist', 'dp', 'maineffect', 'soureeffect',
+                'set_name', 'image_url', 'id_coleccion', 'id_carta', 'id_juego'
+            ];
+
+            // Variable para almacenar todas las sentencias SQL
+            let sqlStatements = '';
+
+            // Recorre cada objeto JSON en la lista
+            jsonArray.forEach(jsonData => {
+                // Genera una sentencia SQL de inserción para cada objeto JSON
+                let sql = `INSERT INTO digimon_cards (${columns.join(', ')}) VALUES (`;
+
+                // Inicializa una lista para los valores
+                const values = columns.map(col => {
+                    // Manejo especial para 'id_juego', usa un valor constante 'DG'
+                    if (col === 'id_juego') {
+                        return `'DG'`;
+                    }
+                    // Manejo especial para 'id_coleccion' e 'id_carta'
+                    if (col === 'id_coleccion' || col === 'id_carta') {
+                        if (jsonData.cardnumber) {
+                            // Separa 'cardnumber' por '-' para obtener las partes de 'id_coleccion' e 'id_carta'
+                            const parts = jsonData.cardnumber.split('-');
+                            if (col === 'id_coleccion' && parts[0]) {
+                                return `'${parts[0]}'`;
+                            } else if (col === 'id_carta' && parts[1]) {
+                                return `'${parts[1]}'`;
+                            }
+                        }
+                        return 'NULL';
+                    }
+                    // Si el valor es null o undefined, usa 'NULL'
+                    if (jsonData[col] === null || jsonData[col] === undefined) {
+                        return 'NULL';
+                    }
+
+                    // Si el valor es un array (como 'card_sets'), ignorar el valor
+                    if (Array.isArray(jsonData[col])) {
+                        return 'NULL';
+                    }
+
+                    // Si el valor es una cadena, aplica la función replace para evitar inyección de SQL
+                    if (typeof jsonData[col] === 'string') {
+                        return `'${jsonData[col].replace(/'/g, "''")}'`;
+                    }
+
+                    // Si el valor es de cualquier otro tipo (número, booleano), conviértelo a una cadena
+                    return `${jsonData[col]}`;
+                });
+
+                // Completa la sentencia SQL
+                sql += values.join(', ') + ');';
+
+                // Agrega la sentencia SQL a la variable
+                sqlStatements += sql + '\n';
+            });
+
+            // Retorna todas las sentencias SQL generadas
+            return sqlStatements;
+        }
+
+        // Función para manejar el archivo JSON
+        function handleJSONFile(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            // Cuando el archivo se haya leído, procesa los datos
+            reader.onload = function(e) {
+                // Analizar el contenido del archivo JSON
+                const jsonData = JSON.parse(e.target.result);
+
+                // Generar sentencias SQL de inserción para la lista de objetos JSON
+                const sqlStatements = generateSQLStatements(jsonData);
+
+                // Crear un blob con el tipo MIME adecuado
+                const blob = new Blob([sqlStatements], { type: 'text/plain' });
+
+                // Crear una URL de objeto para el blob
+                const url = URL.createObjectURL(blob);
+
+                // Crear un elemento de anclaje para descargar el archivo de texto
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'sentencias.sql'; // Nombre del archivo a descargar
+
+                // Agregar el elemento al DOM, hacer clic en él para iniciar la descarga, y luego eliminarlo
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+
+                // Revocar la URL del objeto para liberar recursos
+                URL.revokeObjectURL(url);
+            };
+
+            // Leer el archivo como texto
+            reader.readAsText(file);
+        }
+
+        // Agregar un evento de cambio al elemento de entrada para manejar la selección del archivo JSON
+        document.querySelector('#jsonFileInput').addEventListener('change', handleJSONFile);
+    </script>
+
+</body>
+
+</html>
