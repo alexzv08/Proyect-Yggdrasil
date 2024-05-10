@@ -1,5 +1,5 @@
 import { methods as windowOnLoad } from "./sideBar.js";
-let elementoDrag;
+let elementoDrag,copia;
 let mazo = {
     "eggDeck": [],
     "deck": []
@@ -8,6 +8,9 @@ window.onload = async() => {
     await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
     await document.getElementById('deckbuilder').classList.add('active')
     await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
+    await document.getElementById("dropZone").addEventListener("drop", drop)
+    await document.getElementById("dropZone").addEventListener("dragover", allowDrop)
+
     windowOnLoad.navBarRediretions()
     imgCartas()    
 }
@@ -25,7 +28,7 @@ function imgCartas(){
 }
 function cargarImg(element){
     let div = document.createElement("div")
-    div.addEventListener("click", añadirCartaMazo)
+    div.addEventListener("click", eventoClick)
     div.addEventListener("dragstart", drag)
     div.draggable="true"
     div.dataset.nombre =  element.name 
@@ -37,37 +40,53 @@ function cargarImg(element){
     containerListaCartas.appendChild(div)
     div.appendChild(img)
 }
+function eventoClick(){
+    añadirCartaMazo(this)
+}
 let eggDeck = 0;
 let deck = 0;
-function añadirCartaMazo() {
-    if (this.dataset.type == "Digi-Egg" && eggDeck < 5) {
-        if (typeof mazo["eggDeck"][this.dataset.cardnumber] !== 'number') {
-            mazo["eggDeck"][this.dataset.cardnumber] = 0;
-            dropZone.appendChild(this.cloneNode(true));
+function añadirCartaMazo(element) {
+    console.log(eggDeck)
+    console.log(element)
+    if (element.dataset.type == "Digi-Egg" && eggDeck < 5) {
+        if (typeof mazo["eggDeck"][element.dataset.cardnumber] !== 'number') {
+            mazo["eggDeck"][element.dataset.cardnumber] = 1;
+            copia = element
+            copia.draggable = "false"
+            copia.removeEventListener("click",añadirCartaMazo)
+            copia.removeEventListener("dragstart", drag);
+            copia.removeEventListener("drop", drop);
+            copia.classList.add('no-drop');
+            copia.addEventListener("click", restarCartaMazo)
+            dropZone.appendChild(copia.cloneNode(true));
+            eggDeck++;
+        }else if (mazo["eggDeck"][element.dataset.cardnumber] < 4) {
+            mazo["eggDeck"][element.dataset.cardnumber] += 1;
             eggDeck++;
         }
-        if (mazo["eggDeck"][this.dataset.cardnumber] < 4) {
-            mazo["eggDeck"][this.dataset.cardnumber] += 1;
-            eggDeck++;
-        }
-    }else{
+    }else if(element.dataset.type != "Digi-Egg"){
         if(deck<50){
-            if (typeof mazo["deck"][this.dataset.cardnumber] !== 'number') {
-                mazo["deck"][this.dataset.cardnumber] = 0;
-                copia = this.cloneNode(true)
+            if (typeof mazo["deck"][element.dataset.cardnumber] !== 'number') {
+                mazo["deck"][element.dataset.cardnumber] = 1;
+                copia = element
+                copia.draggable = "false"
                 copia.removeEventListener("click",añadirCartaMazo)
-                copia.removeEventListener("dragstart", drag)
+                copia.removeEventListener("dragstart", drag);
+                copia.removeEventListener("drop", drop);
+                copia.classList.add('no-drop');
+                copia.removeEventListener("click",añadirCartaMazo)
+                copia.removeEventListener("dragstart", drop)
                 copia.addEventListener("click", restarCartaMazo)
-                dropZone.appendChild(this.cloneNode(true));
+                dropZone.appendChild(copia.cloneNode(true));
                 deck++;
-            }
-            if (mazo["deck"][this.dataset.cardnumber] < 4) {
-                mazo["deck"][this.dataset.cardnumber] += 1;
+            }else if (mazo["deck"][element.dataset.cardnumber] < 4) {
+                mazo["deck"][element.dataset.cardnumber] += 1;
                 deck++;
             }
         }
     }
     console.log(mazo)
+
 }
 function restarCartaMazo(){
     if (this.dataset.type == "Digi-Egg") {
@@ -99,22 +118,24 @@ function limpiarMazo(){
     }
 }
 // REALIZAR EL DRAG AND DROP
-// function allowDrop(ev) {
-//     ev.preventDefault();
-// }
+function allowDrop(ev) {
+    ev.preventDefault();
+}
 
-// function drag(ev) {
-//     ev.dataTransfer.setData("text", ev.target.id);
-// }
+function drag(ev) {
+    elementoDrag = this;
+}
 
-// function drop(ev) {
-//     ev.preventDefault();
-//     console.log("dropeado")
-//     var data = ev.dataTransfer.getData("text");
-//     ev.target.appendChild(document.getElementById(data));
-// }
+function drop(ev) {
+    ev.preventDefault();
+    console.log(elementoDrag)
+    if (!elementoDrag.classList.contains('no-drop')) {
+        añadirCartaMazo(elementoDrag)
+    }
+    // var copia = ev.dataTransfer.getData("text");
+    // dropZone.appendChild(copia.cloneNode(copia));
+}
 export const methods = {
     imgCartas: imgCartas,
     cargarImg: cargarImg,
-    onLoad: onLoad
 }

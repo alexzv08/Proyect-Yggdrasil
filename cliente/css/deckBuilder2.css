@@ -98,6 +98,8 @@
     }
 }
 #dropZone{
+    display: flex;
+    flex-wrap: wrap;
     & div {
         background-color: red;
         height: 160px;

@@ -24,14 +24,14 @@
         };
         let mostarEstadisticasToogle = true;
         let mostarEstadisticasToogleMovil = true;
-        window.onload = async() => {
-            // desplegaDetalle.addEventListener("click", ocultarEstadisticas)
-            // desplegaDetalleMovil.addEventListener("click", ocultarEstadisticasMovil)
-            // guardarMazoB.addEventListener("click" , guardarMazo)
-            // guardarMazoBM.addEventListener("click" , guardarMazo)
-            // limpiarMazoB.addEventListener("click" , limpiarMazo)
-            imgCartas()
-        }
+        // window.onload = async() => {
+        //     // desplegaDetalle.addEventListener("click", ocultarEstadisticas)
+        //     // desplegaDetalleMovil.addEventListener("click", ocultarEstadisticasMovil)
+        //     // guardarMazoB.addEventListener("click" , guardarMazo)
+        //     // guardarMazoBM.addEventListener("click" , guardarMazo)
+        //     // limpiarMazoB.addEventListener("click" , limpiarMazo)
+        //     imgCartas()
+        // }
 
         function ocultarEstadisticas(){
             if(mostarEstadisticasToogle){
@@ -153,16 +153,16 @@
         }
     
         // REALIZAR EL DRAG AND DROP
-        function allowDrop(ev) {
-            ev.preventDefault();
-        }
-        function drag(ev) {
-            elementoDrag = this;
-        }
-        function drop(ev) {
-            ev.preventDefault(); // Evitar el comportamiento predeterminado del evento drop
-            ev.target.appendChild(elementoDrag.cloneNode(true));
-        }
+        // function allowDrop(ev) {
+        //     ev.preventDefault();
+        // }
+        // function drag(ev) {
+        //     elementoDrag = this;
+        // }
+        // function drop(ev) {
+        //     ev.preventDefault(); // Evitar el comportamiento predeterminado del evento drop
+        //     ev.target.appendChild(elementoDrag.cloneNode(true));
+        // }
     </script>
 </head>
 <body>
@@ -445,7 +445,7 @@
                         <div>Egg Deck</div>
                     </div>
                     <div class="cont">
-                        <div id="dropZone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                        <div id="dropZone"></div>
                     </div>
                 </div>
             </div>
