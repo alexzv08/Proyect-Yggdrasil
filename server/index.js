@@ -19,6 +19,8 @@ import mysql from 'mysql2/promise';
 import 'dotenv/config';
 
 import { methods as autentificador } from "./controllers/autentificador.js";
+import { methods as apiDigimon } from "./controllers/apiDigimon.js";
+
 import { Console } from "console";
 
 let resultsDatabase;
@@ -170,6 +172,8 @@ app.post('/api/crearMazo', autentificador.crearMazo)
 app.post('/api/recuperarMazosUsuario', autentificador.recuperarMazosUsuario)
 app.post('/api/idSalaChat', autentificador.recuperarSala)
 app.post('/api/ultimoIdChat', autentificador.ultimoIdChat)
+app.post('/api/filtroCartas', apiDigimon.filtroCartas)
+
 
 server.listen(port, ()=>{
     console.log(`Server running on port ${port}`)

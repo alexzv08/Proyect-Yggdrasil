@@ -29,6 +29,5 @@ window.onload = ()  => {
     register.addEventListener("click" ,(e)=>{
         e.preventDefault();
         window.location.href = "/register";
-
     })
 }

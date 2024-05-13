@@ -87,9 +87,7 @@ function isValidEmail(email) {
 async function sacarUsuariosChat(req, res){
 
     let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
-            // 'SELECT * FROM ( SELECT DISTINCT id_usuarioRecibe AS usuario FROM mensajes WHERE id_usuarioEnvia = ? UNION SELECT DISTINCT id_usuarioEnvia AS usuario FROM mensajes WHERE id_usuarioRecibe = ? UNION SELECT DISTINCT Usuario_ID_2 AS usuario FROM Amistades WHERE Usuario_ID_1 = ? UNION SELECT DISTINCT Usuario_ID_1 AS usuario FROM Amistades WHERE Usuario_ID_2 = ?) as chat',[req.body.user, req.body.user,req.body.user,req.body.user]
             'SELECT id_sala,CASE WHEN id_usuario1 = ? THEN id_usuario2 ELSE id_usuario1 END AS usuario_contrario FROM salas_chat WHERE (id_usuario1 = ? OR id_usuario2 = ?);',[req.body.user,req.body.user,req.body.user]
-            // 'SELECT DISTINCT * FROM (SELECT id_usuario2 AS usuario FROM salas_chat WHERE id_usuario1 = ? UNION SELECT id_usuario1 AS usuario  FROM salas_chat  WHERE id_usuario2 = ?) AS chat',[req.body.user,req.body.user]
         );
     res.status(201).send({status: "OK", result: result})
     // 'SELECT * FROM chatRooms WHERE (id_usuario_1 like ? or id_usuario_2 like ?)',[req.body.user,req.body.user]

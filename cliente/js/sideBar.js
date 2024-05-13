@@ -9,14 +9,19 @@ window.onload = async()=>{
     await document.getElementById('home').classList.add('active')
     await document.getElementById("toogleMenu").addEventListener("click", toggleMenuChange)
     navBarRediretions()
-    funcionesCartas.onLoad()
+    // funcionesCartas.onLoad()
     // funcionesFiltro.onLoad()
     // hamnurgerMenu.addEventListener("click", toggleMenuChangeHamburger)
 
     // toogleChat.addEventListener("click", toggleChatChange)
     // deckbuilder.addEventListener("click", insertCartas)
 }
-
+async function onLoad(){
+    await addHtmlDocumentAtBeginning("./components/sideBar.html")
+    await document.getElementById('home').classList.add('active')
+    await document.getElementById("toogleMenu").addEventListener("click", toggleMenuChange)
+    navBarRediretions()
+}
 async function insertCartas(){
     contenidoWeb.innerHTML =""
     await fetch("seccionCartas.html")
@@ -133,5 +138,5 @@ async function addHtmlDocumentAtBeginning(url) {
 
 
 export const methods = {
-    toggleMenuChange,navBarRediretions,addHtmlDocumentAtBeginning
+    toggleMenuChange,navBarRediretions,addHtmlDocumentAtBeginning, onLoad
 }

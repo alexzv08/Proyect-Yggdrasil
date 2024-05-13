@@ -143,7 +143,7 @@ CREATE TABLE Amistades (
 );
 
 -- INSERTS
-select * from coleccion;
+insert into rol(n_rol,descripcion) values ("Admin","Admin");
 insert into juego(id_Juego,nombre) values ("DG","Digimon");
 insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT1","","DG");
 insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT2","","DG");
