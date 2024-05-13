@@ -15,33 +15,51 @@ create table usuarios(
   PRIMARY KEY (usuario),
   FOREIGN KEY (id_rol) REFERENCES rol(id_rol)
 );
-create table juego(
-id_Juego varchar(10) unique not null,
-  nombre varchar(150) unique not null,
-  PRIMARY KEY (id_Juego)
+CREATE TABLE juego (
+    id_Juego VARCHAR(10) NOT NULL,
+    nombre VARCHAR(150) NOT NULL,
+    PRIMARY KEY (id_Juego)
 );
-create table coleccion(
-id_coleccion varchar(10) unique not null,
-  nombre varchar(150) unique not null,
-  id_Juego varchar(10),
-  fecha_Salida date,
-  PRIMARY KEY (id_Juego),
-  FOREIGN KEY (id_Juego) REFERENCES juego(id_Juego)
+
+CREATE TABLE coleccion (
+    id_coleccion VARCHAR(10) NOT NULL,
+    nombre VARCHAR(150) NOT NULL,
+    id_Juego VARCHAR(10) NOT NULL,
+    fecha_Salida DATE,
+    PRIMARY KEY (id_coleccion),
+    FOREIGN KEY (id_Juego) REFERENCES juego(id_Juego)
 );
-create table cartas(
-  id_carta varchar(10) not null,
-  id_coleccion varchar(10),
-  id_Juego varchar(10),
-  nombre varchar(100),
-  nivel int,
-  dp int,
-  efecto varchar(1000),
-  tipo varchar(20),
-  img varchar(500),
-  PRIMARY KEY (id_carta),
-  FOREIGN KEY (id_coleccion) REFERENCES coleccion(id_coleccion),
-  FOREIGN KEY (id_Juego) REFERENCES coleccion(id_Juego)
+
+CREATE TABLE cartas (
+    id_carta VARCHAR(10),
+    id_coleccion VARCHAR(10),
+    id_juego VARCHAR(10),
+    level INT,
+    dp INT,
+    name VARCHAR(100),
+    type VARCHAR(20),
+    color VARCHAR(20),
+    stage VARCHAR(20),
+    digi_type VARCHAR(50),
+    attribute VARCHAR(20),
+    play_cost INT,
+    evolution_cost INT,
+    cardrarity VARCHAR(20),
+    artist VARCHAR(100),
+    maineffect VARCHAR(1000),
+    soureeffect VARCHAR(1000),
+    set_name VARCHAR(100),
+    image_url VARCHAR(500),
+    -- Clave primaria compuesta por id_juego, id_coleccion y id_carta
+    PRIMARY KEY (id_juego, id_coleccion, id_carta),
+    -- Claves foráneas
+    FOREIGN KEY (id_coleccion) REFERENCES coleccion(id_coleccion),
+    FOREIGN KEY (id_juego) REFERENCES coleccion(id_juego)
 );
+ALTER TABLE cartas
+ADD UNIQUE INDEX idx_cartas (id_carta, id_coleccion, id_Juego);
+
+
 CREATE TABLE salas_chat (
     id_sala INT AUTO_INCREMENT,
     id_usuario1 VARCHAR(50),
@@ -84,13 +102,13 @@ id_mensajeP int AUTO_INCREMENT,
   FOREIGN KEY (id_post) REFERENCES post(id_post)
 );
 
-create table usuarioColeccion(
-  id_Usuariocoleccion int AUTO_INCREMENT,
-  id_carta varchar(10) not null,
-  id_coleccion varchar(10),
-  id_Juego varchar(10),
-  cantidad int,
-  id_usuario varchar(50),
+CREATE TABLE usuarioColeccion (
+  id_Usuariocoleccion INT AUTO_INCREMENT,
+  id_carta VARCHAR(10) NOT NULL,
+  id_coleccion VARCHAR(10),
+  id_Juego VARCHAR(10),
+  cantidad INT,
+  id_usuario VARCHAR(50),
   PRIMARY KEY (id_Usuariocoleccion),
   FOREIGN KEY (id_usuario) REFERENCES usuarios(usuario),
   FOREIGN KEY (id_Juego) REFERENCES cartas(id_Juego),
@@ -123,3 +141,61 @@ CREATE TABLE Amistades (
     FOREIGN KEY (Usuario_ID_2) REFERENCES usuarios(usuario),
     PRIMARY KEY (Usuario_ID_1, Usuario_ID_2)
 );
+
+-- INSERTS
+select * from coleccion;
+insert into juego(id_Juego,nombre) values ("DG","Digimon");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT1","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT2","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT3","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT4","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT5","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT6","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT7","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT8","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT9","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT10","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT11","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT12","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT13","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT14","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT15","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT16","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT17","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT18","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("EX1","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("EX2","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("EX3","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("EX4","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("EX5","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("EX6","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("EX7","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("EX8","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("RB1","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("RB2","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("RB3","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("LM","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("P","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST1","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST2","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST3","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST4","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST5","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST6","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST7","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST8","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST9","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST10","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST11","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST12","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST13","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST14","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST15","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST16","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST17","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST18","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST19","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST20","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST21","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST22","","DG");
+insert into coleccion(id_coleccion,nombre,id_Juego) values ("ST23","","DG");
