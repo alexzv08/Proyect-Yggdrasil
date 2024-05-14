@@ -115,6 +115,16 @@ CREATE TABLE usuarioColeccion (
   FOREIGN KEY (id_coleccion) REFERENCES cartas(id_coleccion),
   FOREIGN KEY (id_carta) REFERENCES cartas(id_carta)
 );
+ALTER TABLE usuarioColeccion
+DROP FOREIGN KEY usuariocoleccion_ibfk_3; -- Elimina la restricción de clave foránea existente
+
+ALTER TABLE usuarioColeccion
+MODIFY COLUMN id_coleccion VARCHAR(10); -- Modifica el tipo de datos de la columna id_coleccion si es necesario
+
+ALTER TABLE usuarioColeccion
+ADD CONSTRAINT fk_id_coleccion
+FOREIGN KEY (id_coleccion) REFERENCES coleccion(id_coleccion); -- Agrega una nueva restricción de clave foránea
+
 CREATE TABLE mazos (
     id_mazo INT AUTO_INCREMENT,
     id_usuario VARCHAR(50),

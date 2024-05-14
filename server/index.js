@@ -162,6 +162,9 @@ app.get('/login', (req, res)=>{
 app.get('/register', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/register.html")
 })
+app.get('/collection', (req, res)=>{
+    res.sendFile(process.cwd()+"/cliente/collection.html")
+})
 
 // LLAMADAS API DE LA BASE DE DATOS
 app.post('/api/login', autentificador.login)
@@ -173,6 +176,12 @@ app.post('/api/recuperarMazosUsuario', autentificador.recuperarMazosUsuario)
 app.post('/api/idSalaChat', autentificador.recuperarSala)
 app.post('/api/ultimoIdChat', autentificador.ultimoIdChat)
 app.post('/api/filtroCartas', apiDigimon.filtroCartas)
+app.post('/api/listaColecciones', apiDigimon.listaColecciones)
+app.post('/api/anadirAColeccion', apiDigimon.añadirAColeccion)
+app.post('/api/updateCartaColeccion', apiDigimon.updateCartaColeccion)
+app.post('/api/eliminarCartaColeccion', apiDigimon.eliminarCartaColeccion)
+app.post('/api/cartasColeccionusuario', apiDigimon.cartasColeccionUsuario)
+
 
 
 server.listen(port, ()=>{
