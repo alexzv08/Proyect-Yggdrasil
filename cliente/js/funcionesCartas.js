@@ -1,4 +1,7 @@
 import { methods as windowOnLoad} from "./sideBar.js";
+// // @TODO
+// // OBLIGAR AL USUARIO A QUE GUARDE EL MAZO O QUE SE GUARDE AUTOMATICAMENTE, Y QUE AL SALIR DE ESA PESTAÑA INSERTAR EL MAZO O MODIFICARLO
+
 let elementoDrag, copia;
 let listaFiltro = {
     coleccion: Boolean,
