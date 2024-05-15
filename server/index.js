@@ -181,7 +181,10 @@ app.post('/api/anadirAColeccion', apiDigimon.añadirAColeccion)
 app.post('/api/updateCartaColeccion', apiDigimon.updateCartaColeccion)
 app.post('/api/eliminarCartaColeccion', apiDigimon.eliminarCartaColeccion)
 app.post('/api/cartasColeccionusuario', apiDigimon.cartasColeccionUsuario)
-
+app.post('/api/insertCartaMazo', apiDigimon.insertCartaMazo)
+app.post('/api/updateCartaMazo', apiDigimon.updateCartaMazo)
+app.post('/api/removeCartaMazo', apiDigimon.removeCartaMazo)
+app.post('/api/cartasMazo', apiDigimon.cartasMazo)
 
 
 server.listen(port, ()=>{

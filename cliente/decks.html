@@ -32,7 +32,9 @@
                     })
                 })
                 const resJson = await res.json()
+                console.log()
                 if(resJson.redirect){
+                    localStorage.setItem("id_mazo", resJson.result[0].insertId)
                     window.location.href = "/deckBuilder";
                 }
             }else{

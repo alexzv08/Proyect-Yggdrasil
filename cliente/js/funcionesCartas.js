@@ -37,6 +37,7 @@ window.onload = async() => {
     windowOnLoad.navBarRediretions()
     imgCartas()    
     document.querySelector("#search").addEventListener("click", filtroBusqueda)
+    await cargarMazo()
 }
 
 function imgCartas(){
@@ -73,19 +74,22 @@ function añadirCartaMazo(element) {
     if (element.dataset.type == "Digi-Egg" && eggDeck < 5) {
         if (typeof mazo["eggDeck"][element.dataset.cardnumber] !== 'number') {
             mazo["eggDeck"][element.dataset.cardnumber] = 1;
-            copia = element
+            copia = element.cloneNode(true)
             copia.draggable = "false"
             copia.removeEventListener("click",añadirCartaMazo)
             copia.removeEventListener("dragstart", drag);
             copia.removeEventListener("drop", drop);
             copia.classList.add('no-drop');
-            copia.addEventListener("click", restarCartaMazo)
-            dropZone.appendChild(copia.cloneNode(true));
+            // copia.addEventListener("click", restarCartaMazo)
+            añadirButtons(copia)
+            dropZone.appendChild(copia);
             eggDeck++;
+            insertCartaMazo(element.dataset.cardnumber.split("-")[1],element.dataset.cardnumber.split("-")[0])
         }else if (mazo["eggDeck"][element.dataset.cardnumber] < 4) {
             mazo["eggDeck"][element.dataset.cardnumber] += 1;
-            this.querySelector(".cantidad").innerText +=1
+            element.querySelector(".cantidad").innerText +=1
             eggDeck++;
+            updateCartaMazo(element.dataset.cardnumber.split("-")[1],element.dataset.cardnumber.split("-")[0],parseInt(mazo["eggDeck"][element.dataset.cardnumber]))
         }
     }else if(element.dataset.type != "Digi-Egg"){
         if(deck<50){
@@ -97,32 +101,199 @@ function añadirCartaMazo(element) {
                 copia.removeEventListener("dragstart", drag);
                 copia.removeEventListener("drop", drop);
                 copia.classList.add('no-drop');
+                // copia.addEventListener("click", restarCartaMazo)
                 añadirButtons(copia)
                 dropZone.appendChild(copia);
                 deck++;
+                insertCartaMazo(element.dataset.cardnumber.split("-")[1],element.dataset.cardnumber.split("-")[0])
             }else if (mazo["deck"][element.dataset.cardnumber] < 4) {
                 mazo["deck"][element.dataset.cardnumber] += 1;
-                
                 deck++;
+                updateCartaMazo(element.dataset.cardnumber.split("-")[1],element.dataset.cardnumber.split("-")[0],parseInt(mazo["deck"][element.dataset.cardnumber]))
             }
         }
     }
+    console.log(mazo)
 }
 function sumarCantidad(event){
     let element = event.target.parentNode;
-    if (mazo["deck"][element.dataset.cardnumber] < 4) {
-        element.querySelector(".cantidad").innerText =parseInt(element.querySelector(".cantidad").innerText) + 1
-        mazo["deck"][element.dataset.cardnumber] = parseInt(element.querySelector(".cantidad").innerText);
-        deck++;
+    if(element.dataset.type == "Digi-Egg"){
+        if (mazo["eggDeck"][element.dataset.cardnumber] < 4) {
+            element.querySelector(".cantidad").innerText =parseInt(element.querySelector(".cantidad").innerText) + 1
+            mazo["eggDeck"][element.dataset.cardnumber] = parseInt(element.querySelector(".cantidad").innerText);
+            deck++;
+            updateCartaMazo(element.dataset.cardnumber.split("-")[1],element.dataset.cardnumber.split("-")[0],parseInt(mazo["eggDeck"][element.dataset.cardnumber]))
+        }
+    }else{
+        if (mazo["deck"][element.dataset.cardnumber] < 4) {
+            element.querySelector(".cantidad").innerText =parseInt(element.querySelector(".cantidad").innerText) + 1
+            mazo["deck"][element.dataset.cardnumber] = parseInt(element.querySelector(".cantidad").innerText);
+            deck++;
+            updateCartaMazo(element.dataset.cardnumber.split("-")[1],element.dataset.cardnumber.split("-")[0],parseInt(mazo["deck"][element.dataset.cardnumber]))
+        }
     }
 }
 function restarCantidad(event){
     let element = event.target.parentNode;
-    if (mazo["deck"][element.dataset.cardnumber] > 1) {
-        element.querySelector(".cantidad").innerText =parseInt(element.querySelector(".cantidad").innerText) - 1
-        mazo["deck"][element.dataset.cardnumber] = parseInt(element.querySelector(".cantidad").innerText);
-        deck--;
+    // if (mazo["deck"][element.dataset.cardnumber] > 1) {}
+
+    if(element.dataset.type == "Digi-Egg"){
+        if (mazo["eggDeck"][element.dataset.cardnumber] < 4) {
+            element.querySelector(".cantidad").innerText =parseInt(element.querySelector(".cantidad").innerText) - 1
+            mazo["eggDeck"][element.dataset.cardnumber] = parseInt(element.querySelector(".cantidad").innerText);
+            deck--;
+            if(parseInt(element.querySelector(".cantidad").innerText) == 0){
+                removeCartaMazo(element.dataset.cardnumber.split("-")[1],element.dataset.cardnumber.split("-")[0])
+                element.remove()
+                delete mazo["eggDeck"][element.dataset.cardnumber];
+            }else{
+                updateCartaMazo(element.dataset.cardnumber.split("-")[1],element.dataset.cardnumber.split("-")[0],parseInt(mazo["eggDeck"][element.dataset.cardnumber]))
+            }
+        }
+    }else{
+        if (mazo["deck"][element.dataset.cardnumber] < 4) {
+            element.querySelector(".cantidad").innerText =parseInt(element.querySelector(".cantidad").innerText) - 1
+            mazo["deck"][element.dataset.cardnumber] = parseInt(element.querySelector(".cantidad").innerText);
+            deck--;
+            if(parseInt(element.querySelector(".cantidad").innerText) == 0){
+                removeCartaMazo(element.dataset.cardnumber.split("-")[1],element.dataset.cardnumber.split("-")[0])
+                element.remove()
+                delete mazo["deck"][element.dataset.cardnumber];
+            }else{
+                updateCartaMazo(element.dataset.cardnumber.split("-")[1],element.dataset.cardnumber.split("-")[0],parseInt(mazo["deck"][element.dataset.cardnumber]))
+            }
+        }
     }
+    console.log(mazo)
+}
+
+
+function restarCartaMazo(){
+    // if (this.dataset.type == "Digi-Egg") {
+    //     mazo["eggDeck"][this.dataset.cardnumber] -= 1;
+    // }else{
+    //     mazo["deck"][this.dataset.cardnumber] -= 1;
+    // }
+}
+
+// FUNCIONES RELACIONADAS AL MAZO
+async function insertCartaMazo(idCarta, idColeccion){
+    // DATOS NECESARIOS ID_MAZO, IDCARTA, IDCOLECCION, IDJUEGO, CANTIDAD = 1
+    const res = await fetch("http://localhost:3000/api/insertCartaMazo",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+            idMazo: localStorage.getItem("id_mazo"),
+            idJuego: "DG",
+            idColeccion:idColeccion,
+            idCarta:idCarta,
+            cantidad:"1"
+        })
+    })
+    if(!res.ok){
+        // TODO -> CONTROLAR EL ERROR SI LA CARTA NO SE A AÑADIDO A LA BASE DE DATOS NO AÑADIRLA AL CAMPO DEL MAZO 
+        alert("Error al añadir la carta")
+        return
+    }
+}
+async function updateCartaMazo(idCarta, idColeccion, cantidad){
+    // DATOS NECESARIOS ID_MAZO, IDCARTA, IDCOLECCION, IDJUEGO, CANTIDAD = 1
+    const res = await fetch("http://localhost:3000/api/updateCartaMazo",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+            idMazo: localStorage.getItem("id_mazo"),
+            idColeccion:idColeccion,
+            idCarta:idCarta,
+            cantidad:cantidad
+        })
+    })
+    if(!res.ok){
+        // TODO -> CONTROLAR EL ERROR SI LA CARTA NO SE A AÑADIDO A LA BASE DE DATOS NO AÑADIRLA AL CAMPO DEL MAZO 
+        alert("Error al añadir la carta")
+        return
+    }
+}
+async function removeCartaMazo(idCarta, idColeccion, cantidad){
+    // DATOS NECESARIOS ID_MAZO, IDCARTA, IDCOLECCION, IDJUEGO, CANTIDAD = 1
+    const res = await fetch("http://localhost:3000/api/removeCartaMazo",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+            idMazo: localStorage.getItem("id_mazo"),
+            idColeccion:idColeccion,
+            idCarta:idCarta,
+        })
+    })
+    if(!res.ok){
+        // TODO -> CONTROLAR EL ERROR SI LA CARTA NO SE A AÑADIDO A LA BASE DE DATOS NO AÑADIRLA AL CAMPO DEL MAZO 
+        alert("Error al añadir la carta")
+        return
+    }
+}
+function limpiarMazo(){
+    if(deck>0 || eggDeck>0){
+        if(window.confirm("Se va a limpiar el mazo. ¿Estas seguro?")){
+            dropZone.innerText = ''
+            deck=0
+            eggDeck=0
+            mazo["eggDeck"]=[]
+            mazo["deck"]=[]
+        }
+    }
+}
+
+async function cargarMazo(){
+    // COMPROBAR QUE EL MAZO CONTIENE CARTAS
+    //     -SI NO CONTIENE NADA
+    //     -SI CONTIENE    
+    //         -MOSTRAR LAS CARTAS EN LA ZONA CON SU CANTIDAD Y LOS BOTONES
+                    // -RECOGER LA URL DE LA CARTA PARA PODER AÑADIRLA
+    //         -AÑADIR LAS CARTAS A LA ARRAY QUE CONTIENE LA LISTA DEL MAZO
+    //         -AÑADIR LOS VALORES CORRECTO A LOS CONTADORES DE DECK Y EGGDECK
+
+    const res = await fetch("http://localhost:3000/api/cartasMazo",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+            idMazo: localStorage.getItem("id_mazo"),
+        })
+    })
+    if(!res.ok){
+        alert("Usuario o contraseña incorrecta")
+        return
+    }
+    const resJson = await res.json()
+    resJson.result.forEach(element => {
+        console.log(element)
+        if(element.type=="Digi-Egg"){
+            mazo["eggDeck"][element.id_coleccion+"-"+element.id_carta] =parseInt(element.cantidad)
+            eggDeck += parseInt(element.cantidad)
+        }else{
+            mazo["deck"][element.id_coleccion+"-"+element.id_carta] = element.cantidad
+            deck += parseInt(element.cantidad)
+        }
+        cargarCartas(element)
+    });
+}
+function cargarCartas(element){
+    let div = document.createElement("div")
+    div.dataset.nombre =  element.name 
+    div.dataset.cardnumber =  element.cardnumber 
+    div.dataset.color =  element.color
+    div.dataset.type =  element.type
+    let img = document.createElement("img")
+    img.src = element.image_url
+    dropZone.appendChild(div)
+    div.appendChild(img)
 }
 function añadirButtons(element){
     let divMas = document.createElement("img")
@@ -148,26 +319,6 @@ function añadirButtons(element){
     element.appendChild(divCantidad)
     element.appendChild(divMenos)
 }
-function restarCartaMazo(){
-    if (this.dataset.type == "Digi-Egg") {
-        mazo["eggDeck"][this.dataset.cardnumber] -= 1;
-    }else{
-        mazo["deck"][this.dataset.cardnumber] -= 1;
-    }
-}
-
-function limpiarMazo(){
-    if(deck>0 || eggDeck>0){
-        if(window.confirm("Se va a limpiar el mazo. ¿Estas seguro?")){
-            dropZone.innerText = ''
-            deck=0
-            eggDeck=0
-            mazo["eggDeck"]=[]
-            mazo["deck"]=[]
-        }
-    }
-}
-
 function filtroBusqueda(event){
     event.preventDefault()
 
@@ -217,7 +368,6 @@ function filtroBusqueda(event){
 
     creacionSentenciaSQL(listaFiltro)
 }
-
 async function creacionSentenciaSQL(listaFiltro){
         // Inicializar la parte de la sentencia SQL que siempre estará presente
         var sql = "SELECT c.* FROM cartas c WHERE 1 = 1";
@@ -316,11 +466,9 @@ async function listaColecciones(){
 function allowDrop(ev) {
     ev.preventDefault();
 }
-
 function drag(ev) {
     elementoDrag = this;
 }
-
 function drop(ev) {
     ev.preventDefault();
     if (!elementoDrag.classList.contains('no-drop')) {
@@ -333,4 +481,3 @@ export const methods = {
     imgCartas: imgCartas,
     cargarImg: cargarImg,
 }
-//}

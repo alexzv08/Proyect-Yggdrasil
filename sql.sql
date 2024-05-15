@@ -144,6 +144,8 @@ CREATE TABLE mazo_cartas (
     FOREIGN KEY (id_coleccion) REFERENCES cartas(id_coleccion),
     FOREIGN KEY (id_juego) REFERENCES cartas(id_juego)
 );
+ALTER TABLE mazo_cartas
+ADD CONSTRAINT unique_mazo_carta UNIQUE (id_mazo, id_carta);
 CREATE TABLE Amistades (
     Usuario_ID_1 varchar(50),
     Usuario_ID_2 varchar(50),

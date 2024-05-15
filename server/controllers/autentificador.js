@@ -125,13 +125,12 @@ async function recuperarSala(req, res){
     res.status(200).send({status: "OK", result: result})
 }
 async function crearMazo(req, res){
-    // HAY QUE AÑADIR UN CAMPO A LA TABLA PARA PONER EL NOMBRE DEL MAZO
     // AÑADIR EL MAZO
     // Y RECOGER LA ID DE ESE MAZO AL INSERTAR PARA CUANDO SE REDIRECCIONA TENERLO GUARDADO
     let result = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
     'insert into mazos (id_usuario,nombre_mazo) values (?,?);',[req.body.user, req.body.nombre]
     );
-    return res.status(201).send({status: "OK", message: "Mazo registrado correctamente", redirect:"/deckBuilder"})
+    return res.status(201).send({status: "OK", result: result, message: "Mazo registrado correctamente", redirect:"/deckBuilder"})
 } 
 async function recuperarMazosUsuario(req, res){
     // HAY QUE AÑADIR UN CAMPO A LA TABLA PARA PONER EL NOMBRE DEL MAZO
