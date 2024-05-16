@@ -1,6 +1,4 @@
 import { methods as windowOnLoad} from "./sideBar.js";
-// // @TODO
-// // OBLIGAR AL USUARIO A QUE GUARDE EL MAZO O QUE SE GUARDE AUTOMATICAMENTE, Y QUE AL SALIR DE ESA PESTAÑA INSERTAR EL MAZO O MODIFICARLO
 
 let elementoDrag, copia;
 let listaFiltro = {
@@ -41,23 +39,17 @@ window.onload = async() => {
 }
 
 function imgCartas(){
-    // fetch("https://digimoncard.io/api-public/search.php?sort=code&series=Digimon Card Game")
-    fetch("https://digimoncard.io/api-public/search.php?n=Agumon&sort=power&series=Digimon Card Game")
-    .then(data => data.json())
-    .then(data =>{
-        console.log(data)
-        data.forEach(element => {
-            cargarImg(element)
-        });
-    })  
+    var sql = "SELECT c.* FROM cartas c WHERE 1 = 1";
+    peticionAPIFiltro(sql)
 }
 function cargarImg(element){
+    // console.log(element)
     let div = document.createElement("div")
     div.addEventListener("click", eventoClick)
     div.addEventListener("dragstart", drag)
     div.draggable="true"
     div.dataset.nombre =  element.name 
-    div.dataset.cardnumber =  element.cardnumber 
+    div.dataset.cardnumber =  element.id_coleccion+"-"+element.id_carta.padStart(3, "0")
     div.dataset.color =  element.color
     div.dataset.type =  element.type
     let img = document.createElement("img")
@@ -81,7 +73,7 @@ function añadirCartaMazo(element) {
             copia.removeEventListener("drop", drop);
             copia.classList.add('no-drop');
             // copia.addEventListener("click", restarCartaMazo)
-            añadirButtons(copia)
+            añadirButtons(copia,"1")
             dropZone.appendChild(copia);
             eggDeck++;
             insertCartaMazo(element.dataset.cardnumber.split("-")[1],element.dataset.cardnumber.split("-")[0])
@@ -102,7 +94,7 @@ function añadirCartaMazo(element) {
                 copia.removeEventListener("drop", drop);
                 copia.classList.add('no-drop');
                 // copia.addEventListener("click", restarCartaMazo)
-                añadirButtons(copia)
+                añadirButtons(copia,"1")
                 dropZone.appendChild(copia);
                 deck++;
                 insertCartaMazo(element.dataset.cardnumber.split("-")[1],element.dataset.cardnumber.split("-")[0])
@@ -113,7 +105,6 @@ function añadirCartaMazo(element) {
             }
         }
     }
-    console.log(mazo)
 }
 function sumarCantidad(event){
     let element = event.target.parentNode;
@@ -135,10 +126,9 @@ function sumarCantidad(event){
 }
 function restarCantidad(event){
     let element = event.target.parentNode;
-    // if (mazo["deck"][element.dataset.cardnumber] > 1) {}
 
     if(element.dataset.type == "Digi-Egg"){
-        if (mazo["eggDeck"][element.dataset.cardnumber] < 4) {
+        if (mazo["eggDeck"][element.dataset.cardnumber] <= 4) {
             element.querySelector(".cantidad").innerText =parseInt(element.querySelector(".cantidad").innerText) - 1
             mazo["eggDeck"][element.dataset.cardnumber] = parseInt(element.querySelector(".cantidad").innerText);
             deck--;
@@ -151,7 +141,8 @@ function restarCantidad(event){
             }
         }
     }else{
-        if (mazo["deck"][element.dataset.cardnumber] < 4) {
+        if (mazo["deck"][element.dataset.cardnumber] <= 4) {
+
             element.querySelector(".cantidad").innerText =parseInt(element.querySelector(".cantidad").innerText) - 1
             mazo["deck"][element.dataset.cardnumber] = parseInt(element.querySelector(".cantidad").innerText);
             deck--;
@@ -164,7 +155,6 @@ function restarCantidad(event){
             }
         }
     }
-    console.log(mazo)
 }
 
 
@@ -273,7 +263,6 @@ async function cargarMazo(){
     }
     const resJson = await res.json()
     resJson.result.forEach(element => {
-        console.log(element)
         if(element.type=="Digi-Egg"){
             mazo["eggDeck"][element.id_coleccion+"-"+element.id_carta] =parseInt(element.cantidad)
             eggDeck += parseInt(element.cantidad)
@@ -287,15 +276,16 @@ async function cargarMazo(){
 function cargarCartas(element){
     let div = document.createElement("div")
     div.dataset.nombre =  element.name 
-    div.dataset.cardnumber =  element.cardnumber 
+    div.dataset.cardnumber =  element.id_coleccion+"-"+element.id_carta.padStart(3, "0")
     div.dataset.color =  element.color
     div.dataset.type =  element.type
     let img = document.createElement("img")
     img.src = element.image_url
     dropZone.appendChild(div)
     div.appendChild(img)
+    añadirButtons(div,element.cantidad)
 }
-function añadirButtons(element){
+function añadirButtons(element, cantidad){
     let divMas = document.createElement("img")
     divMas.src = "src/icons/plus-svgrepo-com.svg"
     divMas.classList.add("button")
@@ -303,7 +293,7 @@ function añadirButtons(element){
     divMas.addEventListener("click", sumarCantidad)
     
     let divCantidad = document.createElement("div")
-    divCantidad.innerText = "1"
+    divCantidad.innerText = cantidad
     divCantidad.classList.add("button")
     divCantidad.classList.add("cantidad")
     divCantidad.addEventListener("click", sumarCantidad)
@@ -412,10 +402,10 @@ async function creacionSentenciaSQL(listaFiltro){
         if (listaFiltro.coleccion) {
             sql += " AND (c.id_carta, c.id_coleccion, c.id_juego) IN ( SELECT id_carta, id_coleccion, id_juego FROM usuarioColeccion WHERE id_usuario = '" + sessionStorage.getItem('user') + "')";
         }
-        console.log(sql);
+        // console.log(sql);
         peticionAPIFiltro(sql)
-        // HACER CONSULTA A LA API
 }
+// HACER CONSULTA A LA API
 async function peticionAPIFiltro(sql){
     const res = await fetch("http://localhost:3000/api/filtroCartas",{
         method:"POST",

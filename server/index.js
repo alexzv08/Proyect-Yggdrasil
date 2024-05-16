@@ -186,7 +186,6 @@ app.post('/api/updateCartaMazo', apiDigimon.updateCartaMazo)
 app.post('/api/removeCartaMazo', apiDigimon.removeCartaMazo)
 app.post('/api/cartasMazo', apiDigimon.cartasMazo)
 
-
 server.listen(port, ()=>{
     console.log(`Server running on port ${port}`)
 })
