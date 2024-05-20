@@ -166,6 +166,19 @@ body{
         top: -10px;
         left: 45%;
     }
+    #containerSidebarMovil{
+        /* display: none; */
+    }
+}
+
+@media (width <= 480px) {
+    
+    #containerSidebarMovil{
+        border: 1px solid red;
+        position: absolute;
+        width: 100vw;
+        height: 100px;
+    }
 }
 /* 
 #chat{
