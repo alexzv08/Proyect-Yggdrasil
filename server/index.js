@@ -21,26 +21,11 @@ import 'dotenv/config';
 import { methods as autentificador } from "./controllers/autentificador.js";
 import { methods as apiDigimon } from "./controllers/apiDigimon.js";
 
-import { Console } from "console";
-
 let resultsDatabase;
 
 /**
- * @tutorial 
- * CONEXION A LA BASE DE DATOS LOCAL
- */
-// const connection = await mysql.createConnection({
-//     host: '127.0.0.1',
-//     port: 3306,
-//     user: 'root',
-//     password: '',
-//     database: 'prueba',
-//     authPlugins: ['mysql_native_password'] // Add this line
-// });
-
-/**
- * @tutorial 
- * CONEXION A LA BASE DE DATOS EN LA NUVE **RAILWAY**
+ * Represents a connection to the MySQL database.
+ * @type {import('mysql').Connection}
  */
 const connection = await mysql.createConnection({
 
@@ -110,26 +95,14 @@ io.on("connection", async (socket) =>{
         }
     })
 
-    // if(!socket.recovered){
-    //     console.log(socket.handshake.auth)
-    //     const prueba = await query(socket.handshake.auth.username,socket.handshake.auth.username2,socket.handshake.auth.serverOffset)
-    //     try {
-    //         prueba[0].forEach(row => {
-    //             socket.emit( "chat message" , row.contenid, row.id_mensaje, row.id_usuarioEnvia)
-    //         });
-    //     } catch (error) {
-    //         console.error(error)
-    //     }
-    // }
-
-    // CONEXION A LA SALAS SOCKET.IO
+    // CONNECTION TO THE SOCKET.IO ROOMS
     socket.on('solicitarSala', (idSala) => {
-        // Unir al cliente a la sala especificada
+        // Join the client to the specified room
         socket.join(idSala);
 
         console.log(`Cliente ${socket.id} se unió a la sala ${idSala}`);
 
-        // Opcional: Enviar una respuesta al cliente confirmando la unión a la sala
+        // Optional: Send a response to the client confirming the room join
         socket.emit('salaUnida', idSala);
     });
 })
@@ -140,7 +113,7 @@ app.use(express.static(process.cwd()+"/cliente"))
 app.use(express.json())
 app.use(logger('dev'))
 
-// ESTO PARA QUE SE VEA EL CHAT SOLO
+//Redirection to the different pages of the application
 app.get('/', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/login.html")
 })
@@ -166,7 +139,7 @@ app.get('/collection', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/collection.html")
 })
 
-// LLAMADAS API DE LA BASE DE DATOS
+//API calls to the database
 app.post('/api/login', autentificador.login)
 app.post('/api/register', autentificador.register)
 app.post('/api/usuarios', autentificador.sacarUsuariosChat)
@@ -186,16 +159,20 @@ app.post('/api/updateCartaMazo', apiDigimon.updateCartaMazo)
 app.post('/api/removeCartaMazo', apiDigimon.removeCartaMazo)
 app.post('/api/cartasMazo', apiDigimon.cartasMazo)
 
+//Know which port is listening
 server.listen(port, ()=>{
     console.log(`Server running on port ${port}`)
 })
 
-// Para mostrar los chats
+// Function to handle user messages
+// This JavaScript function query fetches chat messages between two users. 
+// It first checks if a chat room exists between the users, if not, it creates one. 
+// Then, it retrieves all messages from that room, ordered by the message send date. 
+// Any errors during this process are caught and logged.
 async function query(idUser1,idUser2,variable){
     try {
         // CHECK A ROOM EXIST WHIT THE USERS
-        resultsDatabase = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
-            // "SELECT * FROM mensajes WHERE (id_usuarioEnvia = ? AND id_usuarioRecibe = ?) OR (id_usuarioEnvia = ? AND id_usuarioRecibe = ?) AND id_mensaje > ? ORDER BY fecha_envio",[idUser1,idUser2,idUser2,idUser1,variable ?? 0]
+        resultsDatabase = await connection.query(
             "SELECT id_sala FROM salas_chat WHERE (id_usuario1 = ? AND id_usuario2 = ?) OR (id_usuario1 = ? AND id_usuario2 = ?)",[idUser1,idUser2,idUser2,idUser1]
         );
         // IF THERE IS NO ROOM WITH INTERACTING USERS, A NEW ROOM WILL BE CREATED
@@ -208,7 +185,7 @@ async function query(idUser1,idUser2,variable){
             id_sala = resultsDatabase[0].insertId
         }
         // GET THE MESSAGES OF THAT ROOM
-        resultsDatabase = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+        resultsDatabase = await connection.query(
             "SELECT * FROM mensajes WHERE id_sala = ? ORDER BY fecha_envio",[id_sala]
         );
         return resultsDatabase

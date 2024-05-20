@@ -1,14 +1,6 @@
 import mysql from 'mysql2/promise';
 import bcryptjs from 'bcryptjs';
 
-// const connection = await mysql.createConnection({
-//     host: '127.0.0.1',
-//     port: 3306,
-//     user: 'root',
-//     password: '',
-//     database: 'prueba',
-//     authPlugins: ['mysql_native_password'] // Add this line
-// });
 const connection = await mysql.createConnection({
 
     host: process.env.DB_HOST,
@@ -22,10 +14,8 @@ const connection = await mysql.createConnection({
 connection.connect((error) => {
     if (error) {
       console.error('Connection error:', error);
-      // Implement appropriate error handling, e.g., retry, abort, etc.
     } else {
       console.log('Connected to database successfully!');
-      // Perform database operations here using connection.query(...)
     }
 });
 
@@ -34,7 +24,7 @@ async function login(req, res){
         return res.status(400).send({status: "Error", message: "Campos vacios"})
     }
     try {
-        let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+        let [result, data] = await connection.query(
             'SELECT * FROM usuarios WHERE (usuario LIKE ? OR email LIKE ?) AND password LIKE ?;',[req.body.user,req.body.user, await saltPassword(req.body.pass)]
             );
         return result.length === 0 ?  res.status(400).send({status: "Error", message: "Datos incorrectos"}) : res.status(200).send({status: "OK", message: "Datos correctos", redirect:"/"});
@@ -50,14 +40,14 @@ async function register(req, res){
     try {
         if(isValidEmail(req.body.email)){
 
-            let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+            let [result, data] = await connection.query(
             'SELECT * FROM usuarios WHERE (usuario LIKE ? OR email LIKE ?);',[req.body.user, req.body.email]
             );
             if(result.length > 0){
                 return res.status(400).send({status: "Error", message: "Usuario ya existe"});
             }else{
                 
-                let result = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+                let result = await connection.query(
                 'insert into usuarios (usuario,password,email) values (?,?,?);',[req.body.user, await saltPassword(req.body.pass),req.body.email]
                 );
                 return res.status(201).send({status: "OK", message: "Usuario registrado", redirect:"/"})
@@ -86,7 +76,7 @@ function isValidEmail(email) {
 
 async function sacarUsuariosChat(req, res){
 
-    let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+    let [result, data] = await connection.query(
             'SELECT id_sala,CASE WHEN id_usuario1 = ? THEN id_usuario2 ELSE id_usuario1 END AS usuario_contrario FROM salas_chat WHERE (id_usuario1 = ? OR id_usuario2 = ?);',[req.body.user,req.body.user,req.body.user]
         );
     res.status(201).send({status: "OK", result: result})
@@ -95,7 +85,7 @@ async function sacarUsuariosChat(req, res){
 
 async function ultimoIdChat(req, res){
 
-    let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+    let [result, data] = await connection.query(
             'SELECT MAX(id_sala) AS ultimo_id_sala FROM salas_chat;'
         );
     res.status(201).send({status: "OK", result: result})
@@ -104,13 +94,13 @@ async function ultimoIdChat(req, res){
 
 async function sacarUsuarios(req, res){
 
-    let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+    let [result, data] = await connection.query(
             'SELECT usuario FROM usuarios WHERE usuario=?',[req.body.user]
             );
     if(result.length <= 0){
         res.status(204).send({status: "Error", result: result})
     }else{
-        let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+        let [result, data] = await connection.query(
             'SELECT usuario FROM usuarios WHERE usuario=?',[req.body.user]
             );
         res.status(200).send({status: "OK", result: result})
@@ -118,7 +108,7 @@ async function sacarUsuarios(req, res){
 } 
 
 async function recuperarSala(req, res){
-    let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+    let [result, data] = await connection.query(
         // "SELECT * FROM mensajes WHERE (id_usuarioEnvia = ? AND id_usuarioRecibe = ?) OR (id_usuarioEnvia = ? AND id_usuarioRecibe = ?) AND id_mensaje > ? ORDER BY fecha_envio",[idUser1,idUser2,idUser2,idUser1,variable ?? 0]
         "SELECT id_sala FROM salas_chat WHERE (id_usuario1 = ? AND id_usuario2 = ?) OR (id_usuario1 = ? AND id_usuario2 = ?)",[req.body.user1,req.body.user2,req.body.user2,req.body.user1]
     );
@@ -127,7 +117,7 @@ async function recuperarSala(req, res){
 async function crearMazo(req, res){
     // AÑADIR EL MAZO
     // Y RECOGER LA ID DE ESE MAZO AL INSERTAR PARA CUANDO SE REDIRECCIONA TENERLO GUARDADO
-    let result = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+    let result = await connection.query(
     'insert into mazos (id_usuario,nombre_mazo) values (?,?);',[req.body.user, req.body.nombre]
     );
     return res.status(201).send({status: "OK", result: result, message: "Mazo registrado correctamente", redirect:"/deckBuilder"})
@@ -136,7 +126,7 @@ async function recuperarMazosUsuario(req, res){
     // HAY QUE AÑADIR UN CAMPO A LA TABLA PARA PONER EL NOMBRE DEL MAZO
     // AÑADIR EL MAZO
     // Y RECOGER LA ID DE ESE MAZO AL INSERTAR PARA CUANDO SE REDIRECCIONA TENERLO GUARDADO
-    let result = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
+    let result = await connection.query(
         "SELECT * FROM mazos WHERE id_usuario = ?",[req.body.user]
     );
     return res.status(200).send({status: "OK", result: result})

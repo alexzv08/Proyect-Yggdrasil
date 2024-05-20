@@ -1,0 +1,95 @@
+1->Plan de empresa
+
+2->Documentacion del proyecto
+
+3->Preparacion presentacion
+    ->20 minutos para la exposicion
+
+4->Proyecto
+    ->Cambiar los colores de la web tirar a blanco negro + color complementario (Azul Rojo)
+    ->Refactorizar la parte del diseño para el cambio de colores
+    ->Busqueda de mejores iconos
+    ->Busqueda de una tipografia 
+    ->Administrar las cookies para la sesion
+    ->Que se compruebe que hay una cuenta iniciada, si no se renvia al login
+
+    ->Despliege en AWS
+    ->Mostrar url y no IP
+
+    ->Distintas paginas del proyecto
+
+        ->Home
+            ->Terminar diseño de la pagina
+            ->Hacer diseño movil
+            ->Hacer la logica para las reirecciones
+            ->Hacer la logica para complimentar la pagina
+            ->Ajustar el diseño responsive
+        
+        ->Decks
+            ->Modal con la info de la carta
+            ->Terminar diseño web (añadir el filtro)
+            ->Hacer comprobaciones
+            ->Pasar a que las cartas se cargen por sets (20 ~ 50)
+            ->Añadir loguica de la paginacion
+            ->Ajustar el diseño responsive
+
+        ->Coleccion
+            ->Modal con la info de la carta
+            ->Terminar diseño movil
+            ->Hacer comprobaciones
+            ->Pasar a que las cartas se cargen por sets (20 ~ 50)
+            ->Añadir loguica de la paginacion
+            ->Ajustar el diseño responsive
+
+        ->Chat
+            ->Mejorar la forma de busqueda de usuarios
+            ->Hacer que salgan si tienes mensajes sin leer
+            ->Hacer que salte notificacion si te llega un mensaje de esa sala y no la tienes activa
+            ->Terminar diseño movil
+            ->Ajustar el diseño responsive
+
+        ->Trade
+            ->Hacer seccion de usqueda y publicacion
+            ->Listado de usuarios que ofrecen
+            ->Filtrar los usuarios 
+            ->Boton que te lleve al chat para hablar con ese usuarios
+            ->Hacer pagina responsive
+            ->Hacer diseño web y movil
+
+            ->(Panel con los trades ofrecidos y pedidos)
+            ->(Al haceptar un trade que se te resten las cartas de la coleccion)
+            ->(Comprobar que si no tienes otros trades y no tienes sufucientes cartas se cancelen)
+
+        ->Foro
+            ->Hacer el listado de los distintos post
+            ->Hacer un filtro de post
+            ->Posibilidad de crear post
+            ->Apartado de comentarios en el post
+            ->Hacer que sea in-time los post
+            ->Hacer diseño responsive 
+            ->Hacer diseño web
+            ->Hacer diseño movil
+
+        ->Torneos
+            ->Hacer diseño responsive 
+            ->Hacer diseño web
+            ->Hacer diseño movil
+            ->Listado de los Torneos
+            ->Poder apuntarse al torneo si hay plazas
+            ->Filtro de los torneos
+            ->Modal con la info detallada del torneo
+
+            ->Pagina inside del torneo
+            ->Declarar quien es el ganador(P1,P2,Draw)
+            ->Poder retirarse del torneo
+            ->Al iniciar la ronda que salga rival y tiempo que queda
+
+            ->Organizador de torneo panel para administrar las rondas
+            ->Organizador que pueda ver los participantes
+
+        ->Perfil
+            ->Informacion basica de la cuenta
+            ->Poder borrar la cuenta
+
+        ->LogOut
+            ->Cerrar sesion de la cuenta
