@@ -1,6 +1,7 @@
 body{
     overflow: none;
 }
+
 #main-container{
     width: calc(20% - 100px);
     height: 100vh;
@@ -121,7 +122,6 @@ body{
             width: 20px;
             background-color: white;
             position: absolute;
-            
         }
         & .menos{
             top: 80%;
@@ -161,8 +161,8 @@ body{
             height: 100%;
             border-radius: 5%;
             /* width: 118px; */
+            }
         }
-    }
     }
     & #containerListaMazo{
         color: white;
@@ -175,9 +175,27 @@ body{
             align-items: center;
             margin: auto;
             padding: 10px 0;
+            & button{
+                display: none;
+            }
             & select{
                 width: auto;
                 margin-left: 15px;
+            }
+            div {
+                padding: 10px;
+                height: 30px;
+                width: 30px;
+                background-color: red;
+                border-radius: 25px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-left: 10px;
+                & img {
+                height: 25px;
+                width: 25px;
+                }
             }
         }
         & #mazo {
@@ -230,6 +248,7 @@ body{
     }
 }
 @media (width <= 480px){
+
     .containerDeckBuilder{
         width: 100vw;
         height: calc(100vh - 20px);
@@ -245,6 +264,13 @@ body{
         width: 120px;
         margin-left: 20px;
         font-size: 10px;
+        }
+        & select{
+            width: 120px !important;
+            margin-left: 0px;
+        }
+        & button{
+            display: block !important;
         }
     }
 

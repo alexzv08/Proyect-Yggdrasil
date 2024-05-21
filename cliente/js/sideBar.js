@@ -8,19 +8,20 @@ window.onload = async()=>{
     await addHtmlDocumentAtBeginning("./components/sideBar.html")
     await document.getElementById('home').classList.add('active')
     await document.getElementById("toogleMenu").addEventListener("click", toggleMenuChange)
+    await document.getElementById("desplegableNavBar").addEventListener("click", mostrarOtros)
     navBarRediretions()
     // funcionesCartas.onLoad()
     // funcionesFiltro.onLoad()
     // hamnurgerMenu.addEventListener("click", toggleMenuChangeHamburger)
-
     // toogleChat.addEventListener("click", toggleChatChange)
     // deckbuilder.addEventListener("click", insertCartas)
 }
 async function onLoad(){
     await addHtmlDocumentAtBeginning("./components/sideBar.html")
-    await document.getElementById('home').classList.add('active')
+    await navBarRediretions()
+    // await document.getElementById('home').classList.add('active')
     await document.getElementById("toogleMenu").addEventListener("click", toggleMenuChange)
-    navBarRediretions()
+    await document.getElementById("otros").addEventListener("click", mostrarOtros)
 }
 async function insertCartas(){
     contenidoWeb.innerHTML =""
@@ -33,7 +34,14 @@ async function insertCartas(){
     console.log("hola")
 }
 
-
+function mostrarOtros(){
+    console.log("as")
+    if(desplegableNavBar.style.visibility == "hidden"){
+        desplegableNavBar.style.visibility="visible"
+    }else{
+        desplegableNavBar.style.visibility="hidden"
+    }
+}
 function toggleMenuChange(){
     console.log("as")
     let titulos = document.querySelectorAll("span h3")

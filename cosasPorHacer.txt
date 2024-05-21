@@ -6,6 +6,10 @@
     ->20 minutos para la exposicion
 
 4->Proyecto
+    ->Mejorar la seguridad del usuario
+        ->Añadir el uso de cookies
+        ->Añadir un campo de token en la base de datos para luego verificar ese campo
+        ->Añadir el moodulo const cookieParser = require('cookie-parser');
     ->Cambiar los colores de la web tirar a blanco negro + color complementario (Azul Rojo)
     ->Refactorizar la parte del diseño para el cambio de colores
     ->Busqueda de mejores iconos

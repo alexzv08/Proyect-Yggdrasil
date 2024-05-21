@@ -7,6 +7,7 @@ RECOGER LA SALA A LA CUAL SEN ENVIA LOS MENSAJES, MANEJAR QUIEN ENVIA EL MENSAJE
 */
 
 import express from "express"; 
+import cookieParser from 'cookie-parser';
 import logger from "morgan";
 import path from 'path';
 
@@ -109,33 +110,58 @@ io.on("connection", async (socket) =>{
 
 // configuracion
 app.use(express.static(process.cwd()+"/cliente"))
-
+app.use(cookieParser());
 app.use(express.json())
 app.use(logger('dev'))
 
 //Redirection to the different pages of the application
+
+// añadir la validacion de la cookie antes de validar la ruta, 
+// si no es correcto redireccionar a login
 app.get('/', (req, res)=>{
+    console.log(req.cookies);
     res.sendFile(process.cwd()+"/cliente/login.html")
+    
+    // const isValid = verificarCookie(sessionCookie);
+    // if (isValid) {
+    //     res.send('Acceso concedido');
+    // } else {
+    //     res.status(403).send('Acceso denegado');
+    // }
 })
 app.get('/home', (req, res)=>{
+    console.log(req.cookies);
+
     res.sendFile(process.cwd()+"/cliente/home.html")
 })
 app.get('/chat', (req, res)=>{
+    console.log(req.cookies);
+
     res.sendFile(process.cwd()+"/cliente/chat.html")
 })
 app.get('/deckbuilder', (req, res)=>{
+    console.log(req.cookies);
+
     res.sendFile(process.cwd()+"/cliente/deckBuilder copy.html")
 })
 app.get('/decks', (req, res)=>{
+    console.log(req.cookies);
+
     res.sendFile(process.cwd()+"/cliente/decks.html")
 })
 app.get('/login', (req, res)=>{
+    console.log(req.cookies);
+
     res.sendFile(process.cwd()+"/cliente/login.html")
 })
 app.get('/register', (req, res)=>{
+    console.log(req.cookies);
+
     res.sendFile(process.cwd()+"/cliente/register.html")
 })
 app.get('/collection', (req, res)=>{
+    console.log(req.cookies);
+
     res.sendFile(process.cwd()+"/cliente/collection.html")
 })
 
@@ -158,12 +184,15 @@ app.post('/api/insertCartaMazo', apiDigimon.insertCartaMazo)
 app.post('/api/updateCartaMazo', apiDigimon.updateCartaMazo)
 app.post('/api/removeCartaMazo', apiDigimon.removeCartaMazo)
 app.post('/api/cartasMazo', apiDigimon.cartasMazo)
+app.post('/api/baciarMazo', apiDigimon.baciarMazo)
 
 //Know which port is listening
 server.listen(port, ()=>{
     console.log(`Server running on port ${port}`)
 })
+async function verificarCookie(sessionCookie){
 
+}
 // Function to handle user messages
 // This JavaScript function query fetches chat messages between two users. 
 // It first checks if a chat room exists between the users, if not, it creates one. 

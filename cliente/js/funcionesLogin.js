@@ -23,6 +23,7 @@ window.onload = ()  => {
         const resJson = await res.json()
         if(resJson.redirect){
             sessionStorage.setItem("user", e.target.children[0].children.email.value);
+            document.cookie = `session=${resJson.session}; path=/`;
             window.location.href = "/home";
         }
     })

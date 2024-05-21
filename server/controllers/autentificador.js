@@ -126,14 +126,27 @@ async function recuperarMazosUsuario(req, res){
     // HAY QUE AÑADIR UN CAMPO A LA TABLA PARA PONER EL NOMBRE DEL MAZO
     // AÑADIR EL MAZO
     // Y RECOGER LA ID DE ESE MAZO AL INSERTAR PARA CUANDO SE REDIRECCIONA TENERLO GUARDADO
+    // sacar la cantidad total de cartas que tiene el mazo
     let result = await connection.query(
-        "SELECT * FROM mazos WHERE id_usuario = ?",[req.body.user]
+        `SELECT m.id_mazo, m.id_usuario, m.nombre_mazo, m.fecha,
+                    IFNULL(SUM(mc.cantidad), 0) AS total_cartas
+             FROM mazos m
+             LEFT JOIN mazo_cartas mc ON m.id_mazo = mc.id_mazo
+             WHERE m.id_usuario = ?
+             GROUP BY m.id_mazo, m.id_usuario, m.nombre_mazo`,[req.body.user]
     );
     return res.status(200).send({status: "OK", result: result})
 } 
 
 export const methods = {
-    login, register, sacarUsuariosChat,crearMazo, recuperarMazosUsuario, sacarUsuarios, recuperarSala, ultimoIdChat
+    login, 
+    register, 
+    sacarUsuariosChat,
+    crearMazo, 
+    recuperarMazosUsuario, 
+    sacarUsuarios, 
+    recuperarSala, 
+    ultimoIdChat
 }
 
 

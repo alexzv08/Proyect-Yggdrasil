@@ -26,16 +26,19 @@ let mazo = {
 window.onload = async() => {
     // await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
     await windowOnLoad.onLoad()
-    listaColecciones()
+    await listaColecciones()
     await document.getElementById('deckbuilder').classList.add('active')
     await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
     await document.getElementById("dropZone").addEventListener("drop", drop)
     await document.getElementById("dropZone").addEventListener("dragover", allowDrop)
     await document.getElementById("oderBy").addEventListener("change", filtroBusqueda)
     windowOnLoad.navBarRediretions()
-    imgCartas()    
-    document.querySelector("#search").addEventListener("click", filtroBusqueda)
-    await cargarMazo()
+    // imgCartas()    
+    document.querySelector("#search").addEventListener("click", filtroBusqueda);
+    await document.getElementById('deckbuilder2').classList.add('active')
+    document.querySelector('#deckbuilder2 img').src = "src/icons/cardsBlack.svg"
+    clearMazo.addEventListener("click", limpiarMazo)
+    await cargarMazo();
 }
 
 function imgCartas(){
@@ -227,7 +230,7 @@ async function removeCartaMazo(idCarta, idColeccion, cantidad){
         return
     }
 }
-function limpiarMazo(){
+async function limpiarMazo(){
     if(deck>0 || eggDeck>0){
         if(window.confirm("Se va a limpiar el mazo. ¿Estas seguro?")){
             dropZone.innerText = ''
@@ -235,6 +238,16 @@ function limpiarMazo(){
             eggDeck=0
             mazo["eggDeck"]=[]
             mazo["deck"]=[]
+
+        const res = await fetch("http://localhost:3000/api/baciarMazo",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+            idMazo: localStorage.getItem("id_mazo"),
+        })
+    })
         }
     }
 }
@@ -262,6 +275,10 @@ async function cargarMazo(){
         return
     }
     const resJson = await res.json()
+    console.log(resJson.result.length)
+    if(resJson.result == "vacio"){
+        return
+    }
     resJson.result.forEach(element => {
         if(element.type=="Digi-Egg"){
             mazo["eggDeck"][element.id_coleccion+"-"+element.id_carta] =parseInt(element.cantidad)
