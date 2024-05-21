@@ -1,11 +1,4 @@
-/**
- * @todo 
- * MANEJO DE USUARIOS
- * INDICAR QUE USUARIO A ENVIADO QUE MENSAJE -> CAMBIAR BD -> SI ERES TU QUE EL MENSAJE SALGA A LA DERECHA
-RECOGER LA SALA A LA CUAL SEN ENVIA LOS MENSAJES, MANEJAR QUIEN ENVIA EL MENSAJE, EN ESTE CASO DEBERIA DE SER EL USUARIO QUE ESTA LOGEADO
-
-*/
-
+// IMPORTS DEPENDENCIES
 import express from "express"; 
 import cookieParser from 'cookie-parser';
 import logger from "morgan";
@@ -24,10 +17,7 @@ import { methods as apiDigimon } from "./controllers/apiDigimon.js";
 
 let resultsDatabase;
 
-/**
- * Represents a connection to the MySQL database.
- * @type {import('mysql').Connection}
- */
+// DATABASE CONNECTION
 const connection = await mysql.createConnection({
 
     host: process.env.DB_HOST,
@@ -47,11 +37,11 @@ connection.connect((error) => {
     // Perform database operations here using connection.query(...)
   }
 });
+// SERVER CONFIGURATION
 const port = process.env.PORT ?? 3000;
 
 const app = express()
 
-//ASESTS --> /resources = 'ruta proporcionada' --> para que se vean los estilos en las plantillas
 const staticPath = path.join(process.cwd(), '/webComponents/');
 const staticPath2 = path.join(process.cwd(), '/cliente/');
 
@@ -61,10 +51,11 @@ app.use('/resources', express.static(staticPath2));
 const server = createServer(app)
 const io = new Server(server, {
     connectionStateRecovery: {
-        // maxDisconnectionDuration
     }
 });
 
+// CONNECTION TO THE SOCKET.IO ROOMS
+// HANDLE CONNECTIONS, DISCONNECTIONS, AND MESSAGES
 io.on("connection", async (socket) =>{
     console.log("a user has conected!!")
     socket.on("disconnect", ()=>{

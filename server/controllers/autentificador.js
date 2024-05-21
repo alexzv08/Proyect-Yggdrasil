@@ -1,6 +1,7 @@
 import mysql from 'mysql2/promise';
 import bcryptjs from 'bcryptjs';
 
+// DATABASE CONNECTION
 const connection = await mysql.createConnection({
 
     host: process.env.DB_HOST,
@@ -18,7 +19,7 @@ connection.connect((error) => {
       console.log('Connected to database successfully!');
     }
 });
-
+// REQUESTS LOGIN
 async function login(req, res){
     if(!req.body.user || !req.body.pass){
         return res.status(400).send({status: "Error", message: "Campos vacios"})
@@ -32,7 +33,7 @@ async function login(req, res){
         return res.status(400).send({status: "Error", message: "Error en el login"})
     }
 }
-
+// REQUESTS REGISTER
 async function register(req, res){
     if(!req.body.user || !req.body.pass){
         return res.status(400).send({status: "Error", message: "Campos vacios"})
@@ -56,24 +57,24 @@ async function register(req, res){
             return res.status(400).send({status: "Error", message: "Email erroneo"});
         }
 
-
-
     } catch (err) {
         console.log(err)
         res.status(400).send({status: "Error", message: "Error en el register", error: err})
     }
 }
+// FUNCTION TO HASH PASSWORD
 async function saltPassword(pass){
     const staticSalt = '$2a$10$abcdefghijklmnopqrstuvwxyz123456';
     const hashPassword = await bcryptjs.hash(pass, staticSalt)
     return hashPassword
 }
+// FUNCTION TO VALIDATE EMAIL
 function isValidEmail(email) {
     // Regular expression for checking email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
-
+// REQUESTS FOR SHOW CHATS IN A ROOM
 async function sacarUsuariosChat(req, res){
 
     let [result, data] = await connection.query(
@@ -82,7 +83,7 @@ async function sacarUsuariosChat(req, res){
     res.status(201).send({status: "OK", result: result})
     // 'SELECT * FROM chatRooms WHERE (id_usuario_1 like ? or id_usuario_2 like ?)',[req.body.user,req.body.user]
 } 
-
+// FUNCTION TO SHOW THE LAST CHAT ROOM ID
 async function ultimoIdChat(req, res){
 
     let [result, data] = await connection.query(
@@ -91,7 +92,7 @@ async function ultimoIdChat(req, res){
     res.status(201).send({status: "OK", result: result})
     // 'SELECT * FROM chatRooms WHERE (id_usuario_1 like ? or id_usuario_2 like ?)',[req.body.user,req.body.user]
 } 
-
+// REQUESTS FOR SHOW USERS WHIT HAVE CHAT
 async function sacarUsuarios(req, res){
 
     let [result, data] = await connection.query(
@@ -107,6 +108,7 @@ async function sacarUsuarios(req, res){
     }
 } 
 
+// FUCTION TO SHOW THE CHATS IN THE ROOM
 async function recuperarSala(req, res){
     let [result, data] = await connection.query(
         // "SELECT * FROM mensajes WHERE (id_usuarioEnvia = ? AND id_usuarioRecibe = ?) OR (id_usuarioEnvia = ? AND id_usuarioRecibe = ?) AND id_mensaje > ? ORDER BY fecha_envio",[idUser1,idUser2,idUser2,idUser1,variable ?? 0]
@@ -114,6 +116,7 @@ async function recuperarSala(req, res){
     );
     res.status(200).send({status: "OK", result: result})
 }
+// REQUESTS FOR CREATE DECK
 async function crearMazo(req, res){
     // AÑADIR EL MAZO
     // Y RECOGER LA ID DE ESE MAZO AL INSERTAR PARA CUANDO SE REDIRECCIONA TENERLO GUARDADO
@@ -122,6 +125,7 @@ async function crearMazo(req, res){
     );
     return res.status(201).send({status: "OK", result: result, message: "Mazo registrado correctamente", redirect:"/deckBuilder"})
 } 
+// REQUESTS FOR SHOW DECKS FOR A USER
 async function recuperarMazosUsuario(req, res){
     // HAY QUE AÑADIR UN CAMPO A LA TABLA PARA PONER EL NOMBRE DEL MAZO
     // AÑADIR EL MAZO

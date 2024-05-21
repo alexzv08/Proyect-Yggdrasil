@@ -1,5 +1,6 @@
 import mysql from 'mysql2/promise';
 
+// DATABASE CONNECTION
 const connection = await mysql.createConnection({
 
     host: process.env.DB_HOST,
@@ -20,39 +21,43 @@ connection.connect((error) => {
     }
 });
 
-// PETICIONES CREAR MAZO
+// REQUESTS CREATE DECK
+// REQUES FOR LIST COLLECTIONS
 async function listaColecciones(req, res){
     let [result, data] = await connection.query( //->> ESTO DEVULEVE LA CONSULTA Y DATOS DE LA TABLA, --OJO AL MANEJAR LOS DATOS--
         'SELECT * FROM coleccion'
     );
     return res.status(200).send({status: "OK", result: result})
 } 
-
+// REQUESTS FOR FILTER CARDS
 async function filtroCartas(req, res){
     let result = await connection.query(
         `${req.body.sql}`
     );
     return res.status(200).send({status: "OK", result: result})
 } 
+// REQUESTS FOR INSERT CARDS IN DECK
 async function insertCartaMazo(req, res){
     let result = await connection.query(
         "INSERT INTO mazo_cartas (id_mazo, id_carta, id_coleccion, id_Juego, cantidad) values (?,?,?,?,?)",[req.body.idMazo,req.body.idCarta,req.body.idColeccion,req.body.idJuego,req.body.cantidad]
     );
     return res.status(200).send({status: "OK", result: result})
 }
+//REQUESTS FOR UPDATE CARDS IN DECK
 async function updateCartaMazo(req, res){
-    // console.log(req.body.user, req.body.id_coleccion, req.body.id_carta,"DG", req.body.cantidad)
     let result = await connection.query(
         "UPDATE mazo_cartas SET cantidad = ? WHERE id_mazo = ? AND id_carta = ? AND id_coleccion = ? AND id_Juego = ?;",[ req.body.cantidad,req.body.idMazo, req.body.idCarta, req.body.idColeccion,"DG"]
     );
     return res.status(200).send({status: "OK", result: result})
 }
+//REQUESTS FOR REMOVE CARDS IN DECK
 async function removeCartaMazo(req, res){
     let result = await connection.query(
         "DELETE FROM mazo_cartas WHERE id_mazo = ? AND id_carta = ? AND id_coleccion = ? AND id_Juego = ?;",[req.body.idMazo, req.body.idCarta, req.body.idColeccion,"DG"]
     );
     return res.status(200).send({status: "OK", result: result})
 } 
+//REQUESTS FOR SHOW CARDS IN DECK
 async function cartasMazo(req, res){
     let [result, data] = await connection.query(
         'SELECT mc.id_mazo, mc.id_carta, mc.cantidad, c.id_coleccion, c.id_juego, c.level, c.dp, c.name, c.type, c.color, c.stage, c.digi_type, c.attribute, c.play_cost, c.evolution_cost, c.cardrarity, c.artist, c.maineffect, c.soureeffect, c.set_name, c.image_url FROM mazo_cartas mc JOIN cartas c ON mc.id_carta = c.id_carta AND mc.id_coleccion = c.id_coleccion AND mc.id_juego = c.id_juego WHERE mc.id_mazo = ?;',[req.body.idMazo]
@@ -63,12 +68,14 @@ async function cartasMazo(req, res){
     }
     return res.status(200).send({status: "OK", result: result})
 }
+//REQUESTS FOR DELETE ALL CARDS IN DECK
 async function baciarMazo(req, res){
     let result = await connection.query(
         "DELETE FROM mazo_cartas WHERE id_mazo = ?;",[req.body.idMazo]
     );
 }
-// PETICIONES COLEECION
+//REQUEST FOR COLLECTION CARDS
+//REQUEST FOR ADD CARD TO COLLECTION
 async function añadirAColeccion(req, res){
     console.log(req.body.user, req.body.id_coleccion, req.body.id_carta,"DG", req.body.cantidad)
     let result = await connection.query(
@@ -76,6 +83,7 @@ async function añadirAColeccion(req, res){
     );
     return res.status(200).send({status: "OK", result: result})
 } 
+//REQUEST FOR UPDATE CARD TO COLLECTION
 async function updateCartaColeccion(req, res){
     console.log(req.body.user, req.body.id_coleccion, req.body.id_carta,"DG", req.body.cantidad)
     let result = await connection.query(
@@ -83,12 +91,14 @@ async function updateCartaColeccion(req, res){
     );
     return res.status(200).send({status: "OK", result: result})
 } 
+//REQUEST FOR DELETE CARD TO COLLECTION
 async function eliminarCartaColeccion(req, res){
     let result = await connection.query(
         "DELETE FROM usuariocoleccion WHERE id_usuario = ? AND id_carta = ? AND id_coleccion = ? AND id_Juego = ?;",[req.body.user, req.body.id_carta, req.body.id_coleccion,"DG"]
     );
     return res.status(200).send({status: "OK", result: result})
 } 
+//REQUEST FOR SHOW CARDS IN COLLECTION USER
 async function cartasColeccionUsuario(req, res){
     let result = await connection.query(
         "SELECT * FROM usuariocoleccion WHERE id_usuario = ?;",[req.body.user]
