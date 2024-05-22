@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css">
     <title>Trade</title>
+    <script>
+        window.onload =()=>{
+            let click = document.querySelector(".listaCartasOferta");
+            click.addEventListener("click", ()=>{
+                panel.style.display = "flex";
+            })
+            panel.addEventListener("click", ()=>{
+                panel.style.display = "none";
+            })
+            panelTrade.addEventListener("click", (e)=>{
+                e.stopPropagation();
+            })
+        }
+    </script>
 </head>
 <style>
     *{
@@ -84,6 +98,7 @@
         }
     }
     #panel{
+        display: none;
         width: 100vw;
         height: 100vh;
         background-color:rgb(0, 0, 0, 0.5);
@@ -91,7 +106,6 @@
         z-index: 9000;
         border: 1px solid yellow;
         color: white;
-        display: flex;
         align-items: center;
         & #panelTrade{
             width: 75%;
@@ -194,7 +208,7 @@
                     </div>
                 </div>
                 <div class="buttons">
-                    <button>Lista de cartas</button>
+                    <button class="listaCartasOferta">Lista de cartas</button>
                     <!-- <button>Contactar</button> -->
                 </div>
             </div>
