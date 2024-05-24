@@ -33,20 +33,26 @@ let socket = io({
         serverOffset: 0
     }
 })
-const heightOutput = document.querySelector("#height");
-const widthOutput = document.querySelector("#width");
 
 window.onresize = reportWindowSize;
-let tamañoPantalla = false
+
 function reportWindowSize() {
-    if(document.querySelector("#width")<=400){
-        tamañoPantalla = true
-        console.log(tamañoPantalla)
+    if(window.innerWidth<=400){
+        document.getElementById("chat-mensajes").style.display = "none"
+    }
+    if(window.innerWidth > 400){
+        console.log("mayor")
+        document.getElementById("chat-mensajes").style.display = "flex"
+        document.getElementById("chat-mensajes").style.flexDirection = "column"
+
+        document.querySelector(".friends").style.display = "flex"
+        document.querySelector(".friends").style.flexDirection = "column"
+
     }
 }
 
 window.onload= async ()=>{
-    windowOnLoad.onLoad()
+    await windowOnLoad.onLoad()
     // await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
     await cargarUsuarios()
     await document.getElementById('chatSide').classList.add('active')
@@ -58,7 +64,7 @@ window.onload= async ()=>{
         element.addEventListener("click", cargarChat)   
     });
 
-    if(document.querySelector("#width")<=400){
+    if(window.innerWidth<=400){
         tamañoPantalla = true
         console.log(tamañoPantalla)
     }
@@ -78,7 +84,7 @@ function cargarChat(user){
     }
     socket.emit('chat charge', ([socket.auth.username,this.querySelector('.name-user').firstElementChild.innerText]))
 
-    if(tamañoPantalla){
+    if(window.innerWidth <= 400){
         document.getElementById("chat-mensajes").style.display = "flex"
         document.querySelector(".friends").style.display = "none"
     }
