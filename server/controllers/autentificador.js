@@ -85,11 +85,11 @@ async function sacarUsuariosChat(req, res){
 } 
 // FUNCTION TO SHOW THE LAST CHAT ROOM ID
 async function ultimoIdChat(req, res){
-
-    let [result, data] = await connection.query(
-            'SELECT MAX(id_sala) AS ultimo_id_sala FROM salas_chat;'
+    let result = await connection.query(
+            // 'SELECT MAX(id_sala) AS ultimo_id_sala FROM salas_chat;'
+            'INSERT INTO salas_chat (id_usuario1, id_usuario2) VALUES (?,?);', [req.body.user1, req.body.user2]
         );
-    res.status(201).send({status: "OK", result: result})
+    res.status(201).send({status: "OK", result: result[0].insertId})
     // 'SELECT * FROM chatRooms WHERE (id_usuario_1 like ? or id_usuario_2 like ?)',[req.body.user,req.body.user]
 } 
 // REQUESTS FOR SHOW USERS WHIT HAVE CHAT

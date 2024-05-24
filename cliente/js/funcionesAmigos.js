@@ -33,19 +33,40 @@ let socket = io({
         serverOffset: 0
     }
 })
+const heightOutput = document.querySelector("#height");
+const widthOutput = document.querySelector("#width");
+
+window.onresize = reportWindowSize;
+let tamañoPantalla = false
+function reportWindowSize() {
+    if(document.querySelector("#width")<=400){
+        tamañoPantalla = true
+        console.log(tamañoPantalla)
+    }
+}
+
 window.onload= async ()=>{
-    await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
+    windowOnLoad.onLoad()
+    // await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
     await cargarUsuarios()
     await document.getElementById('chatSide').classList.add('active')
     await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
-
     windowOnLoad.navBarRediretions()
     añadirChat()
-    
     let user=document.querySelectorAll('.user');
     user.forEach(element => {
         element.addEventListener("click", cargarChat)   
     });
+
+    if(document.querySelector("#width")<=400){
+        tamañoPantalla = true
+        console.log(tamañoPantalla)
+    }
+
+    atrasChat.addEventListener("click",()=>{
+        document.getElementById("chat-mensajes").style.display = "none"
+        document.querySelector(".friends").style.display = "flex"
+    })
 }
 
 function cargarChat(user){
@@ -55,8 +76,12 @@ function cargarChat(user){
     if(user!=''){
         localStorage.setItem('usuarioEnviarMensaje',this.querySelector('.name-user').firstElementChild.innerText)
     }
-    ([socket.auth.username,this.querySelector('.name-user').firstElementChild.innerText])
     socket.emit('chat charge', ([socket.auth.username,this.querySelector('.name-user').firstElementChild.innerText]))
+
+    if(tamañoPantalla){
+        document.getElementById("chat-mensajes").style.display = "flex"
+        document.querySelector(".friends").style.display = "none"
+    }
 }
 
 const form = document.getElementById("form")
@@ -89,9 +114,6 @@ form.addEventListener("submit", (e) =>{
 })
 
 async function cargarUsuarios(){
-    // PETICION POR SERVIDOR AWS
-    // const res = await fetch("http://35.181.125.245:3000/api/usuarios",{
-    // PETICION POR SERVIDOR LOCAL
     const res = await fetch("http://localhost:3000/api/usuarios",{
     method:"POST",
     headers:{
@@ -163,9 +185,6 @@ function añadirChat(){
             return
         }
 
-        // PETICION POR SERVIDOR AWS
-        // const res = await fetch("http://35.181.125.245:3000/api/login",{
-        // PETICION POR SERVIDOR LOCAL
         const res = await fetch("http://localhost:3000/api/usuarioExistente",{
             method:"POST",
             headers:{
@@ -190,7 +209,7 @@ function añadirChat(){
             if(pintarUsuario){
                 let div = document.createElement("div")
                 div.classList.add("user")
-                div.dataset.id_sala = await ultimoIdSalaPosible()
+                div.dataset.id_sala = await ultimoIdSalaPosible(sessionStorage.getItem("user"),e.target.children[0].value)
                 div.addEventListener("click", cargarChat)
                 
                 let div2 = document.createElement("div")
@@ -241,13 +260,18 @@ async function recuperarSala(user1, user2){
     return resJson.result[0].id_sala
 }
 
-async function ultimoIdSalaPosible(){
+async function ultimoIdSalaPosible(user1,user2){
+    console.log(user1,user2)
     const res = await fetch("http://localhost:3000/api/ultimoIdChat",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
             },
+            body: JSON.stringify({
+                user1: user1,
+                user2: user2
+            })
         })
     const data = await res.json()
-    return data.result[0].ultimo_id_sala
+    return data.result
 }

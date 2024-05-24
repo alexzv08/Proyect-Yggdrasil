@@ -9,7 +9,7 @@ window.onload = async ()=>{
     crear.addEventListener("click", crearMazo)
     recuperarMazos()
     await document.getElementById('deckbuilder2').classList.add('active')
-    document.querySelector('#deckbuilder2 img').src = "src/icons/cardsBlack.svg"
+    document.querySelector('#deckbuilder2 img').src = "src/icons/decksblack.svg"
     let img = document.querySelector('#deckbuilder2 img');
 }
 async function crearMazo(){

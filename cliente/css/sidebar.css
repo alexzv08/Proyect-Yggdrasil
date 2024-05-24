@@ -113,7 +113,6 @@ body{
 }
 #contenidoWeb{
     transition: all 0.25s ease-out;
-    border: 1px solid red;
     width: calc(100% - 270px);
 }
 #chatContainer{
@@ -203,8 +202,14 @@ body{
             font-size: 10px;
             text-transform: uppercase;
             margin: 10px 0  0;
+            transition: all 0.2s;
             & img{
                 height: 30px;
+            }
+            &:hover{
+                background-color: rgb(238, 238, 238);
+                border-radius: 20px 20px  0 0;
+                color: black;
             }
         }
         & .active{
@@ -215,7 +220,7 @@ body{
     }
     #desplegableNavBar{
         visibility: hidden;
-        position: absolute;
+        position: fixed;
         right: 0;
         bottom: 79px;
         border-radius: 25px 0 0 0;
@@ -233,9 +238,16 @@ body{
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            margin-left: 10px;
+            transition: all 0.2s;
             & img{
                 height: 30px;
                 border-radius: 20px;
+            }
+            &:hover{
+                background-color: rgb(238, 238, 238);
+                border-radius: 20px 0px  0 20px;
+                color: black;
             }
         }
     }
