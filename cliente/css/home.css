@@ -1,7 +1,6 @@
 #homeSection{
     width: calc(100% - 100px);
     margin-left: 100px;
-
 }
 .parent {
     display: grid;
@@ -115,7 +114,7 @@
 .bento7 { grid-area: 4 / 3 / 5 / 4; }
 
 
-@media (width <= 900px) {
+@media (480 < width <= 900px) {
     .bento1{
         & .conatinerPerfil{
             & .iconPerfil{
@@ -150,4 +149,57 @@
             }
         }
     }
+}
+
+@media (width <= 480px) {
+
+    #homeSection{
+        width: 100vw;
+        margin-left: 0;
+    }
+
+    .parent {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(7, 1fr);
+    }
+
+
+
+    .bento1 { 
+        grid-area: 1;
+        padding: 10px 0px !important;
+        & .conatinerPerfil{
+            flex-direction: column;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        & .iconPerfil{
+            width: 40%;
+            margin: auto !important;
+            justify-content: center;
+            display: flex;
+            & img{
+                margin: auto;
+            }
+        }   
+        & .infoPerfil{
+            width: 100vw;
+            display: flex;
+            flex-direction: column !important;
+            justify-content: space-around;
+            gap: 5px;
+
+            & div{
+                gap: 5px;
+            }
+        } 
+    }
+    .bento2 { grid-area: 2; }
+    .bento3 { grid-area: 3; }
+    .bento4 { grid-area: 4; }
+    .bento5 { grid-area: 5; }
+    .bento6 { grid-area: 6; }
+    .bento7 { grid-area: 7; }
 }

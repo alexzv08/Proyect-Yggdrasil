@@ -129,9 +129,12 @@ CREATE TABLE mazos (
     id_mazo INT AUTO_INCREMENT,
     id_usuario VARCHAR(50),
     nombre_mazo VARCHAR(50),
+    fecha DATETIME  DEFAULT CURRENT_DATE,
     PRIMARY KEY (id_mazo),
     FOREIGN KEY (id_usuario) REFERENCES usuarios(usuario)
 );
+
+-- Crear la tabla `mazo_cartas` con las claves externas y `ON DELETE CASCADE`
 CREATE TABLE mazo_cartas (
     id_mazo INT,
     id_juego VARCHAR(10),
@@ -139,13 +142,17 @@ CREATE TABLE mazo_cartas (
     id_carta VARCHAR(10),
     cantidad INT,
     PRIMARY KEY (id_mazo, id_carta),
-    FOREIGN KEY (id_mazo) REFERENCES mazos(id_mazo),
+    FOREIGN KEY (id_mazo) REFERENCES mazos(id_mazo) ON DELETE CASCADE,
     FOREIGN KEY (id_carta) REFERENCES cartas(id_carta),
     FOREIGN KEY (id_coleccion) REFERENCES cartas(id_coleccion),
     FOREIGN KEY (id_juego) REFERENCES cartas(id_juego)
 );
+
+-- Agregar una restricción única en la tabla `mazo_cartas`
 ALTER TABLE mazo_cartas
 ADD CONSTRAINT unique_mazo_carta UNIQUE (id_mazo, id_carta);
+
+
 CREATE TABLE Amistades (
     Usuario_ID_1 varchar(50),
     Usuario_ID_2 varchar(50),

@@ -145,7 +145,12 @@ body{
 }
 @media (width <= 800px) { 
     #containerSidebar{
+        transition: none;
         visibility: hidden;
+
+        & img{
+            transition: 0s;
+        }
     }
     #hamnurgerMenu{
         display: block;
@@ -175,6 +180,9 @@ body{
 }
 
 @media (width <= 800px) {
+    #containerSidebar{
+        transition: none;
+    }
     #info{
         justify-content: flex-start !important;
     }
