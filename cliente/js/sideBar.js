@@ -35,8 +35,8 @@ async function insertCartas(){
 }
 
 function mostrarOtros(){
-    console.log("as")
-    if(desplegableNavBar.style.visibility == "hidden"){
+    console.log(desplegableNavBar.style.visibility)
+    if(desplegableNavBar.style.visibility == "hidden" || desplegableNavBar.style.visibility == ""){
         desplegableNavBar.style.visibility="visible"
     }else{
         desplegableNavBar.style.visibility="hidden"
@@ -96,30 +96,40 @@ function toggleMenuChangeHamburger(){
 }
 
 function navBarRediretions(){
-    let navegacion = document.querySelectorAll("#containerSidebar span")
+    let navegacion = document.querySelectorAll(".redireccion span")
     console.log(navegacion)
     navegacion.forEach(element => {
         element.addEventListener("click", redireccion)
     });
+
+    navegacion = document.querySelectorAll("#containerSidebarMovil span")
+    navegacion.forEach(element => {
+        element.addEventListener("mouseover", cambioIconoIn)
+        element.addEventListener("mouseout", cambioIconoOut)
+    });
+    navegacion = document.querySelectorAll("#desplegableNavBar span")
+    navegacion.forEach(element => {
+        element.addEventListener("mouseover", cambioIconoIn)
+        element.addEventListener("mouseout", cambioIconoOut)
+        element.addEventListener("click", redireccion)
+    });
+}
+function cambioIconoIn(){
+    if(!this.classList.contains("active")){
+        this.querySelector("img").src = "./src/icons/"+this.querySelector("h3").innerText+"black.svg"
+    }
+}
+function cambioIconoOut(){
+    if(!this.classList.contains("active")){
+        this.querySelector("img").src = "./src/icons/"+this.querySelector("h3").innerText+"white.svg"
+    }
 }
 function redireccion(){
     let redireccion = this.querySelector("h3").innerText.replace(/\s/g, "").toLowerCase()
-    if(window.location.pathname != ("/"+redireccion)){
+    if(window.location.pathname != ("/"+redireccion) && redireccion != "otros"){
         window.location.href = "/"+redireccion;
     }
 }
-
-// function toggleChatChange(){
-//     if(!ocultoChat){
-//         chatContainer.style.height="100%";
-//         chat.style.display="block";
-//         ocultoChat=true
-//     }else{
-//         chatContainer.style.height="50px";
-//         chat.style.display="none";
-//         ocultoChat=false
-//     }
-// }
 
 // Función para cargar y añadir la sección de HTML
 async function addHtmlDocumentAtBeginning(url) {

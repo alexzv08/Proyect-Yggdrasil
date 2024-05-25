@@ -36,7 +36,7 @@ window.onload = async() => {
     // imgCartas()    
     document.querySelector("#search").addEventListener("click", filtroBusqueda);
     await document.getElementById('deckbuilder2').classList.add('active')
-    document.querySelector('#deckbuilder2 img').src = "src/icons/cardsBlack.svg"
+    document.querySelector('#deckbuilder2 img').src = "src/icons/decksblack.svg"
     clearMazo.addEventListener("click", limpiarMazo)
     await cargarMazo();
 }

@@ -79,7 +79,7 @@ io.on("connection", async (socket) =>{
     socket.on("chat charge", async (username)=>{
         const prueba = await query(username[0], username[1],"0")
         try {
-            prueba[0].forEach(row => {
+            prueba[0][0].forEach(row => {
                 socket.emit( "chat message" , row.contenido, row.id_mensaje, row.id_usuarioEnvia, row.fecha_envio)
             });
         } catch (error) {
@@ -208,7 +208,8 @@ async function query(idUser1,idUser2,variable){
         resultsDatabase = await connection.query(
             "SELECT * FROM mensajes WHERE id_sala = ? ORDER BY fecha_envio",[id_sala]
         );
-        return resultsDatabase
+
+        return [resultsDatabase, id_sala]
     } catch (err) {
         console.log(err);
     }
