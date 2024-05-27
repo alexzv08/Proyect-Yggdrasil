@@ -1,41 +1,17 @@
-/**
- * @todo 
- * ADMINISTRAR LOS CHATS EN LA BSE DE DATOS
- *      ->CREAR TABLE DONDE SE CREEN LAS SALAS DE LOS DISTINTOS CHATS CON LOS USUARIOS 
- *          -> ID_CHAT, USUARIO_1, USUARIO_2
- *      ->MODIFICAR LA TABLA DE CHAT ACTUAL
- *          -> ID_CHAT, USUARIO_ENVIA, MENSAJE, FECHA, VISTO
- * AL CARGAR LOS DISTINTOS CHATS ALMACENAR EL ID DE LA SALA PARA PODER ACCEDER A ELLA
- *      ->CARGAR LOS MENSAJES DE DICHA SALA 
- * AL INICIAR CONVERSACION NUEVA, CON UN NUEVO USUARIO
- *      ->COGER EL ULTIMO ID/ HACERLO AUTO INCREMENT
- *      ->CORREGUIR POSIBLE ERROR BUSCA UN NUEVO USUARIO QUE NO SE GENERE NUEVO ID
- * MODIFICAR LA FORMA DE ENVIAR LOS MENSAJES 
- *      ->ENVIARLOS APARTIR DEL ID DE LA SALA
- *      ->ENVIAR TAMBIEN LA INFORMACION DE USUARIO QUE ENVIA, CONTENIDO
- * VER COMO HACER PARA QUE SALGAN NOTIDICACIONES DE LOS NUEVOS MENSAJES
- *      ->DETRO DEL CHAT NOTIDICACION DE NUEVO MENSAJE
- *      ->CUALQUIR OTRA PARTE, BADGE DE NUEVO MENSAJE/CANTIDAD DE MENSAJES NUEVOS¿?
- * 
- * PARA LOS MENSAJES INFORMARSE QUE ES MEJOR ROOM'S O HACER JOIN DE LOS USUARIOS
- *      ->JOIN INPORTA EL ORDEN DE LOS USUARIOS QUE SE CONECTAN¿?
- *      ->ROOM VERIFICACION QUE AL CREAR UNA SALA NO EXISTE NINGUNA OTRA CON LOS MISMOS USUARIOS
- */
-
-
+// DEPENDENIAS NECESARIAS
 import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js"
 import { methods as windowOnLoad } from "./sideBar.js";
 
-console.log(sessionStorage.getItem("user"))
+// INFORMACION QUE CONTIENE Socket.IO AL ENVIAR AL SERVIDOR POR PARTE DEL CLIENTE
 let socket = io({
     auth: {
         username: sessionStorage.getItem("user"),
         serverOffset: 0
     }
 })
-
+// SABER EL TAMAÑO DE LA PANTALLA EN CADA MOMENTO
 window.onresize = reportWindowSize;
-
+// MODIFICAR EL DISEÑO DE LA PAGINA DEPENDIENDO DEL TAMAÑO DE LA PANTALLA
 function reportWindowSize() {
     if(window.innerWidth<=400){
         document.getElementById("chat-mensajes").style.display = "none"
@@ -47,7 +23,6 @@ function reportWindowSize() {
 
         document.querySelector(".friends").style.display = "flex"
         document.querySelector(".friends").style.flexDirection = "column"
-
     }
 }
 
@@ -74,10 +49,11 @@ window.onload= async ()=>{
         document.querySelector(".friends").style.display = "flex"
     })
 }
-
-function cargarChat(user){
+// FUNCION PARA CARCARGAR EL CHAT CON UN USUARIO
+async function cargarChat(user){
     localStorage.setItem('id_actual',this.dataset.id_sala)
     socket.emit('solicitarSala', this.dataset.id_sala);
+    await cargarnombre(this.querySelector('.name-user').firstElementChild.innerText)
     message.innerText=''
     if(user!=''){
         localStorage.setItem('usuarioEnviarMensaje',this.querySelector('.name-user').firstElementChild.innerText)
@@ -89,11 +65,13 @@ function cargarChat(user){
         document.querySelector(".friends").style.display = "none"
     }
 }
-
+function cargarnombre(nombre){
+    document.querySelector(".nombre").innerText = nombre
+}
 const form = document.getElementById("form")
 const input = document.getElementById("input")
 const messages = document.getElementById("message")
-
+// CARGAR LOS MENSAJES EN EL CHAT CUANDO LOS RECIBE EL SOCKET
 socket.on('chat message', (msg, serverOffset, username, fecha) => {
     let item = `<li`;
     if (socket.auth.username === username) {
@@ -107,7 +85,7 @@ socket.on('chat message', (msg, serverOffset, username, fecha) => {
         socket.auth.serverOffset = serverOffset
     messages.scrollTop = messages.scrollHeight
 })
-
+// EMISION DEL MENSAJE
 form.addEventListener("submit", (e) =>{
     e.preventDefault()
     if(input.value){
@@ -118,7 +96,7 @@ form.addEventListener("submit", (e) =>{
     input.value = ""
     }
 })
-
+// FUNCION PARA CARGAR LOS DISTINTOS CHATS ACTIVOS QUE DISPONE EL USUARIO
 async function cargarUsuarios(){
     const res = await fetch("http://localhost:3000/api/usuarios",{
     method:"POST",
@@ -131,6 +109,8 @@ async function cargarUsuarios(){
     })
     if(res.ok){
         const resJson = await res.json()
+        console.log(resJson)
+
         resJson.result.forEach(element => {
             let div = document.createElement("div")
             div.classList.add("user")
@@ -147,23 +127,16 @@ async function cargarUsuarios(){
 
             let h = document.createElement("h3")
             h.innerText=element.usuario_contrario
-
-            // let divMore = document.createElement("div")
-            // divMore.classList.add("more")
-            // let img2 = document.createElement("img")
-            // img2.src="src/icons/more-horizontal-svgrepo-com.svg"
             
             document.querySelector("#friends-list").appendChild(div)
             div.appendChild(div2)
             div2.appendChild(img)
             div.appendChild(div3)
             div3.appendChild(h)
-            // div.appendChild(divMore)
-            // divMore.appendChild(img2)
         });
     }
 }
-
+// FUNCION PARA FORMATEAR LA FECHA RECIBIDA DEL SERVIDO A UN FORMATO MAS CORRECTO
 function formatearFecha(fechaF){
     const fecha = new Date(fechaF);
 
@@ -182,7 +155,8 @@ function formatearFecha(fechaF){
 
     return fechaNormal.toString()
 }
-
+// FUNCION DE BUSCAR UN USUARIO Y CARGAR UN CHAT CON ESE USUARIO. COMPRONBAMOS SI EL USUARIO EXISE O NO. GENERAMOS UNA SALA QUE VINCULA A LOS DOS USUARIOS
+// SI YA TENEMOS UN CHAT ACTIVO CON ESE USUARIO LO QUE HACE ES CARGAR ESA SALA EN LA ZONA DEL CHAT
 function añadirChat(){
     document.getElementById("addFriend").addEventListener("submit", async (e)=>{
         e.preventDefault();
@@ -230,18 +204,12 @@ function añadirChat(){
                 let h = document.createElement("h3")
                 h.innerText=e.target.children[0].value
                 
-                // let divMore = document.createElement("div")
-                // divMore.classList.add("more")
-                // let img2 = document.createElement("img")
-                // img2.src="src/icons/more-horizontal-svgrepo-com.svg"
-                
                 document.querySelector("#friends-list").appendChild(div)
                 div.appendChild(div2)
                 div2.appendChild(img)
                 div.appendChild(div3)
                 div3.appendChild(h)
-                // div.appendChild(divMore)
-                // divMore.appendChild(img2)
+
             }else{
                 // ABRIR EL CHAT DEL USUARIO AL CUAL SE A BUSCADO Y YA SE TIENE UN CHAT ACTIVO
                 cargarChat(e.target.children[0].value)
@@ -250,7 +218,7 @@ function añadirChat(){
         }
     })
 }
-
+// FUNCION PARA RECUPERAR LA SALA VINCULADA A 2 USUARIOS
 async function recuperarSala(user1, user2){
     const res = await fetch("http://localhost:3000/api/idSalaChat",{
         method:"POST",
@@ -265,7 +233,7 @@ async function recuperarSala(user1, user2){
     const resJson = await res.json()
     return resJson.result[0].id_sala
 }
-
+// FUNCION PARA RECUPERAR EL ULTIMO ID DE UNA SALA POSIBLE Y ASI PODER AÑADIR UNA SALA VALIDA
 async function ultimoIdSalaPosible(user1,user2){
     console.log(user1,user2)
     const res = await fetch("http://localhost:3000/api/ultimoIdChat",{

@@ -1,51 +1,75 @@
-Cosas por hacer:
+-Título del Proyecto:
+Proyect Nexus
 
-Terminar el css de las paguinas ya diseñadas
-    -> Que sea responsive tanto en desktop como en movil y tablet
+-Descripción del Proyecto: Describa brevemente el problema que aborda su proyecto, los objetivos que desea alcanzar y el público objetivo.
 
-Terminar de diseñar las paguinas que quedan
-    ->?¿
+El proyecto realizado es un aplataforma relacionada con el mundo del TCG, seria sobre cartas tradeables coleccionables ( magic, yuguih, vanguard,pokemon...)., el proyecto actualemnete esta pensado unicamente en el TCg de Digimon, pero esta pensado a que se pueda expandir a cualquier TCG sin ningun problema. Actualmente existen distintas plataformas que se especializan unicamnete en un TCg en concreto pero que no permiten la comunicacion entre usuarios o gestion de la coleccion del usuario o el intercambio de cartas entre usuarios. Con esta web lo que se permite es unificar todas las herramientas para facilitar la vida al usuario y que pueda realizar todas las gestiones directamente en una web. El publico objetivo actualmente serian los usuartios del TCG de Digimon, pero seria expandirse a todos los TCg actuales y fturos, combirtiendo la plataforma en la principal en el sector.
 
-Darle funcionalidad al boton de logout
+-Metodología: Describa el enfoque general que tomó para desarrollar su proyecto, incluyendo las fases principales, las actividades y las herramientas utilizadas.
 
-chequear la base de datos para los chats
-    ->si  se elimina un usuario que las salas de ese usuario se eliminen y los chats tambien
+La metodogia utilizada al realizar le proyecto seria el Scrum, realizando cortos sprints, en este caso estaria dividido en 3 fases.
 
-chekear funcionalidad chat
-    -> ver que se puede añadir correctamente un nuevo chat
-    -> probar bien que no se mezclen los mensajes para cada uno de las salas
-    -> probar que se crean correctamente las salas
+Cada fase contendria los mismos enfoques, planificacion, correccion, desarrollo.
 
-seccion de mazos
-    -> crear pantalla donde se visualicen los distintos mazos y que se pueda crear uno nuevo
-    -> redireccionar a un mazo nuevo o a un mazo ya creado
+En la primera fase contendriamos:
 
-creacion de mazos
-    -> rediseñar como se vera tanto los filtros como la informacion de los menus
-    -> pasar la informacion de la api a la base de datos
-        ->chekear que los colores de las cartas estan bien establecidos
-        ->chekear los efectos
-            ->triggers intentar marcarlos con []
-    -> visualizar correctamente las cartas añadidas en el mazo
-    -> al pasar el raton por encima de una carta en la lista del mazo que salga la imagen en grande
-    -> controlar el boton de coleccion para que solo salgan las cartas de la coleccion
-    -> quizas poner un voton para poder visualizar el mazo en grande
-    -> al clicar en una carta que este para poner que salgan en grande con toda la informacion
-    -> mejorar el filtro y hacerlo mas entendible
-    -> la funcionalidad del filtro actual darle una vuelta para que pueda filtrar correctamente
-        ->diseñar la api para que pueda funcionar correctamente con la base de datos
-    -> hacer algo para que no tarde tanto en cargar la lista de imagenes
-        -> hacer un loading o hacer una paginacion de la lista de cartas
-            -> si se hace paginacion tener en cuenta como hacerlo para que funcione para todas las cartas y las de la coleccion de la misma forma
+    Enfoque:
+        Las distintas tareas a realizar y como realizarlas
+
+    Planificacion:
+        Distribuir las tareas de forma eficiente
     
-seccion de torneos
-    -> administrar que un usuario pueda apuntarse a un torneo o retirarse antes de que se inice
-    -> pantalla para apuntarse al torneo
-        -> que tenga que indicar con que mazo participara y si cumple las reglas establecidas
-    -> pantalla de torneo ya iniciado
-        ->tabla de puntuacion de torneo
-        ->formacion del paring del torneo para el funcionamiento
-        ->formacion de las rondas si es round robin
-        
+    Correccion:
+        Correccion de las tareas realizadas en el anterior sprint.
 
-refactorizar el codigo para agilizar procesos
+    desarrollo:
+        Desarrollar los distintos objetivos a realizar este sprint
+
+
+-Aspectos Técnicos: Especifique los lenguajes de programación, tecnologías, frameworks y herramientas que utilizó para desarrollar el software.
+
+    Las herramientas utilizadas para la realizacion del proyecto.
+
+    Para el lado servidor:
+    Node.js
+        Dependencias;
+        +-- @rodrigogs/mysql-events@0.6.0
+        +-- bcryptjs@2.4.3
+        +-- body-parser@1.20.2
+        +-- dotenv@16.4.5
+        +-- ejs@3.1.9
+        +-- express@4.19.2
+        +-- jsonwebtoken@9.0.2
+        +-- morgan@1.10.0
+        +-- mysql2@3.9.4
+        +-- mysql2-promise@0.1.4
+        +-- socket.io@4.7.4
+        +-- stringify@5.2.0
+    MySQL utilizando workbench como herramienta visual
+
+    Por el lado cliente
+    HTML, CSS, JS
+
+    Estructuracion del proyecto
+
+    Proyecto
+        -cliente
+            -components
+                -sideBar.html
+            -css
+            -js
+            -src
+                -icons    
+        -server
+            index.js
+            -controlers
+                apiDigimon.js
+                autentificador.js
+        .env
+
+Contenidos: Describa las funcionalidades, características y diseño de la interfaz de usuario de su software.
+
+
+
+
+Implementación: Proporcione fragmentos de código, capturas de pantalla y diagramas para ilustrar la implementación de su software.

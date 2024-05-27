@@ -1,7 +1,7 @@
+// DEPENDENCIAS NECESARIAS
 import { methods as windowOnLoad } from "./sideBar.js";
 
 window.onload = async ()=>{
-    // await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
     await windowOnLoad.onLoad()
     windowOnLoad.navBarRediretions()
     await document.getElementById('deckbuilder').classList.add('active')
@@ -12,10 +12,8 @@ window.onload = async ()=>{
     document.querySelector('#deckbuilder2 img').src = "src/icons/decksblack.svg"
     let img = document.querySelector('#deckbuilder2 img');
 }
+// FUNCION PARA INSERTAR UNA NUEVA ENTRADA EN LA BBDD CON UN NUEMO MAZO VINCULADO A UN USUARIO
 async function crearMazo(){
-    // PETICION POR SERVIDOR AWS
-    // const res = await fetch("http://35.181.125.245:3000/api/crearMazo",{
-    // PETICION POR SERVIDOR LOCAL
     if(nombreMazo.value !=''){
         const res = await fetch("http://localhost:3000/api/crearMazo",{
             method:"POST",
@@ -37,6 +35,7 @@ async function crearMazo(){
         alert('Tiene que darle un nombre al mazo')
     }
 }
+// FUNCION PARA RRECUPERAR LOS DISTINTOS MAZOS QUE TIENE UN USUARIO
 async function recuperarMazos(){
     const res = await fetch("http://localhost:3000/api/recuperarMazosUsuario",{
             method:"POST",
@@ -52,6 +51,7 @@ async function recuperarMazos(){
             crearContainerMazo(element)
         });
 }
+// FUNCION PARA GENERAR EL CONTENEDOR DE CADA MAZO
 function crearContainerMazo(element){
     console.log(element)
     let divContainer = document.createElement('div')

@@ -188,6 +188,12 @@
             }
         }
     }
+    & #paginacion{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+    }
 }
 @media (1533px >= width >= 1200px){
     #main-container{

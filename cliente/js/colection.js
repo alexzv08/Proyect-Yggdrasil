@@ -1,5 +1,7 @@
+// DEPENDENCIAS NECESARIAS PARA EL FUNCIONAMIENTO DE LA APLICACION
 import { methods as windowOnLoad} from "./sideBar.js";
-let elementoDrag, copia;
+let elementoDrag, copia, listaCartas, pagina, limiteActual, limitePaginacion;
+// ARRAY PARA ALMACENAR EL FILTRO DE BUSQUEDA DE LAS CARTAS
 let listaFiltro = {
     coleccion: Boolean,
     ListaEdiciones: [],
@@ -31,23 +33,21 @@ window.onload = async() => {
     await listaColecciones()
     await imgCartas() 
     document.querySelector("#search").addEventListener("click", filtroBusqueda)
-}
+    let paguinacionB = document.querySelectorAll("#paginacion .button")
+    paguinacionB[0].addEventListener("click", paginaMenos)
+    paguinacionB[1].addEventListener("click", paginaMas)
 
+}
+// FUNCION EN LA QUE REALIZA UNA PETICION A LA API PARA OBTENER TODAS LAS CARTAS ALMACENADAS Y MOSTRARLAS EN LA PAGINA
 async function imgCartas(){
-    // fetch("https://digimoncard.io/api-public/search.php?sort=code&series=Digimon Card Game")
-    await fetch("https://digimoncard.io/api-public/search.php?n=Agumon&sort=power&series=Digimon Card Game")
-    .then(data => data.json())
-    .then(data =>{
-        console.log(data)
-        data.forEach(element => {
-            cargarImg(element)
-        });
-    })  
+    var sql = "SELECT c.* FROM cartas c WHERE 1 = 1";
+    await peticionAPIFiltro(sql)
     await mostrarCartasColeccion()
 
 }
 // TODO
 // REFACTORIZAR LA FORMA DE CARGAR LAS IMAGENES
+// FUNCION EN LA QUE GENERA LA IMAGEN DE LAS CARTAS Y LOS DATOS NECESARIOS
 function cargarImg(element){
     let div = document.createElement("div")
     div.addEventListener("click", eventoClick)
@@ -121,6 +121,7 @@ function cargarImg2(element){
     div.appendChild(divMenos)
     
 }
+// FUNCION QUE SE LE AÑADE A CADA CARTA PARA AÑADIRLA A LA COLECCION
 function eventoClick(){
     let cantidad = añadirCartaColeccion(this)
     if(parseInt(this.dataset.cantidad) > 0){
@@ -128,7 +129,7 @@ function eventoClick(){
     }
     this.dataset.calntidad = cantidad
 }
-
+// FUNCION QUE AÑADE LA CARTA PINCHADA Y QUE GESTIONA LA CANTIDAD DE CARTAS QUE POSE EL USUARIO DE DICHA CARTA
 async function añadirCartaColeccion(element) {
     if(parseInt(element.dataset.cantidad ) == 0){
         element.dataset.cantidad = parseInt(element.dataset.cantidad )+ 1
@@ -165,6 +166,7 @@ async function añadirCartaColeccion(element) {
     }
     return element.dataset.cantidad
 }
+// FUNCION PARA RESTAR CARTAS A LA COLECCION O ELIMINAR CARTAS DE LA COLECCION
 async function quitarCartaColeccion(element) {
     if(parseInt(element.dataset.cantidad ) > 0){
         element.dataset.cantidad = parseInt(element.dataset.cantidad )- 1
@@ -198,17 +200,17 @@ async function quitarCartaColeccion(element) {
         element.childNodes[2].innerText = element.dataset.cantidad
     }
 }
-
+// FUNCION PARA AÑADIR 1 CARTA A LA COLECCION ATRAVES DEL BOTON DE SUMAR
 function sumarALaColeccion(event){
     event.stopPropagation()
-    console.log(this.parentNode)
     añadirCartaColeccion(this.parentNode)
 }
+// FUNCION PARA RESTAR 1 CARTA A LA COLECCION ATRAVES DEL BOTON DE RESTAR, SI LLEGA A 0 CARTAS SE ELIMINA DE LA COLECCION
 function restarALaColeccion(event){
     event.stopPropagation()
     quitarCartaColeccion(this.parentNode)
 }
-
+// FUNCION PARA RECUPERAR QUE CARTAS TIENE EL USUARIO EN SU COLECCION Y MOSTRAR LAS CARTAS QUE POSEE
 async function mostrarCartasColeccion(){
     const res = await fetch("http://localhost:3000/api/cartasColeccionUsuario",{
         method:"POST",
@@ -222,9 +224,7 @@ async function mostrarCartasColeccion(){
     const resJson = await res.json()
     await resJson.result[0].forEach(element => {
         let allCard = document.querySelectorAll("#containerListaCartas>.carta")
-        console.log(allCard)
         allCard.forEach(card => {
-            console.log(card.dataset.cardnumber)
 
             if(card.dataset.cardnumber == (element.id_coleccion+"-"+element.id_carta)){
                 card.childNodes[0].classList.remove("off")
@@ -234,7 +234,7 @@ async function mostrarCartasColeccion(){
         });
     });
 }
-
+// FUNCION PARA RELLENAR EL ARRAY CON LOS DATOS DEL FILTRO
 function filtroBusqueda(event){
     event.preventDefault()
 
@@ -284,7 +284,7 @@ function filtroBusqueda(event){
 
     creacionSentenciaSQL(listaFiltro)
 }
-
+// FUNCION PARA GENERAL LA SENTENCIA SQL DEPENDIENDO DE LOS DATOS RECOGIDOS DEL FORMULARIO DEL FILTRO
 async function creacionSentenciaSQL(listaFiltro){
         // Inicializar la parte de la sentencia SQL que siempre estará presente
         var sql = "SELECT c.* FROM cartas c WHERE 1 = 1";
@@ -332,7 +332,10 @@ async function creacionSentenciaSQL(listaFiltro){
         peticionAPIFiltro(sql)
         // HACER CONSULTA A LA API
 }
+// FUNCION PARA REALIZAR LA PETICION A LA API CON LA SENTENCIA SQL Y FILTRAR LAS CARTAS DEPENDIENDO DE LOS FILTROS
 async function peticionAPIFiltro(sql){
+    pagina = 1;
+    limiteActual=0
     const res = await fetch("http://localhost:3000/api/filtroCartas",{
         method:"POST",
         headers:{
@@ -343,17 +346,22 @@ async function peticionAPIFiltro(sql){
         })
     })
     if(!res.ok){
-        // alert("Usuario o contraseña incorrecta")
         return
     }
     const resJson = await res.json()
+    listaCartas = resJson.result[0]
+    limitePaginacion = Math.ceil(listaCartas.length/20)
     containerListaCartas.innerHTML = '' 
-    await resJson.result[0].forEach(element => {
-        console.log(element)
-        cargarImg2(element)
-    });
+    // await resJson.result[0].forEach(element => {
+    //     console.log(element)
+    //     cargarImg2(element)
+    // });
+    for (limiteActual; limiteActual < (pagina*20); limiteActual++) {
+        cargarImg2(listaCartas[limiteActual])
+    }
     await mostrarCartasColeccion()
 }
+
 async function listaColecciones(){
     const res = await fetch("http://localhost:3000/api/listaColecciones",{
         method:"POST",
@@ -378,6 +386,42 @@ async function listaColecciones(){
         label.appendChild(input)
         FiltroEdicion.appendChild(label)
     });
+}
+async function paginaMas() {
+    containerListaCartas.innerHTML = '';
+    
+    const totalPaginas = Math.ceil(listaCartas.length / 20);
+
+    if (pagina >= totalPaginas) {
+        return;
+    }
+    pagina++;
+    
+    let limiteInferior = (pagina - 1) * 20;
+    let limiteSuperior = Math.min(pagina * 20, listaCartas.length);
+
+    for (let i = limiteInferior; i < limiteSuperior; i++) {
+        cargarImg2(listaCartas[i]);
+    }
+    document.querySelector("#pagina").innerText = pagina;
+
+}
+
+async function paginaMenos() {
+    containerListaCartas.innerHTML = '';
+    if (pagina <= 1) {
+        return;
+    }
+
+    pagina--;
+    
+    let limiteInferior = (pagina - 1) * 20;
+    let limiteSuperior = Math.min(pagina * 20, listaCartas.length);
+
+    for (let i = limiteInferior; i < limiteSuperior; i++) {
+        cargarImg2(listaCartas[i]);
+    }
+    document.querySelector("#pagina").innerText = pagina;
 }
 
 export const methods = {

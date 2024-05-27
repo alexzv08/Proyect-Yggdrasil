@@ -1,6 +1,8 @@
+// DEPENDENCIAS NECESARIAS
 import { methods as windowOnLoad} from "./sideBar.js";
 
 let elementoDrag, copia;
+// ARRAY CON LOS FILTROS DE BUSQUEDA
 let listaFiltro = {
     coleccion: Boolean,
     ListaEdiciones: [],
@@ -33,18 +35,19 @@ window.onload = async() => {
     await document.getElementById("dropZone").addEventListener("dragover", allowDrop)
     await document.getElementById("oderBy").addEventListener("change", filtroBusqueda)
     windowOnLoad.navBarRediretions()
-    // imgCartas()    
+    imgCartas()    
     document.querySelector("#search").addEventListener("click", filtroBusqueda);
     await document.getElementById('deckbuilder2').classList.add('active')
     document.querySelector('#deckbuilder2 img').src = "src/icons/decksblack.svg"
     clearMazo.addEventListener("click", limpiarMazo)
     await cargarMazo();
 }
-
+// FUNCION PARA CARGAR LAS IMAGENES DE LAS CARTAS
 function imgCartas(){
     var sql = "SELECT c.* FROM cartas c WHERE 1 = 1";
     peticionAPIFiltro(sql)
 }
+// FUNCION PARA CARLAS LAS IMAGENES DE LAS CARTAS
 function cargarImg(element){
     // console.log(element)
     let div = document.createElement("div")
@@ -65,6 +68,7 @@ function eventoClick(){
 }
 let eggDeck = 0;
 let deck = 0;
+// FUNCION PARA AÑADIR LAS CARTAS AL CONTENEDOR DEL MAZO Y HACER LOS INSERTS A LA BBDD
 function añadirCartaMazo(element) {
     if (element.dataset.type == "Digi-Egg" && eggDeck < 5) {
         if (typeof mazo["eggDeck"][element.dataset.cardnumber] !== 'number') {
@@ -109,6 +113,7 @@ function añadirCartaMazo(element) {
         }
     }
 }
+// FUNCION DE SUMAR CANTIDAD DE CARTAS QUE SE AÑADEN AL MAZO Y MODIFICAR EN LA BBDD
 function sumarCantidad(event){
     let element = event.target.parentNode;
     if(element.dataset.type == "Digi-Egg"){
@@ -127,6 +132,7 @@ function sumarCantidad(event){
         }
     }
 }
+// FUNCION DE SUMAR CANTIDAD DE CARTAS QUE SE AÑADEN AL MAZO Y MODIFICAR O LIMINAR DE LA BBDD
 function restarCantidad(event){
     let element = event.target.parentNode;
 
@@ -160,15 +166,6 @@ function restarCantidad(event){
     }
 }
 
-
-function restarCartaMazo(){
-    // if (this.dataset.type == "Digi-Egg") {
-    //     mazo["eggDeck"][this.dataset.cardnumber] -= 1;
-    // }else{
-    //     mazo["deck"][this.dataset.cardnumber] -= 1;
-    // }
-}
-
 // FUNCIONES RELACIONADAS AL MAZO
 async function insertCartaMazo(idCarta, idColeccion){
     // DATOS NECESARIOS ID_MAZO, IDCARTA, IDCOLECCION, IDJUEGO, CANTIDAD = 1
@@ -191,6 +188,7 @@ async function insertCartaMazo(idCarta, idColeccion){
         return
     }
 }
+// PETICION QUE MODIFICA LA CANTIDAD DE UNA CARTA EN EL MAZO
 async function updateCartaMazo(idCarta, idColeccion, cantidad){
     // DATOS NECESARIOS ID_MAZO, IDCARTA, IDCOLECCION, IDJUEGO, CANTIDAD = 1
     const res = await fetch("http://localhost:3000/api/updateCartaMazo",{
@@ -211,6 +209,7 @@ async function updateCartaMazo(idCarta, idColeccion, cantidad){
         return
     }
 }
+// PETICION QUE ELIMINA LA CANTIDAD DE UNA CARTA EN EL MAZO
 async function removeCartaMazo(idCarta, idColeccion, cantidad){
     // DATOS NECESARIOS ID_MAZO, IDCARTA, IDCOLECCION, IDJUEGO, CANTIDAD = 1
     const res = await fetch("http://localhost:3000/api/removeCartaMazo",{
@@ -230,6 +229,7 @@ async function removeCartaMazo(idCarta, idColeccion, cantidad){
         return
     }
 }
+// FUNCION PARA ELIMINAR LAS CARTAS QUE ESTAN GUARDADAS EN EL MAZO
 async function limpiarMazo(){
     if(deck>0 || eggDeck>0){
         if(window.confirm("Se va a limpiar el mazo. ¿Estas seguro?")){
@@ -251,16 +251,8 @@ async function limpiarMazo(){
         }
     }
 }
-
+// PETICION PARA AÑADIR LAS CARTAS YA EXISTENTES DEL MAZO AL CARGAR LA PAGINA
 async function cargarMazo(){
-    // COMPROBAR QUE EL MAZO CONTIENE CARTAS
-    //     -SI NO CONTIENE NADA
-    //     -SI CONTIENE    
-    //         -MOSTRAR LAS CARTAS EN LA ZONA CON SU CANTIDAD Y LOS BOTONES
-                    // -RECOGER LA URL DE LA CARTA PARA PODER AÑADIRLA
-    //         -AÑADIR LAS CARTAS A LA ARRAY QUE CONTIENE LA LISTA DEL MAZO
-    //         -AÑADIR LOS VALORES CORRECTO A LOS CONTADORES DE DECK Y EGGDECK
-
     const res = await fetch("http://localhost:3000/api/cartasMazo",{
         method:"POST",
         headers:{
@@ -290,6 +282,7 @@ async function cargarMazo(){
         cargarCartas(element)
     });
 }
+// FUNCION PARA CARGAR CARTAS EN LA ZONA DE MAZO
 function cargarCartas(element){
     let div = document.createElement("div")
     div.dataset.nombre =  element.name 
@@ -302,6 +295,7 @@ function cargarCartas(element){
     div.appendChild(img)
     añadirButtons(div,element.cantidad)
 }
+// FUNCION PARA AÑADIR BOTONES A LAS CARTAS DEL MAZO
 function añadirButtons(element, cantidad){
     let divMas = document.createElement("img")
     divMas.src = "src/icons/plus-svgrepo-com.svg"
@@ -326,6 +320,7 @@ function añadirButtons(element, cantidad){
     element.appendChild(divCantidad)
     element.appendChild(divMenos)
 }
+// FUNCION PARA FILTRAR LAS CARTAS QUE SE MUESTRAN
 function filtroBusqueda(event){
     event.preventDefault()
 
@@ -375,6 +370,7 @@ function filtroBusqueda(event){
 
     creacionSentenciaSQL(listaFiltro)
 }
+// FUNCION PARA CREAR LA SENTENCIA SQL DE LA BUSQUEDA DEPENDIENDO DE LOS DISTINTOS FILTROS SELECCIONADOS
 async function creacionSentenciaSQL(listaFiltro){
         // Inicializar la parte de la sentencia SQL que siempre estará presente
         var sql = "SELECT c.* FROM cartas c WHERE 1 = 1";
@@ -423,6 +419,7 @@ async function creacionSentenciaSQL(listaFiltro){
         peticionAPIFiltro(sql)
 }
 // HACER CONSULTA A LA API
+// FILTRANDO LA CONSULTA DEPENDIENDO DE LOS FILTROS SELECCIONADOS
 async function peticionAPIFiltro(sql){
     const res = await fetch("http://localhost:3000/api/filtroCartas",{
         method:"POST",
@@ -444,6 +441,7 @@ async function peticionAPIFiltro(sql){
     });
     
 }
+// FUNCION PARA LISTAR TODAS LAS COLEECIONES EN FILTROS
 async function listaColecciones(){
     const res = await fetch("http://localhost:3000/api/listaColecciones",{
         method:"POST",
@@ -452,7 +450,6 @@ async function listaColecciones(){
         },
     })
     if(!res.ok){
-        // alert("Usuario o contraseña incorrecta")
         return
     }
     const resJson = await res.json()
@@ -469,7 +466,7 @@ async function listaColecciones(){
         FiltroEdicion.appendChild(label)
     });
 }
-// REALIZAR EL DRAG AND DROP{
+// REALIZAR EL DRAG AND DROP
 function allowDrop(ev) {
     ev.preventDefault();
 }
@@ -481,8 +478,6 @@ function drop(ev) {
     if (!elementoDrag.classList.contains('no-drop')) {
         añadirCartaMazo(elementoDrag)
     }
-    // var copia = ev.dataTransfer.getData("text");
-    // dropZone.appendChild(copia.cloneNode(copia));
 }
 export const methods = {
     imgCartas: imgCartas,

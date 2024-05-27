@@ -1,4 +1,5 @@
 // IMPORTS DEPENDENCIES
+// DEPENDENCIAS NECESARIAS PARA EL FUNCIONAMIENTO DE LA APLICACION
 import express from "express"; 
 import cookieParser from 'cookie-parser';
 import logger from "morgan";
@@ -12,6 +13,7 @@ import mysql from 'mysql2/promise';
 
 import 'dotenv/config';
 
+// IMPORTS DE FUNCIONES DE OTROS ARCHIVOS, LOS CUALES SE ENCARGAN DE REALIZAR LAS PETICIONES A LA BASE DE DATOS
 import { methods as autentificador } from "./controllers/autentificador.js";
 import { methods as apiDigimon } from "./controllers/apiDigimon.js";
 
@@ -28,6 +30,7 @@ const connection = await mysql.createConnection({
     authPlugins: process.env.DB_AUTH_PLUGINS
 });
 
+// VERIFICACION DE LA CONEXION A LA BASE DE DATOS, SABER SI SE A REALIZADO CORRECTAMENTE LA CONECXION
 connection.connect((error) => {
   if (error) {
     console.error('Connection error:', error);
@@ -38,17 +41,22 @@ connection.connect((error) => {
   }
 });
 // SERVER CONFIGURATION
+// DARLE UN PUERTO LIBRE AL LADO DEL SERVIDOR AL DESPLEGARSE, Y SI NO ENCUENTRA UN PUERTO LIBRE LE ASIGNA EL PUERTO 3000
 const port = process.env.PORT ?? 3000;
 
 const app = express()
 
+// STATIC PATHS, HACER QUE LOS ARCHIVOS ESTATICOS FUNCIONEN
 const staticPath = path.join(process.cwd(), '/webComponents/');
 const staticPath2 = path.join(process.cwd(), '/cliente/');
 
 app.use('/resources', express.static(staticPath));
 app.use('/resources', express.static(staticPath2));
 
+// CREACION DEL SERVIDOR
 const server = createServer(app)
+
+// CREACION DEL SOCKET.IO EN EL SERVIDOR, PARA PODER REALIZAR LA CONEXION ENTRE EL SERVIDOR Y EL CLIENTE Y CONFIGURADO PARA QUE SEPA EN QUE MOMENTO EL USUARIO SE CONECTA Y DESCONECTA
 const io = new Server(server, {
     connectionStateRecovery: {
     }
@@ -56,26 +64,27 @@ const io = new Server(server, {
 
 // CONNECTION TO THE SOCKET.IO ROOMS
 // HANDLE CONNECTIONS, DISCONNECTIONS, AND MESSAGES
+// COMPRUEBA SI EL USUARIO SE CONECTA O DESCONECTA AL SERVIDOR, Y SI SE ENVIA UN MENSAJE
 io.on("connection", async (socket) =>{
     console.log("a user has conected!!")
     socket.on("disconnect", ()=>{
         console.log("user disconnected");
     })
-
+    // MANEJO DE LOS MENSAJES QUE ENVIA EL CLIENTE Y SE INSERTAN DENTRO DE LA BBDD
+    
     socket.on("chat message", async (msg,username2,fecha,id_sala)=>{
         let result
         const username = socket.handshake.auth.username ?? 'anonymous'
-        // const username2 = socket.handshake.auth.username2
-        // result = await connection.query('INSERT INTO mensajes (id_usuarioEnvia, id_usuarioRecibe,contenido, id_sala) VALUES (?,?,?,?);', [username,username2, msg,id_sala])
+        result = await connection.query('INSERT INTO mensajes (id_usuarioEnvia, id_usuarioRecibe,contenido, id_sala) VALUES (?,?,?,?);', [username,username2, msg,id_sala])
         try {
             result = await connection.query('INSERT INTO mensajes (id_usuarioEnvia, contenido, id_sala) VALUES (?,?,?);', [username, msg, id_sala]);
         } catch (error) {
             console.error('Error al insertar mensaje:', error);
-            // Maneja el error aquí, por ejemplo, enviando una respuesta de error o notificando al cliente
         }
+        // EMITE EL MENSAJE A TODOS LOS USUARIOS QUE ESTEN EN LA SALA, PARA QUE SE LES MUESTRE EL MENSAJE
         io.to(id_sala).emit("chat message", msg, result.lastInsertRowid,username, fecha)
     })
-    
+    // AL CARGAR EN ESPECIFICO UNA SALE QUE SE MUESTREN TODOS LOS MENSAJES QUE HAY EN ELLA
     socket.on("chat charge", async (username)=>{
         const prueba = await query(username[0], username[1],"0")
         try {
@@ -91,9 +100,7 @@ io.on("connection", async (socket) =>{
     socket.on('solicitarSala', (idSala) => {
         // Join the client to the specified room
         socket.join(idSala);
-
         console.log(`Cliente ${socket.id} se unió a la sala ${idSala}`);
-
         // Optional: Send a response to the client confirming the room join
         socket.emit('salaUnida', idSala);
     });
@@ -110,53 +117,39 @@ app.use(logger('dev'))
 // añadir la validacion de la cookie antes de validar la ruta, 
 // si no es correcto redireccionar a login
 app.get('/', (req, res)=>{
-    console.log(req.cookies);
     res.sendFile(process.cwd()+"/cliente/login.html")
-    
-    // const isValid = verificarCookie(sessionCookie);
-    // if (isValid) {
-    //     res.send('Acceso concedido');
-    // } else {
-    //     res.status(403).send('Acceso denegado');
-    // }
 })
-app.get('/home', (req, res)=>{
-    console.log(req.cookies);
-
+app.get('/home',(req, res)=>{
     res.sendFile(process.cwd()+"/cliente/home.html")
 })
+app.get('/homeAdmin',(req, res)=>{
+    res.sendFile(process.cwd()+"/cliente/homeAdmin.html")
+})
 app.get('/chat', (req, res)=>{
-    console.log(req.cookies);
-
     res.sendFile(process.cwd()+"/cliente/chat.html")
 })
 app.get('/deckbuilder', (req, res)=>{
-    console.log(req.cookies);
-
     res.sendFile(process.cwd()+"/cliente/deckBuilder copy.html")
 })
 app.get('/decks', (req, res)=>{
-    console.log(req.cookies);
-
     res.sendFile(process.cwd()+"/cliente/decks.html")
 })
 app.get('/login', (req, res)=>{
-    console.log(req.cookies);
-
     res.sendFile(process.cwd()+"/cliente/login.html")
 })
 app.get('/register', (req, res)=>{
-    console.log(req.cookies);
-
     res.sendFile(process.cwd()+"/cliente/register.html")
 })
 app.get('/collection', (req, res)=>{
-    console.log(req.cookies);
-
     res.sendFile(process.cwd()+"/cliente/collection.html")
 })
 
 //API calls to the database
+// LLAMADAS EN ESPECIFICO PARA COMPROBAR QUE EL USUARIO LOGEADO TIENE ACCESO A LA RUTA PROTEGIDA
+app.get('/api/protectedRoute', autentificador.verifyToken, async (req, res) => {
+    let userData = req.user;
+    res.status(200).json({ message: 'Ruta protegida accesible', user: userData});
+})
 app.post('/api/login', autentificador.login)
 app.post('/api/register', autentificador.register)
 app.post('/api/usuarios', autentificador.sacarUsuariosChat)
