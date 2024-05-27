@@ -63,6 +63,8 @@
                 height: 75px;
                 width: 100%;
                 justify-content: space-between;
+                word-wrap: break-word;
+                height: auto;
                 .icon-user{
                     padding:0 15px;
                     background-color: transparent;
@@ -80,11 +82,9 @@
                     font-size: 20px;
                     background-color: transparent;
                     margin-right: auto;
-
-                    & h3{
-                    background-color: transparent;
-
-                    }
+                    padding: 10px;
+                    display: inline-block;
+                    max-width: 65%;
                 }
                 .more{
                     height: 50px;

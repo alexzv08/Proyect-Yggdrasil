@@ -129,7 +129,7 @@ CREATE TABLE mazos (
     id_mazo INT AUTO_INCREMENT,
     id_usuario VARCHAR(50),
     nombre_mazo VARCHAR(50),
-    fecha DATETIME  DEFAULT CURRENT_DATE,
+    fecha DATETIME  DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id_mazo),
     FOREIGN KEY (id_usuario) REFERENCES usuarios(usuario)
 );

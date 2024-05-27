@@ -49,7 +49,7 @@ async function register(req, res){
             }else{
                 
                 let result = await connection.query(
-                'insert into usuarios (usuario,password,email) values (?,?,?);',[req.body.user, await saltPassword(req.body.pass),req.body.email]
+                'insert into usuarios (usuario,password,email,id_rol) values (?,?,?,1);',[req.body.user, await saltPassword(req.body.pass),req.body.email]
                 );
                 return res.status(201).send({status: "OK", message: "Usuario registrado", redirect:"/"})
             }
