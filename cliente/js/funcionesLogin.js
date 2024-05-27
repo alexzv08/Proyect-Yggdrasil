@@ -2,10 +2,6 @@ const mesnsajeError = "";
 window.onload = ()  => {
     document.getElementById("register-form").addEventListener("submit", async (e)=>{
         e.preventDefault();
-
-        // PETICION POR SERVIDOR AWS
-        //  const res = await fetch("http://35.181.125.245:3000/api/login",{
-        // PETICION POR SERVIDOR LOCAL
         const res = await fetch("http://localhost:3000/api/login",{
             method:"POST",
             headers:{
@@ -17,14 +13,22 @@ window.onload = ()  => {
             })
         })
         if(!res.ok){
-            alert("Usuario o contraseña incorrecta")
+            const resJson = await res.json()
+            console.log(resJson)
+            alert(resJson)
             return
         }
         const resJson = await res.json()
         if(resJson.redirect){
-            sessionStorage.setItem("user", e.target.children[0].children.email.value);
+            // console.log(resJson.datos[0].usuario)
+            sessionStorage.setItem("user", resJson.datos[0].usuario);
+            sessionStorage.setItem("token", resJson.token);
             document.cookie = `session=${resJson.session}; path=/`;
-            window.location.href = "/home";
+            if(resJson.datos[0].id_rol == 1){
+                window.location.href = "/home";
+            }else if(resJson.datos[0].id_rol == 2){
+                window.location.href = "/homeAdmin";
+            }
         }
     })
     register.addEventListener("click" ,(e)=>{

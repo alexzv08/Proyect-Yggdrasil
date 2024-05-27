@@ -4,19 +4,56 @@ import { methods as funcionesFiltro } from "./funcionesFiltroCartas.js";
 let ocultoMenu, ocultoChatHamburger=false;
 let ocultoChat=false;
 
+async function verifyAndFetch(url, options = {}) {
+    const token = sessionStorage.getItem("token");
+    console.log(token)
+    if (!token) {
+        // Si no hay token, redirigir al login
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user");
+        window.location.href = "/login";
+        return;
+    }
+
+    // Agregar el token a los encabezados de la solicitud
+    const res = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    });
+
+    if (!res.ok) {
+        // Manejar errores, por ejemplo, redirigir al login si el token es inválido
+        alert("No autorizado, por favor inicia sesión nuevamente.");
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user");
+        window.location.href = "/login";
+        return;
+    }
+
+    return res.json();
+}
 window.onload = async()=>{
-    await addHtmlDocumentAtBeginning("./components/sideBar.html")
-    await document.getElementById('home').classList.add('active')
-    await document.getElementById("toogleMenu").addEventListener("click", toggleMenuChange)
-    await document.getElementById("desplegableNavBar").addEventListener("click", mostrarOtros)
-    navBarRediretions()
-    // funcionesCartas.onLoad()
-    // funcionesFiltro.onLoad()
-    // hamnurgerMenu.addEventListener("click", toggleMenuChangeHamburger)
-    // toogleChat.addEventListener("click", toggleChatChange)
-    // deckbuilder.addEventListener("click", insertCartas)
+    try {
+        const data = await verifyAndFetch("http://localhost:3000/api/protectedRoute");
+        await addHtmlDocumentAtBeginning("./components/sideBar.html")
+        await document.getElementById('home').classList.add('active')
+        await document.getElementById("toogleMenu").addEventListener("click", toggleMenuChange)
+        await document.getElementById("desplegableNavBar").addEventListener("click", mostrarOtros)
+        navBarRediretions()
+        // funcionesCartas.onLoad()
+        // funcionesFiltro.onLoad()
+        // hamnurgerMenu.addEventListener("click", toggleMenuChangeHamburger)
+        // toogleChat.addEventListener("click", toggleChatChange)
+        // deckbuilder.addEventListener("click", insertCartas)
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
+    }
 }
 async function onLoad(){
+    const data = await verifyAndFetch("http://localhost:3000/api/protectedRoute");
     await addHtmlDocumentAtBeginning("./components/sideBar.html")
     await navBarRediretions()
     // await document.getElementById('home').classList.add('active')
@@ -55,9 +92,6 @@ function toggleMenuChange(){
         containerSidebar.classList.remove("menuOculto")
         containerSidebar.classList.add("menuDesplegado")
         document.querySelector("#toogleMenu img").src = "src/icons/arrow-left.svg"
-        // console.log(containerSidebar.offsetWidth);
-        // console.log(document.querySelector("body").offsetWidth);
-        // contenidoWeb.style.width=`calc(100% - 270px)`
 
         ocultoMenu=true
     }else{
@@ -69,29 +103,7 @@ function toggleMenuChange(){
         toogleMenu.style.left="85px";
         document.querySelector("#toogleMenu img").src = "src/icons/arrow-rigth.svg"
 
-        // console.log(containerSidebar.offsetWidth);
-        // console.log(document.querySelector("body").offsetWidth);
-
-        // contenidoWeb.style.width=`calc(100% - 100px)`
         ocultoMenu=false
-    }
-}
-function toggleMenuChangeHamburger(){
-    let hamburger = document.querySelectorAll("#hamnurgerMenu div div")
-
-    if(!ocultoChatHamburger){
-        hamburger[0].classList.add('x1')
-        hamburger[1].classList.add('x2')
-        hamburger[0].style.margin="0"
-        hamburger[1].style.margin="0"
-
-        ocultoChatHamburger=true
-    }else{
-        hamburger[0].classList.remove('x1')
-        hamburger[1].classList.remove('x2')
-        hamburger[0].style.margin="10px"
-        hamburger[1].style.margin="10px"
-        ocultoChatHamburger=false
     }
 }
 
@@ -156,5 +168,8 @@ async function addHtmlDocumentAtBeginning(url) {
 
 
 export const methods = {
-    toggleMenuChange,navBarRediretions,addHtmlDocumentAtBeginning, onLoad
+    toggleMenuChange,
+    navBarRediretions,
+    addHtmlDocumentAtBeginning, 
+    onLoad
 }

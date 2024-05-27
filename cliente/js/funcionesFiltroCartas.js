@@ -1,8 +1,10 @@
+// DEPENDENCIAS NECESARIAS
 import { methods as windowOnLoad } from "./sideBar.js";
 
 let colores = ["Rojo", "Azul", "Verde", "Amarillo", "Negro","Morado","Blanco"]
-        let keywordA = ["Alliance", "Armore Purge", "Barrier", "Blast Digivolve", "Blitz","Blocker","Decoy","De-Digivolve","Delay","Digi-Busrt","Digisorption","Draw","Fortitude","Jamming","Material Save","Mind Link","Pircing","Raid","Reboot","Recovery","Retalation","Rush","Save","Security Attack"]
-        let datosFiltro=[];
+let keywordA = ["Alliance", "Armore Purge", "Barrier", "Blast Digivolve", "Blitz","Blocker","Decoy","De-Digivolve","Delay","Digi-Busrt","Digisorption","Draw","Fortitude","Jamming","Material Save","Mind Link","Pircing","Raid","Reboot","Recovery","Retalation","Rush","Save","Security Attack"]
+let datosFiltro=[];
+
 window.onload=async ()=>{
     onLoad()
     await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
@@ -48,11 +50,6 @@ function filtro(e) {
         if(pair[1]!=''){
             datosFiltro.push([pair[0], pair[1] ]);
         }
-    }
-    // let greaterTen2 = datosFiltro.filter(number => number[0] == "tipo" );
-    // console.log(greaterTen2[0][1])
-    for (const key of datosFiltro) {
-        // console.log(key);
     }
     let consulta = "SELECT * FROM cartas ";
     consulta+="WHERE"

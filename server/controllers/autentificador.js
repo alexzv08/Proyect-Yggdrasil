@@ -1,5 +1,7 @@
+// DEPENDENCIAS NECESARIAS PARA EL FUNCIONAMIENTO DE LA APLICACION
 import mysql from 'mysql2/promise';
 import bcryptjs from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 // DATABASE CONNECTION
 const connection = await mysql.createConnection({
@@ -19,35 +21,66 @@ connection.connect((error) => {
       console.log('Connected to database successfully!');
     }
 });
+// CLAVE SECREATA PARA EL TOKEN DEL USUARIO
+const SECRET_KEY = process.env.SECRET_KEY || 'your_secret_key';
+
 // REQUESTS LOGIN
+// FUNCION PARA REALIZAR EL LOGIN DEL USUARIO
 async function login(req, res){
+    console.log(req.body)
+    // SI LOS CAMPOS ESTAN VACIOS SALTA UN ALERT
     if(!req.body.user || !req.body.pass){
         return res.status(400).send({status: "Error", message: "Campos vacios"})
     }
     try {
+        // PETICION A LA BASE DE DATOS PARA COMPROBAR QUE EL USUARIO EXISTE EN LA APLICACION
         let [result, data] = await connection.query(
             'SELECT * FROM usuarios WHERE (usuario LIKE ? OR email LIKE ?) AND password LIKE ?;',[req.body.user,req.body.user, await saltPassword(req.body.pass)]
             );
-        return result.length === 0 ?  res.status(400).send({status: "Error", message: "Datos incorrectos"}) : res.status(200).send({status: "OK", message: "Datos correctos", redirect:"/"});
+        // SI NO EXISTE EL USUARIO EN LA BASE DE DATOS SALTA UN ALERT
+        if(result.length === 0){
+            return res.status(400).send({status: "Error", message: "Datos incorrectos"})
+        }
+        // SI EXISTE EL USUARIO SE CREA UN TOKEN PARA EL USUARIO Y SE REDIRECCIONA A LA PAGINA DE INICIO
+        const token = jwt.sign({ id:req.body.user, username: req.body.user }, SECRET_KEY, { expiresIn: '100h' });
+        return res.status(200).send({status: "OK", message: "Datos correctos", token: token, datos: result, redirect: "/home"});
     } catch (err) {
+        console.log(err)
         return res.status(400).send({status: "Error", message: "Error en el login"})
     }
 }
+
+// Middleware verification token JWT
+function verifyToken(req, res, next) {
+    const token = req.header('Authorization').replace('Bearer ', '');
+    if (!token) return res.status(401).send('Acceso Denegado');
+
+    try {
+        const verified = jwt.verify(token, SECRET_KEY);
+        req.user = verified;
+        next();
+    } catch (error) {
+        res.status(400).send('Token no válido');
+    }
+}
+
 // REQUESTS REGISTER
 async function register(req, res){
     if(!req.body.user || !req.body.pass){
+        // SI LOS CAMPOS ESTAN VACIOS SALTA UN ALERT
         return res.status(400).send({status: "Error", message: "Campos vacios"})
     }
     try {
+        // COMPRUEBO QUE EL EMAIL INTRODUCIDO TIENE UN FORMATO VALIDO
         if(isValidEmail(req.body.email)){
-
+            // COMPRUEBO QUE EL USUARIO NO EXISTA EN LA BASE DE DATOS
             let [result, data] = await connection.query(
             'SELECT * FROM usuarios WHERE (usuario LIKE ? OR email LIKE ?);',[req.body.user, req.body.email]
             );
             if(result.length > 0){
                 return res.status(400).send({status: "Error", message: "Usuario ya existe"});
             }else{
-                
+                // SI NO EXISTE EL USUARIO SE REGISTRA EN LA BASE DE DATOS
                 let result = await connection.query(
                 'insert into usuarios (usuario,password,email) values (?,?,?);',[req.body.user, await saltPassword(req.body.pass),req.body.email]
                 );
@@ -58,7 +91,6 @@ async function register(req, res){
         }
 
     } catch (err) {
-        console.log(err)
         res.status(400).send({status: "Error", message: "Error en el register", error: err})
     }
 }
@@ -76,25 +108,24 @@ function isValidEmail(email) {
 }
 // REQUESTS FOR SHOW CHATS IN A ROOM
 async function sacarUsuariosChat(req, res){
-
+    // PETICION PARA RECUPERAR TODOS LOS USUARIOS QUE TIENEN UN CHAT ACTIVO CON EL USUARIO
     let [result, data] = await connection.query(
             'SELECT id_sala,CASE WHEN id_usuario1 = ? THEN id_usuario2 ELSE id_usuario1 END AS usuario_contrario FROM salas_chat WHERE (id_usuario1 = ? OR id_usuario2 = ?);',[req.body.user,req.body.user,req.body.user]
         );
+    console.log(req.body.user)
+    console.log(result)
+    console.log(data)
     res.status(201).send({status: "OK", result: result})
-    // 'SELECT * FROM chatRooms WHERE (id_usuario_1 like ? or id_usuario_2 like ?)',[req.body.user,req.body.user]
 } 
 // FUNCTION TO SHOW THE LAST CHAT ROOM ID
 async function ultimoIdChat(req, res){
     let result = await connection.query(
-            // 'SELECT MAX(id_sala) AS ultimo_id_sala FROM salas_chat;'
             'INSERT INTO salas_chat (id_usuario1, id_usuario2) VALUES (?,?);', [req.body.user1, req.body.user2]
         );
     res.status(201).send({status: "OK", result: result[0].insertId})
-    // 'SELECT * FROM chatRooms WHERE (id_usuario_1 like ? or id_usuario_2 like ?)',[req.body.user,req.body.user]
 } 
 // REQUESTS FOR SHOW USERS WHIT HAVE CHAT
 async function sacarUsuarios(req, res){
-
     let [result, data] = await connection.query(
             'SELECT usuario FROM usuarios WHERE usuario=?',[req.body.user]
             );
@@ -111,15 +142,12 @@ async function sacarUsuarios(req, res){
 // FUCTION TO SHOW THE CHATS IN THE ROOM
 async function recuperarSala(req, res){
     let [result, data] = await connection.query(
-        // "SELECT * FROM mensajes WHERE (id_usuarioEnvia = ? AND id_usuarioRecibe = ?) OR (id_usuarioEnvia = ? AND id_usuarioRecibe = ?) AND id_mensaje > ? ORDER BY fecha_envio",[idUser1,idUser2,idUser2,idUser1,variable ?? 0]
         "SELECT id_sala FROM salas_chat WHERE (id_usuario1 = ? AND id_usuario2 = ?) OR (id_usuario1 = ? AND id_usuario2 = ?)",[req.body.user1,req.body.user2,req.body.user2,req.body.user1]
     );
     res.status(200).send({status: "OK", result: result})
 }
 // REQUESTS FOR CREATE DECK
 async function crearMazo(req, res){
-    // AÑADIR EL MAZO
-    // Y RECOGER LA ID DE ESE MAZO AL INSERTAR PARA CUANDO SE REDIRECCIONA TENERLO GUARDADO
     let result = await connection.query(
     'insert into mazos (id_usuario,nombre_mazo) values (?,?);',[req.body.user, req.body.nombre]
     );
@@ -127,10 +155,6 @@ async function crearMazo(req, res){
 } 
 // REQUESTS FOR SHOW DECKS FOR A USER
 async function recuperarMazosUsuario(req, res){
-    // HAY QUE AÑADIR UN CAMPO A LA TABLA PARA PONER EL NOMBRE DEL MAZO
-    // AÑADIR EL MAZO
-    // Y RECOGER LA ID DE ESE MAZO AL INSERTAR PARA CUANDO SE REDIRECCIONA TENERLO GUARDADO
-    // sacar la cantidad total de cartas que tiene el mazo
     let result = await connection.query(
         `SELECT m.id_mazo, m.id_usuario, m.nombre_mazo, m.fecha,
                     IFNULL(SUM(mc.cantidad), 0) AS total_cartas
@@ -150,7 +174,8 @@ export const methods = {
     recuperarMazosUsuario, 
     sacarUsuarios, 
     recuperarSala, 
-    ultimoIdChat
+    ultimoIdChat,
+    verifyToken
 }
 
 
