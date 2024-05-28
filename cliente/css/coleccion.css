@@ -193,6 +193,13 @@
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
+        
+        & div img{
+            height: 30px;
+            width: 30px;
+            background-color: rgb(0, 174, 255);
+            border-radius: 50%;
+        }
     }
 }
 @media (1533px >= width >= 1200px){
