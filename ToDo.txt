@@ -1,75 +1,48 @@
--Título del Proyecto:
-Proyect Nexus
+1. Aspectos generales de la página web:
 
--Descripción del Proyecto: Describa brevemente el problema que aborda su proyecto, los objetivos que desea alcanzar y el público objetivo.
+¿Cuál es el título de tu página web?
+Nexus TCG
+¿Cuál es el objetivo principal de tu página web? (¿Qué problema resuelve? ¿Qué necesidad satisface?)
+El objetivo principal es juntar en una sola plataforma todas las necesidades de los jugadores y coleccionistas de TCG's
+¿A qué público objetivo va dirigida tu página web? (¿Edad, intereses, ubicación?)
+Va orientada a los coleccinistas y jugadores de TCg de todas las edades y paises, pero en un principio del proyecto al mercado español
+¿Qué tipo de contenido ofrecerá tu página web? (Artículos, tutoriales, herramientas, etc.)
+Ofrecera la posibilidad de mantener actualizada la coleccion de cartas que poseas, crear mazos para los distintos tcg's, chatear en vivo con otros usuarios, participar en torneos, y cambiar cartas, vender o comprar cartas a otros usuarios
+¿Qué hace que tu página web sea única y diferente a otras similares? (Propuesta de valor, características distintivas)
+Principalmente que agrupa todas las carecteristicas que posen el resto de plataformas en solo 1, tambien el jusntar todos los juegos de TCG en una sola web, lo que ara que la comunidades esten pas proximas y no tengan que usar otras plataformas si juegas a distintos TCG's, y hacer un producto optimo y superior al resto de plataformas
+2. Funcionalidades y características:
 
-El proyecto realizado es un aplataforma relacionada con el mundo del TCG, seria sobre cartas tradeables coleccionables ( magic, yuguih, vanguard,pokemon...)., el proyecto actualemnete esta pensado unicamente en el TCg de Digimon, pero esta pensado a que se pueda expandir a cualquier TCG sin ningun problema. Actualmente existen distintas plataformas que se especializan unicamnete en un TCg en concreto pero que no permiten la comunicacion entre usuarios o gestion de la coleccion del usuario o el intercambio de cartas entre usuarios. Con esta web lo que se permite es unificar todas las herramientas para facilitar la vida al usuario y que pueda realizar todas las gestiones directamente en una web. El publico objetivo actualmente serian los usuartios del TCG de Digimon, pero seria expandirse a todos los TCg actuales y fturos, combirtiendo la plataforma en la principal en el sector.
+¿Qué funcionalidades principales tendrá tu página web? (Registro de usuarios, creación de perfiles, búsqueda de contenido, interacción con otros usuarios, etc.)
+Registro de usuarios
+Creacion de usuarios
+Ceacion de mazos ya sea con todas las cartas disponibles con ese tcg o con las que contengas en tu coleccion
+administrar la coleccion disponibles
+chatear entre usuarios
+inscribirse en torneos
+tradear cartas con otros usuarios
+¿Habrá alguna herramienta o servicio especial que ofrezca tu página web? (Calculadoras, descargas, foros, etc.)
+el agrupar todas las necesidades en una unica plataforma
+¿Se podrá personalizar la experiencia del usuario en tu página web? (Configuración de perfil, preferencias de contenido, etc.)
+el usuario lo maximo que podria personalizar seria su foto de perfil. Pero la web estara lo mejor ajustada para un agradable manejo de la web y su navegacion
+¿Cómo se monetizará tu página web? (Publicidad, suscripciones, servicios premium, etc.)
+Al principio con el uso de publicidad atraves de googleAds, y en un futuro el ingresar una moneda virtual con la que los usuarios gestionanrian la compra veta de cartas y su participacion y con cada compra de monedas llevarme un %
+3. Aspectos técnicos:
 
--Metodología: Describa el enfoque general que tomó para desarrollar su proyecto, incluyendo las fases principales, las actividades y las herramientas utilizadas.
+¿Con qué tecnología se ha desarrollado la página web? (Lenguajes de programación, frameworks, herramientas de diseño, etc.)
+En el lado del servidor se a usado node.js, para el chat en linea sea usado socket.io, el resto de lenjuages a sido javascript,html5,css3 y sea usado expres para facilitar el uso de node.js
+¿Qué requisitos técnicos necesita la página web para funcionar correctamente? (Navegadores web compatibles, dispositivos, conexión a internet, etc.)
+Por parte del administrador desplegar la web en un servidor de hosting como AWS y por parte del cliente tener conecxion a internet y un navegador web
+¿Se ha optimizado la página web para motores de búsqueda? (SEO, palabras clave, metaetiquetas, etc.)
+No, pero seria una de la principales cosas a hacer para tener una mejor posicionamineto web y asi pelear con el resto del mercado
+¿Se ha diseñado la página web para ser responsive y adaptable a diferentes dispositivos? (Móviles, tablets, ordenadores de escritorio)
+Completamente, es una plataforma en la cual se podria usar desde cualquier lugar y dispositivo
+¿Se han implementado medidas de seguridad para proteger los datos de los usuarios? (Cifrado, protocolos de seguridad, políticas de privacidad)
+Si, una de las cosas principales es que los usuarios las constraseñas son cifradas y almacenadas en el servidor, y para la gestion de cookies se a usado JWT con la que asignamos a un usario un token cifrado y que comprovamos mientras el usuario navega por la web
+4. Aspectos de marketing y promoción:
 
-La metodogia utilizada al realizar le proyecto seria el Scrum, realizando cortos sprints, en este caso estaria dividido en 3 fases.
-
-Cada fase contendria los mismos enfoques, planificacion, correccion, desarrollo.
-
-En la primera fase contendriamos:
-
-    Enfoque:
-        Las distintas tareas a realizar y como realizarlas
-
-    Planificacion:
-        Distribuir las tareas de forma eficiente
-    
-    Correccion:
-        Correccion de las tareas realizadas en el anterior sprint.
-
-    desarrollo:
-        Desarrollar los distintos objetivos a realizar este sprint
-
-
--Aspectos Técnicos: Especifique los lenguajes de programación, tecnologías, frameworks y herramientas que utilizó para desarrollar el software.
-
-    Las herramientas utilizadas para la realizacion del proyecto.
-
-    Para el lado servidor:
-    Node.js
-        Dependencias;
-        +-- @rodrigogs/mysql-events@0.6.0
-        +-- bcryptjs@2.4.3
-        +-- body-parser@1.20.2
-        +-- dotenv@16.4.5
-        +-- ejs@3.1.9
-        +-- express@4.19.2
-        +-- jsonwebtoken@9.0.2
-        +-- morgan@1.10.0
-        +-- mysql2@3.9.4
-        +-- mysql2-promise@0.1.4
-        +-- socket.io@4.7.4
-        +-- stringify@5.2.0
-    MySQL utilizando workbench como herramienta visual
-
-    Por el lado cliente
-    HTML, CSS, JS
-
-    Estructuracion del proyecto
-
-    Proyecto
-        -cliente
-            -components
-                -sideBar.html
-            -css
-            -js
-            -src
-                -icons    
-        -server
-            index.js
-            -controlers
-                apiDigimon.js
-                autentificador.js
-        .env
-
-Contenidos: Describa las funcionalidades, características y diseño de la interfaz de usuario de su software.
-
-
-
-
-Implementación: Proporcione fragmentos de código, capturas de pantalla y diagramas para ilustrar la implementación de su software.
+¿Cómo darás a conocer tu página web al público objetivo? (Estrategias de marketing, canales de comunicación, redes sociales)
+harian disintos puntos a los cuales apuntar, serian publicitarnos en tiendas fisicas atraves de panfletos, hacer publicidad atraves de googleAds en paginas relacionadas, publicitarnos en redes sociales, publicitarnos en eventos fisicos, pedir a influencers que pueben nuestra plataforma y que la recomienden si les gusta, y publicitarnos en discord/telegram/grupos de whatsupp
+¿Qué tipo de contenido crearás para atraer y fidelizar a los usuarios? (Artículos de blog, infografías, vídeos, etc.)
+videos publicitarios, panfletos, una web agradables y visual para el usuario
+¿Cómo medirás el éxito de tu página web? (Métricas de seguimiento, análisis de datos, objetivos de conversión)
+atraves de metricas de google.... inventate algo

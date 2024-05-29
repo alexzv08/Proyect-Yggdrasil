@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #body{
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+    }
+    #detalleTradeCartasOfrece{
+        border: 1px solid red;
+        position: absolute;
+        height: 100vh;
+        width: 100vw;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.300);
+        display: flex;
+        justify-content: center;
+        & table{
+            width: 80%;
+            height: 200px;
+            margin: auto;
+            border: 1px solid black;
+            & tr{
+                width: 100%;
+                height: auto;
+                & td{
+                    border: 1px solid black;
+                    height: auto;
+                    width: auto;
+                }
+                & td:nth-child(odd){
+                    width: 10% !important;
+                }
+            }
+        }
+    }
+</style>
+<body>
+    <section id="body">
+        <div class="filtroTrade">
+            <form action="">
+                <label for="">Filtrar por cartas que buscas</label>
+                <input type="checkbox" name="" id="">
+                <label for="">Filtrar por cartas que ofreces</label>
+                <input type="checkbox" name="" id="">
+                <label for="">Nombre de usuario</label>
+                <input type="text">
+                <label for="">Nombre de carta</label>
+                <input type="text" placeholder="Nombre">
+                <div class="inputDetail">
+                    <label for="">Numero de carta</label>
+                    <input id="numCarta" type="text" placeholder="Numero de carta">
+                </div>
+                <label for="">Cantidad:</label>
+                <input type="number" name="" id="">
+                <details class="detallesForm" id="FiltroEdicion">
+                    <summary>Filtrar cartas por colección</summary>
+                </details>
+                <button>Filtrar</button>
+            </form>
+        </div>
+        <div class="listarades">
+            <div class="tradesContainer">
+                <div>
+                    <h2>Usuario: </h2>
+                </div>
+                <div>
+                    <div class="buttons">
+                        <button>Lista Cartas que cambia</button>
+                        <button>Lista Cartas que busca</button>
+                        <!-- <button>Contactar</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section id="detalleTradeCartasOfrece">
+            <table>
+                <tr>
+                    <td></td>
+                    <td>Nombre</td>
+                    <td>Cantidad</td>
+                </tr>
+                <tr>
+                    <td>Img</td>
+                    <td>BT01-007 Pagumon</td>
+                    <td>8</td>
+                </tr>
+            </table>
+        </section>
+        <!-- <section id="detalleTradeCartasBusca">
+            <table>
+                <td>
+                    <tr></tr>
+                    <tr>Nombre</tr>
+                    <tr>Cantidad</tr>
+                </td>
+            </table>
+        </section> -->
+    </section>
+</body>
+</html>
