@@ -24,6 +24,7 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.9.1",
     "mysql2-promise": "^0.1.4",
+    "nodemailer": "^6.9.13",
     "socket.io": "4.7.4",
     "stringify": "^5.2.0",
     "vercel": "^33.6.3"

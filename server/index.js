@@ -75,14 +75,18 @@ io.on("connection", async (socket) =>{
     socket.on("chat message", async (msg,username2,fecha,id_sala)=>{
         let result
         const username = socket.handshake.auth.username ?? 'anonymous'
-        result = await connection.query('INSERT INTO mensajes (id_usuarioEnvia, id_usuarioRecibe,contenido, id_sala) VALUES (?,?,?,?);', [username,username2, msg,id_sala])
+        // result = await connection.query('INSERT INTO mensajes (id_usuarioEnvia, id_usuarioRecibe,contenido, id_sala) VALUES (?,?,?,?);', [username, username2, msg, id_sala])
         try {
             result = await connection.query('INSERT INTO mensajes (id_usuarioEnvia, contenido, id_sala) VALUES (?,?,?);', [username, msg, id_sala]);
         } catch (error) {
             console.error('Error al insertar mensaje:', error);
         }
         // EMITE EL MENSAJE A TODOS LOS USUARIOS QUE ESTEN EN LA SALA, PARA QUE SE LES MUESTRE EL MENSAJE
+        console.log(id_sala)
         io.to(id_sala).emit("chat message", msg, result.lastInsertRowid,username, fecha)
+
+        io.to(username2).emit("notification", msg, result.lastInsertRowid,username, fecha)
+
     })
     // AL CARGAR EN ESPECIFICO UNA SALE QUE SE MUESTREN TODOS LOS MENSAJES QUE HAY EN ELLA
     socket.on("chat charge", async (username)=>{
@@ -97,12 +101,13 @@ io.on("connection", async (socket) =>{
     })
 
     // CONNECTION TO THE SOCKET.IO ROOMS
-    socket.on('solicitarSala', (idSala) => {
+    socket.on('solicitarSala', (idSala, user) => {
         // Join the client to the specified room
+        socket.join(user);
         socket.join(idSala);
-        console.log(`Cliente ${socket.id} se unió a la sala ${idSala}`);
+        console.log(`Cliente ${socket.id} se unió a la sala ${idSala} - user: ${user}`);
         // Optional: Send a response to the client confirming the room join
-        socket.emit('salaUnida', idSala);
+        // socket.emit('salaUnida', idSala);
     });
 })
 
@@ -159,6 +164,8 @@ app.post('/api/eliminarmazo', autentificador.eliminarmazo)
 app.post('/api/recuperarMazosUsuario', autentificador.recuperarMazosUsuario)
 app.post('/api/idSalaChat', autentificador.recuperarSala)
 app.post('/api/ultimoIdChat', autentificador.ultimoIdChat)
+app.post('/api/salasUsuario', autentificador.salasUsuario)
+
 app.post('/api/filtroCartas', apiDigimon.filtroCartas)
 app.post('/api/listaColecciones', apiDigimon.listaColecciones)
 app.post('/api/anadirAColeccion', apiDigimon.añadirAColeccion)
@@ -170,6 +177,7 @@ app.post('/api/updateCartaMazo', apiDigimon.updateCartaMazo)
 app.post('/api/removeCartaMazo', apiDigimon.removeCartaMazo)
 app.post('/api/cartasMazo', apiDigimon.cartasMazo)
 app.post('/api/baciarMazo', apiDigimon.baciarMazo)
+
 
 //Know which port is listening
 server.listen(port, ()=>{

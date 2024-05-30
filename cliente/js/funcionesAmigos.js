@@ -52,7 +52,7 @@ window.onload= async ()=>{
 // FUNCION PARA CARCARGAR EL CHAT CON UN USUARIO
 async function cargarChat(user){
     localStorage.setItem('id_actual',this.dataset.id_sala)
-    socket.emit('solicitarSala', this.dataset.id_sala);
+    socket.emit('solicitarSala', this.dataset.id_sala, socket.auth.username);
     await cargarnombre(this.querySelector('.name-user').firstElementChild.innerText)
     message.innerText=''
     if(user!=''){
@@ -73,6 +73,7 @@ const input = document.getElementById("input")
 const messages = document.getElementById("message")
 // CARGAR LOS MENSAJES EN EL CHAT CUANDO LOS RECIBE EL SOCKET
 socket.on('chat message', (msg, serverOffset, username, fecha) => {
+    console.log("que entroooo loco")
     let item = `<li`;
     if (socket.auth.username === username) {
         item += ` class='propio'`;
@@ -86,14 +87,13 @@ socket.on('chat message', (msg, serverOffset, username, fecha) => {
     messages.scrollTop = messages.scrollHeight
 })
 // EMISION DEL MENSAJE
-form.addEventListener("submit", (e) =>{
+form.addEventListener("submit", async (e) =>{
     e.preventDefault()
     if(input.value){
-    // localStorage.setItem('usuarioEnviarMensaje',this.lastElementChild.firstElementChild.innerText)
-    let fecha = new Date
-    recuperarSala(socket.auth.username, localStorage.getItem('usuarioEnviarMensaje'))
-    socket.emit("chat message", input.value,localStorage.getItem('usuarioEnviarMensaje'),fecha, localStorage.getItem('id_actual'))
-    input.value = ""
+        let fecha = new Date
+        await recuperarSala(socket.auth.username, localStorage.getItem('usuarioEnviarMensaje'))
+        socket.emit("chat message", input.value, localStorage.getItem('usuarioEnviarMensaje'), fecha, localStorage.getItem('id_actual'))
+        input.value = ""
     }
 })
 // FUNCION PARA CARGAR LOS DISTINTOS CHATS ACTIVOS QUE DISPONE EL USUARIO
@@ -220,6 +220,7 @@ function añadirChat(){
 }
 // FUNCION PARA RECUPERAR LA SALA VINCULADA A 2 USUARIOS
 async function recuperarSala(user1, user2){
+    console.log(user1,user2)
     const res = await fetch("http://localhost:3000/api/idSalaChat",{
         method:"POST",
         headers:{
@@ -231,6 +232,7 @@ async function recuperarSala(user1, user2){
         })
     })
     const resJson = await res.json()
+    console.log(resJson.result[0].id_sala)
     return resJson.result[0].id_sala
 }
 // FUNCION PARA RECUPERAR EL ULTIMO ID DE UNA SALA POSIBLE Y ASI PODER AÑADIR UNA SALA VALIDA

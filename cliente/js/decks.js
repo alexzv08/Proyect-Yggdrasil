@@ -1,5 +1,7 @@
 // DEPENDENCIAS NECESARIAS
 import { methods as windowOnLoad } from "./sideBar.js";
+import { methods as notification } from "./notification.js";
+
 
 window.onload = async ()=>{
     await windowOnLoad.onLoad()
@@ -11,6 +13,7 @@ window.onload = async ()=>{
     await document.getElementById('deckbuilder2').classList.add('active')
     document.querySelector('#deckbuilder2 img').src = "src/icons/decksblack.svg"
     let img = document.querySelector('#deckbuilder2 img');
+    notification.solicitarSala()
 }
 // FUNCION PARA INSERTAR UNA NUEVA ENTRADA EN LA BBDD CON UN NUEMO MAZO VINCULADO A UN USUARIO
 async function crearMazo(){
@@ -69,7 +72,6 @@ resJson.result[0].forEach(element => {
 }
 // FUNCION PARA GENERAR EL CONTENEDOR DE CADA MAZO
 function crearContainerMazo(element){
-    console.log(element)
     let divContainer = document.createElement('div')
     divContainer.classList.add('deck')
     divContainer.dataset.id_mazo = element.id_mazo

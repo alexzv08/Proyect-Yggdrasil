@@ -1,11 +1,9 @@
 
+// import { methods as email } from "../../server/controllers/email.js";
+
 window.onload = () => {
     document.getElementById("register-form").addEventListener("submit", async (e)=>{
         e.preventDefault();
-
-        // PETICION POR SERVIDOR AWS
-        //  const res = await fetch("http://35.181.125.245:3000/api/register",{
-        // PETICION POR SERVIDOR LOCAL
         const res = await fetch("http://localhost:3000/api/register",{
             method:"POST",
             headers:{
@@ -25,6 +23,7 @@ window.onload = () => {
         }
         const resJson = await res.json()
         if(resJson.redirect){
+            // email.sendConfirmationEmail(e.target.children[0].children.email.value, e.target.children[1].children.user.value, "token");
             window.location.href = "/login";
         }
     })

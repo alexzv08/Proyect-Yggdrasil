@@ -1,4 +1,5 @@
 // DEPENDENCIAS NECESARIAS PARA EL FUNCIONAMIENTO DE LA APLICACION
+import { methods as email } from "./email.js";
 import mysql from 'mysql2/promise';
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -84,6 +85,8 @@ async function register(req, res){
                 let result = await connection.query(
                 'insert into usuarios (usuario,password,email,id_rol) values (?,?,?,1);',[req.body.user, await saltPassword(req.body.pass),req.body.email]
                 );
+                email.sendConfirmationEmail(req.body.email, req.body.user, "token");
+
                 return res.status(201).send({status: "OK", message: "Usuario registrado", redirect:"/"})
             }
         }else{
@@ -146,6 +149,12 @@ async function recuperarSala(req, res){
     );
     res.status(200).send({status: "OK", result: result})
 }
+async function salasUsuario(req, res){
+    let result = await connection.query(
+        "SELECT id_sala FROM salas_chat WHERE (id_usuario1 = ? OR id_usuario2 = ?)",[req.body.user, req.body.user]
+    );
+    return res.status(201).send({status: "OK", result: result, message: "Lista salas por id"})
+}
 // REQUESTS FOR CREATE DECK
 async function crearMazo(req, res){
     let result = await connection.query(
@@ -183,7 +192,8 @@ export const methods = {
     sacarUsuarios, 
     recuperarSala, 
     ultimoIdChat,
-    verifyToken
+    verifyToken,
+    salasUsuario
 }
 
 
