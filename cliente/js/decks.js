@@ -35,27 +35,44 @@ async function crearMazo(){
         alert('Tiene que darle un nombre al mazo')
     }
 }
+// FUNCION PARA ELIMINAR UN MAZO DE LA BBDD Y DEL HTML
+async function eliminarmazo(){
+    let mazoContainer = this.parentElement.parentElement
+    console.log(mazoContainer)
+    const res = await fetch("http://localhost:3000/api/eliminarmazo",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+            id_mazo: mazoContainer.dataset.id_mazo
+        })
+    })
+                    
+    mazoContainer.remove()
+    }
 // FUNCION PARA RRECUPERAR LOS DISTINTOS MAZOS QUE TIENE UN USUARIO
 async function recuperarMazos(){
-    const res = await fetch("http://localhost:3000/api/recuperarMazosUsuario",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify({
-                user: sessionStorage.getItem("user")
-            })
+const res = await fetch("http://localhost:3000/api/recuperarMazosUsuario",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+            user: sessionStorage.getItem("user")
         })
-        const resJson = await res.json()
-        resJson.result[0].forEach(element => {
-            crearContainerMazo(element)
-        });
+})
+const resJson = await res.json()
+resJson.result[0].forEach(element => {
+    crearContainerMazo(element)
+});
 }
 // FUNCION PARA GENERAR EL CONTENEDOR DE CADA MAZO
 function crearContainerMazo(element){
     console.log(element)
     let divContainer = document.createElement('div')
     divContainer.classList.add('deck')
+    divContainer.dataset.id_mazo = element.id_mazo
 
     let divColor = document.createElement('div')
     divColor.classList.add('colorMazo')
@@ -78,6 +95,7 @@ function crearContainerMazo(element){
     butn1.innerText ="Editar"
 
     let butn2 = document.createElement('button')
+    butn2.addEventListener('click', eliminarmazo)
     butn2.classList.add('Eliminar')
     butn2.innerText ="Eliminar"
 

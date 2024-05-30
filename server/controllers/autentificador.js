@@ -152,7 +152,14 @@ async function crearMazo(req, res){
     'insert into mazos (id_usuario,nombre_mazo) values (?,?);',[req.body.user, req.body.nombre]
     );
     return res.status(201).send({status: "OK", result: result, message: "Mazo registrado correctamente", redirect:"/deckBuilder"})
-} 
+}
+async function eliminarmazo(req, res){
+    console.log(req.body.id_mazo)
+    let result = await connection.query(
+    "DELETE FROM mazos WHERE id_mazo = ? ;",[req.body.id_mazo]
+    );
+    return res.status(201).send({status: "OK", result: result, message: "Mazo registrado correctamente", redirect:"/deckBuilder"})
+}
 // REQUESTS FOR SHOW DECKS FOR A USER
 async function recuperarMazosUsuario(req, res){
     let result = await connection.query(
@@ -171,6 +178,7 @@ export const methods = {
     register, 
     sacarUsuariosChat,
     crearMazo, 
+    eliminarmazo,
     recuperarMazosUsuario, 
     sacarUsuarios, 
     recuperarSala, 
