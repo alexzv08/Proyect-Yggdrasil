@@ -15,6 +15,10 @@ create table usuarios(
   PRIMARY KEY (usuario),
   FOREIGN KEY (id_rol) REFERENCES rol(id_rol)
 );
+ALTER TABLE usuarios
+ADD COLUMN verificationToken VARCHAR(255),
+ADD COLUMN isVerified BOOLEAN DEFAULT FALSE;
+
 CREATE TABLE juego (
     id_Juego VARCHAR(10) NOT NULL,
     nombre VARCHAR(150) NOT NULL,

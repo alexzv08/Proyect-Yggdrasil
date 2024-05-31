@@ -52,6 +52,7 @@ const staticPath2 = path.join(process.cwd(), '/cliente/');
 
 app.use('/resources', express.static(staticPath));
 app.use('/resources', express.static(staticPath2));
+app.use(express.static(path.join(process.cwd(), 'public')));
 
 // CREACION DEL SERVIDOR
 const server = createServer(app)
@@ -122,6 +123,8 @@ app.use(logger('dev'))
 // añadir la validacion de la cookie antes de validar la ruta, 
 // si no es correcto redireccionar a login
 app.get('/', (req, res)=>{
+    console.log(process.cwd()+"/cliente/login.html")
+
     res.sendFile(process.cwd()+"/cliente/login.html")
 })
 app.get('/home',(req, res)=>{
@@ -146,8 +149,35 @@ app.get('/register', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/register.html")
 })
 app.get('/collection', (req, res)=>{
-    res.sendFile(process.cwd()+"/cliente/collection.html")
+    console.log(process.cwd()+"/cliente/collection.html")
+
+    // res.sendFile(process.cwd()+"/cliente/collection.html")
 })
+app.get('/api/verify/:token', async (req, res) => {
+    const { token } = req.params;
+    try {
+        // Intenta llamar a la función verifyUsuario
+        const response = await autentificador.verifyUsuario(token);
+        console.log(response);
+        // Si la verificación es exitosa, envía el archivo login.html
+        console.log(process.cwd()+"/cliente/login.html")
+        res.redirect('/login');
+        // res.sendFile(path.join(process.cwd(), 'cliente', 'login.html'));
+
+    } catch (error) {
+        // Maneja el error
+        if (error.status === 404) {
+            // La función verifyUsuario no está definida o no se encontró el usuario
+            console.error('Usuario no encontrado:', error);
+            res.status(404).json({ message: 'Usuario no encontrado.' });
+        } else {
+            // Otro tipo de error
+            console.error('Error al verificar el token:', error);
+            res.status(500).json({ message: 'Error al verificar el token.' });
+        }
+    }
+});
+
 
 //API calls to the database
 // LLAMADAS EN ESPECIFICO PARA COMPROBAR QUE EL USUARIO LOGEADO TIENE ACCESO A LA RUTA PROTEGIDA

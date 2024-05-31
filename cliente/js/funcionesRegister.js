@@ -23,7 +23,6 @@ window.onload = () => {
         }
         const resJson = await res.json()
         if(resJson.redirect){
-            // email.sendConfirmationEmail(e.target.children[0].children.email.value, e.target.children[1].children.user.value, "token");
             window.location.href = "/login";
         }
     })

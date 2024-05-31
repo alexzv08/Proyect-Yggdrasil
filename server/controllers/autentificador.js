@@ -3,6 +3,8 @@ import { methods as email } from "./email.js";
 import mysql from 'mysql2/promise';
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+
 
 // DATABASE CONNECTION
 const connection = await mysql.createConnection({
@@ -43,6 +45,9 @@ async function login(req, res){
             return res.status(400).send({status: "Error", message: "Datos incorrectos"})
         }
         // SI EXISTE EL USUARIO SE CREA UN TOKEN PARA EL USUARIO Y SE REDIRECCIONA A LA PAGINA DE INICIO
+        if(result[0].isVerified == 0){
+            return res.status(401).send({status: "Error", message: "Cuenta no verificada"})
+        }
         const token = jwt.sign({ id:req.body.user, username: req.body.user }, SECRET_KEY, { expiresIn: '100h' });
         return res.status(200).send({status: "OK", message: "Datos correctos", token: token, datos: result, redirect: "/home"});
     } catch (err) {
@@ -82,15 +87,18 @@ async function register(req, res){
                 return res.status(400).send({status: "Error", message: "Usuario ya existe"});
             }else{
                 // SI NO EXISTE EL USUARIO SE REGISTRA EN LA BASE DE DATOS
+                const verificationToken = crypto.randomBytes(32).toString('hex');
                 let result = await connection.query(
-                'insert into usuarios (usuario,password,email,id_rol) values (?,?,?,1);',[req.body.user, await saltPassword(req.body.pass),req.body.email]
+                    'insert into usuarios (usuario,password,email,id_rol,isVerified,verificationToken) values (?,?,?,1,"false",?);',[req.body.user, await saltPassword(req.body.pass),req.body.email,verificationToken]
                 );
-                email.sendConfirmationEmail(req.body.email, req.body.user, "token");
+                
+                email.sendConfirmationEmail(req.body.email, verificationToken);
 
                 return res.status(201).send({status: "OK", message: "Usuario registrado", redirect:"/"})
             }
         }else{
-            return res.status(400).send({status: "Error", message: "Email erroneo"});
+            console.log(err)
+            // return res.status(400).send({status: "Error", message: "Email erroneo"});
         }
 
     } catch (err) {
@@ -109,15 +117,36 @@ function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
+async function insertarToken(req, res){ 
+    let [result, data] = await connection.query(
+        'UPDATE usuarios SET verificado = true WHERE token = ?;',[req.body.token]
+        );
+    res.status(201).send({status: "OK", result: result})
+} 
+async function verifyUsuario(req) {
+    try {
+        const [result] = await connection.query(
+            'UPDATE usuarios SET isVerified = 1 WHERE verificationToken = ?;',
+            [req]
+        );
+
+        if (result.affectedRows === 0) {
+            throw new Error('No se encontró ningún usuario con el token de verificación proporcionado.');
+        }
+
+        return { message: 'La cuenta se ha verificado correctamente.' };
+    } catch (error) {
+        throw new Error('Error al verificar la cuenta: ' + error.message);
+    }
+}
+
+
 // REQUESTS FOR SHOW CHATS IN A ROOM
 async function sacarUsuariosChat(req, res){
     // PETICION PARA RECUPERAR TODOS LOS USUARIOS QUE TIENEN UN CHAT ACTIVO CON EL USUARIO
     let [result, data] = await connection.query(
             'SELECT id_sala,CASE WHEN id_usuario1 = ? THEN id_usuario2 ELSE id_usuario1 END AS usuario_contrario FROM salas_chat WHERE (id_usuario1 = ? OR id_usuario2 = ?);',[req.body.user,req.body.user,req.body.user]
         );
-    console.log(req.body.user)
-    console.log(result)
-    console.log(data)
     res.status(201).send({status: "OK", result: result})
 } 
 // FUNCTION TO SHOW THE LAST CHAT ROOM ID
@@ -193,7 +222,8 @@ export const methods = {
     recuperarSala, 
     ultimoIdChat,
     verifyToken,
-    salasUsuario
+    salasUsuario,
+    verifyUsuario
 }
 
 

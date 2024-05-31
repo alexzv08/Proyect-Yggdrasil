@@ -15,12 +15,11 @@ window.onload = ()  => {
         if(!res.ok){
             const resJson = await res.json()
             console.log(resJson)
-            alert(resJson)
+            alert(resJson.message)
             return
         }
         const resJson = await res.json()
         if(resJson.redirect){
-            // console.log(resJson.datos[0].usuario)
             sessionStorage.setItem("user", resJson.datos[0].usuario);
             sessionStorage.setItem("token", resJson.token);
             document.cookie = `session=${resJson.session}; path=/`;

@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import crypto from 'crypto';
 
 const transporter = nodemailer.createTransport({
   host: 'smtp-relay.brevo.com', // Corregido el host para usar Gmail SMTP
@@ -19,9 +20,9 @@ async function sendConfirmationEmail(userEmail, confirmationToken) {
         <p>Hola ${userEmail},</p>
         <p>Gracias por registrarte en nuestra aplicación.</p>
         <p>Para confirmar tu cuenta, haz clic en el siguiente enlace:</p>
-        <a href="https://tu-aplicacion.com/confirmar/${confirmationToken}">Confirmar cuenta</a>
+        <a href="http://localhost:3000/api/verify/${confirmationToken}">Confirmar cuenta</a>
         <p>Si no puedes hacer clic en el enlace, copia y pega el siguiente en tu navegador:</p>
-        <p>https://tu-aplicacion.com/confirmar/${confirmationToken}</p>
+        <p>http://localhost:3000/api/verify/${confirmationToken}</p>
         <p>Este enlace solo es válido durante 24 horas.</p>
         <p>Atentamente,</p>
         <p>El equipo de Tu aplicación</p>
@@ -36,16 +37,29 @@ async function sendConfirmationEmail(userEmail, confirmationToken) {
     }
 }
 
+async function token(userEmail, confirmationToken) {
 
-// FALTA HACER QUE LA CUENTA ESTE VERIFICADA, AÑADIR NUEVO CAMPO EN LA BBDD DOND EINDIQUE QUE A VERIFICADO
-const { v4: uuidv4 } = require('uuid'); // Importar la biblioteca UUID
-const { sendConfirmationEmail } = require('./email'); // Importar la función de envío de correo electrónico
+    const res = await fetch("http://localhost:3000/api/register",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                email: userEmail,
+                token: confirmationToken
+            })
+        })
+}
 
-// ... (En el código de registro de usuario)
+// // FALTA HACER QUE LA CUENTA ESTE VERIFICADA, AÑADIR NUEVO CAMPO EN LA BBDD DOND EINDIQUE QUE A VERIFICADO
+// const { v4: uuidv4 } = require('uuid'); // Importar la biblioteca UUID
+// const { sendConfirmationEmail } = require('./email'); // Importar la función de envío de correo electrónico
 
-const confirmationToken = uuidv4(); // Generar token de confirmación
-await sendConfirmationEmail(userEmail, confirmationToken); // Enviar correo electrónico de confirmación
-await User.findOneAndUpdate({ email: userEmail }, { verified: true }); // Marcar la cuenta como verificada
+// // ... (En el código de registro de usuario)
+
+// const confirmationToken = uuidv4(); // Generar token de confirmación
+// await sendConfirmationEmail(userEmail, confirmationToken); // Enviar correo electrónico de confirmación
+// await User.findOneAndUpdate({ email: userEmail }, { verified: true }); // Marcar la cuenta como verificada
 
 
 
