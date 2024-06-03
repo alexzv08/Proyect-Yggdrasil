@@ -1,14 +1,14 @@
 // DEPENDENCIAS NECESARIAS PARA EL FUNCIONAMIENTO DE LA APLICACION
-import { methods as windowOnLoad } from "./sideBar.js";
+import { methods as windowOnLoad} from "./sideBar.js";
 let elementoDrag, copia, listaCartas, pagina, limiteActual, limitePaginacion;
-// Array para almacenar el filtro de búsqueda de las cartas
+// ARRAY PARA ALMACENAR EL FILTRO DE BUSQUEDA DE LAS CARTAS
 let listaFiltro = {
-    coleccion: false,
+    coleccion: Boolean,
     ListaEdiciones: [],
     numCarta: "",
     textoCarta: "",
     rarezas: [],
-    tipoCarta: [],
+    tipoCarta:[],
     level: [],
     colores: [],
     efectEvolve: [],
@@ -18,30 +18,42 @@ let listaFiltro = {
     maxDP: [],
     minCost: [],
     maxCost: [],
-};
+}
 let mazo = {
-    eggDeck: [],
-    deck: []
+    "eggDeck": [],
+    "deck": []
 };
 
-window.onload = async () => {
-    await windowOnLoad.onLoad();
-    await document.getElementById('deckbuilder').classList.add('active');
-    await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange);
-    windowOnLoad.navBarRediretions();
-    await listaColecciones();
-    await imgCartas();
-    document.querySelector("#search").addEventListener("click", filtroBusqueda);
-    let paguinacionB = document.querySelectorAll("#paginacion .button");
-    paguinacionB[0].addEventListener("click", paginaMenos);
-    paguinacionB[1].addEventListener("click", paginaMas);
+window.onload = async() => {
+    // await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
+    await windowOnLoad.onLoad()
+    await document.getElementById('deckbuilder').classList.add('active')
+    await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
+    windowOnLoad.navBarRediretions()
+    await listaColecciones()
+    await imgCartas() 
+    document.querySelector("#search").addEventListener("click", filtroBusqueda)
+    let paguinacionB = document.querySelectorAll("#paginacion .button")
+    paguinacionB[0].addEventListener("click", paginaMenos)
+    paguinacionB[1].addEventListener("click", paginaMas)
 
-    // Cargar cantidades de cartas del usuario desde el almacenamiento local
-    cargarCantidadesDesdeAlmacenamientoLocal();
-};
+    iconoFiltroMovil.addEventListener("click", mostrarFiltroMovil)
+}
+function mostrarFiltroMovil() {
+    if (filtroEscritorio.style.display === 'none' || filtroEscritorio.style.display === '') {
+      filtroEscritorio.style.display = 'flex';
+    } else {
+      filtroEscritorio.style.display = 'none';
+    }
+  }
 // FUNCION EN LA QUE REALIZA UNA PETICION A LA API PARA OBTENER TODAS LAS CARTAS ALMACENADAS Y MOSTRARLAS EN LA PAGINA
 async function imgCartas(){
-    var sql = "SELECT c.* FROM cartas c WHERE 1 = 1";
+    var sql = `SELECT c.*, COALESCE(uc.cantidad, 0) AS cantidad
+    FROM cartas c
+    LEFT JOIN usuarioColeccion uc ON c.id_coleccion = uc.id_coleccion AND c.id_carta = uc.id_carta
+    AND uc.id_usuario = '${sessionStorage.getItem('user')}'
+    WHERE 1 = 1
+    ORDER BY c.id_coleccion ASC, c.id_carta ASC`;
     await peticionAPIFiltro(sql)
     await mostrarCartasColeccion()
 
@@ -93,10 +105,10 @@ function cargarImg2(element){
     div.dataset.nombre =  element.name
     div.dataset.cardnumber =  element.id_coleccion+"-"+element.id_carta.padStart(3, "0")
     div.dataset.color =  element.color
-    div.dataset.cantidad =  "0"
+    div.dataset.cantidad =  element.cantidad > 0 ? element.cantidad : "0"
     let img = document.createElement("img")
     img.src = element.image_url
-    img.classList.add("off")
+    element.cantidad > 0 ? img.classList.add("on") : img.classList.add("off")
     containerListaCartas.appendChild(div)
 
     let divMas = document.createElement("img")
@@ -106,7 +118,7 @@ function cargarImg2(element){
     divMas.addEventListener("click", sumarALaColeccion)
     
     let divCantidad = document.createElement("div")
-    divCantidad.innerText = "0"
+    divCantidad.innerText = element.cantidad > 0 ? element.cantidad : "0"
     divCantidad.classList.add("button")
     divCantidad.classList.add("cantidad")
 
@@ -130,39 +142,14 @@ function eventoClick(){
     }
     this.dataset.calntidad = cantidad
 }
-function cargarCantidadesDesdeAlmacenamientoLocal() {
-    const cartasGuardadas = JSON.parse(localStorage.getItem("cartasUsuario")) || {};
-    const cartas = document.querySelectorAll("#containerListaCartas .carta");
-    cartas.forEach(carta => {
-        const idCarta = carta.dataset.cardnumber;
-        if (cartasGuardadas[idCarta]) {
-            const cantidad = cartasGuardadas[idCarta];
-            carta.dataset.cantidad = cantidad;
-            if (parseInt(cantidad) > 0) {
-                carta.classList.remove("off");
-                carta.querySelector(".cantidad").innerText = cantidad;
-            }
-        }
-    });
-}
-function guardarCantidadesEnAlmacenamientoLocal() {
-    const cartas = document.querySelectorAll("#containerListaCartas .carta");
-    const cartasGuardadas = {};
-    cartas.forEach(carta => {
-        const idCarta = carta.dataset.cardnumber;
-        const cantidad = carta.dataset.cantidad || 0;
-        cartasGuardadas[idCarta] = cantidad;
-    });
-    localStorage.setItem("cartasUsuario", JSON.stringify(cartasGuardadas));
-}
 // FUNCION QUE AÑADE LA CARTA PINCHADA Y QUE GESTIONA LA CANTIDAD DE CARTAS QUE POSE EL USUARIO DE DICHA CARTA
 async function añadirCartaColeccion(element) {
-    if (parseInt(element.dataset.cantidad) === 0) {
-        element.dataset.cantidad = parseInt(element.dataset.cantidad) + 1;
-        const res = await fetch("http://localhost:3000/api/anadirAColeccion", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
+    if(parseInt(element.dataset.cantidad ) == 0){
+        element.dataset.cantidad = parseInt(element.dataset.cantidad )+ 1
+        const res = await fetch("http://localhost:3000/api/anadirAColeccion",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
             },
             body: JSON.stringify({
                 user: sessionStorage.getItem("user"),
@@ -170,16 +157,16 @@ async function añadirCartaColeccion(element) {
                 id_carta: element.dataset.cardnumber.split("-")[1],
                 cantidad: element.dataset.cantidad
             })
-        });
-        element.childNodes[0].classList.remove("off");
-        element.childNodes[2].innerText = element.dataset.cantidad;
-        guardarCantidadesEnAlmacenamientoLocal(); // Guardar cantidades actualizadas
-    } else if (parseInt(element.dataset.cantidad) > 0) {
-        element.dataset.cantidad = parseInt(element.dataset.cantidad) + 1;
-        const res = await fetch("http://localhost:3000/api/updateCartaColeccion", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
+        })
+        element.childNodes[0].classList.remove("off")
+        element.childNodes[2].innerText = element.dataset.cantidad
+
+    }else if(parseInt(element.dataset.cantidad ) > 0){
+        element.dataset.cantidad = parseInt(element.dataset.cantidad ) + 1
+        const res = await fetch("http://localhost:3000/api/updateCartaColeccion",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
             },
             body: JSON.stringify({
                 user: sessionStorage.getItem("user"),
@@ -187,20 +174,20 @@ async function añadirCartaColeccion(element) {
                 id_carta: element.dataset.cardnumber.split("-")[1],
                 cantidad: element.dataset.cantidad
             })
-        });
-        element.childNodes[2].innerText = element.dataset.cantidad;
-        guardarCantidadesEnAlmacenamientoLocal(); // Guardar cantidades actualizadas
+        })
+        element.childNodes[2].innerText = element.dataset.cantidad
     }
+    return element.dataset.cantidad
 }
 // FUNCION PARA RESTAR CARTAS A LA COLECCION O ELIMINAR CARTAS DE LA COLECCION
 async function quitarCartaColeccion(element) {
-    if (parseInt(element.dataset.cantidad) > 0) {
-        element.dataset.cantidad = parseInt(element.dataset.cantidad) - 1;
-        if (parseInt(element.dataset.cantidad) > 0) {
-            const res = await fetch("http://localhost:3000/api/updateCartaColeccion", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
+    if(parseInt(element.dataset.cantidad ) > 0){
+        element.dataset.cantidad = parseInt(element.dataset.cantidad )- 1
+        if(parseInt(element.dataset.cantidad ) > 0){
+            const res = await fetch("http://localhost:3000/api/updateCartaColeccion",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
                 },
                 body: JSON.stringify({
                     user: sessionStorage.getItem("user"),
@@ -208,26 +195,24 @@ async function quitarCartaColeccion(element) {
                     id_carta: element.dataset.cardnumber.split("-")[1],
                     cantidad: element.dataset.cantidad
                 })
-            });
-        } else if (parseInt(element.dataset.cantidad) == 0) {
-            const res = await fetch("http://localhost:3000/api/eliminarCartaColeccion", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
+            })
+        }else if(parseInt(element.dataset.cantidad ) == 0){
+            const res = await fetch("http://localhost:3000/api/eliminarCartaColeccion",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
                 },
                 body: JSON.stringify({
                     user: sessionStorage.getItem("user"),
                     id_coleccion: element.dataset.cardnumber.split("-")[0],
                     id_carta: element.dataset.cardnumber.split("-")[1],
                 })
-            });
-            element.childNodes[0].classList.add("off");
+            })
+            element.childNodes[0].classList.add("off")
         }
-        element.childNodes[2].innerText = element.dataset.cantidad;
-        guardarCantidadesEnAlmacenamientoLocal(); // Guardar cantidades actualizadas
+        element.childNodes[2].innerText = element.dataset.cantidad
     }
 }
-
 // FUNCION PARA AÑADIR 1 CARTA A LA COLECCION ATRAVES DEL BOTON DE SUMAR
 function sumarALaColeccion(event){
     event.stopPropagation()
@@ -239,24 +224,24 @@ function restarALaColeccion(event){
     quitarCartaColeccion(this.parentNode)
 }
 // FUNCION PARA RECUPERAR QUE CARTAS TIENE EL USUARIO EN SU COLECCION Y MOSTRAR LAS CARTAS QUE POSEE
-async function mostrarCartasColeccion() {
-    const res = await fetch("http://localhost:3000/api/cartasColeccionUsuario", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
+async function mostrarCartasColeccion(){
+    const res = await fetch("http://localhost:3000/api/cartasColeccionUsuario",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
         },
         body: JSON.stringify({
             user: sessionStorage.getItem("user"),
         })
-    });
-    const resJson = await res.json();
+    })
+    const resJson = await res.json()
     await resJson.result[0].forEach(element => {
-        let allCard = document.querySelectorAll("#containerListaCartas>.carta");
+        let allCard = document.querySelectorAll("#containerListaCartas>.carta")
         allCard.forEach(card => {
-            if (card.dataset.cardnumber == (element.id_coleccion + "-" + element.id_carta)) {
-                card.childNodes[0].classList.remove("off");
-                card.dataset.cantidad = element.cantidad;
-                card.childNodes[2].innerText = element.cantidad;
+            if(card.dataset.cardnumber == (element.id_coleccion+"-"+element.id_carta)){
+                card.childNodes[0].classList.remove("off")
+                card.dataset.cantidad = element.cantidad
+                card.childNodes[2].innerText = element.cantidad
             }
         });
     });
@@ -376,6 +361,7 @@ async function peticionAPIFiltro(sql){
         return
     }
     const resJson = await res.json()
+    console.log(resJson)
     listaCartas = resJson.result[0]
     limitePaginacion = Math.ceil(listaCartas.length/20)
     containerListaCartas.innerHTML = '' 
@@ -397,7 +383,6 @@ async function listaColecciones(){
         },
     })
     if(!res.ok){
-        // alert("Usuario o contraseña incorrecta")
         return
     }
     const resJson = await res.json()

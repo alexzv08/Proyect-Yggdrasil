@@ -216,6 +216,9 @@ body{
             & img{
                 height: 30px;
             }
+            & h3{
+                font-size: calc(.65em + 1vw);
+            }
             &:hover{
                 background-color: rgb(238, 238, 238);
                 border-radius: 20px 20px  0 0;
@@ -253,6 +256,9 @@ body{
             & img{
                 height: 30px;
                 border-radius: 20px;
+            }
+            & h3{
+                font-size: 1px !important;
             }
             &:hover{
                 background-color: rgb(238, 238, 238);
