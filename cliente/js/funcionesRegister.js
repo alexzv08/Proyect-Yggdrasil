@@ -30,4 +30,16 @@ window.onload = () => {
         e.preventDefault();
         window.location.href = "/login";
     })
+    registerEmpresa.addEventListener("click" ,(e)=>{
+        e.preventDefault();
+        document.querySelector(".usuario").style.display = "none";
+        document.querySelector(".empresa").style.display = "block";
+
+    })
+    registerUsuario.addEventListener("click" ,(e)=>{
+        e.preventDefault();
+        document.querySelector(".usuario").style.display = "flex";
+        document.querySelector(".empresa").style.display = "none";
+
+    })
 }

@@ -1,0 +1,41 @@
+1. Introducción 
+
+Éste proyecto se trata de una web en la que su objetivo principal es ser una plataforma
+donde los usuarios administren sus cartas, monten mazos, participen en torneos y interactuane
+con otros usuarios. En la web se pueden registrar de dos formas:
+
+    - Como usuario normal, donde podra chatear con usuarios, administrar cartas, registrarte en torneos,
+    y intercambiar con otros usuarios
+
+    - Como tienda, donde podran publicar eventos/torneos y gestionar dicho eventos
+
+Dentro de la aplicacion al crear los mazos, puedes solo crearlo con cartas que dispongas en tu coleccion, 
+al igual que si quieres intercambiar, se administran solo las que tengas registradas en la coleccion. Y al
+hacer el intercambio se administrara la cantidad de cartas en disposicion de forma automatica.
+El chat entre usuarios es de forma privada y de forma videccional y a tiempo real.
+
+
+
+
+2. Idea de negocio 
+
+La idea surguio de la motivacion de crear una sola plataforma donde esten todas las necesidades
+de los jugadores/coleccionistas de TCG. Donde no tengan que usar diversas paginas o aplicaciones 
+para tener todas las herramientas necesarias, y asi unificar todo el secctor en una unica plataforma
+
+Que voy a ofrecer:
+
+    - Unificacion de los distintos TCG en una plataforma
+    - Herramientas necesarias para todo jugador/coleccionista
+        - Creador de mazos
+        - Adminstrador de las distintas coleccionables
+        - Participar en torneos
+    - Interaccion con los otros usuarios mediante un chat online
+    - Posivilidad de intercacmbiar, comprar o vender las cartas
+
+¿A quién va dirigido?
+
+A todos los usuarios de TCG, ya sean jugadores o coleccionistas, a todas las personas que se dedican
+a trader en TCG y a los locales que ofrecen torneos/eventos.
+
+

@@ -43,11 +43,6 @@ window.onload = async()=>{
         await document.getElementById("toogleMenu").addEventListener("click", toggleMenuChange)
         await document.getElementById("desplegableNavBar").addEventListener("click", mostrarOtros)
         navBarRediretions()
-        // funcionesCartas.onLoad()
-        // funcionesFiltro.onLoad()
-        // hamnurgerMenu.addEventListener("click", toggleMenuChangeHamburger)
-        // toogleChat.addEventListener("click", toggleChatChange)
-        // deckbuilder.addEventListener("click", insertCartas)
     } catch (error) {
         console.error("Error en la solicitud:", error);
     }
@@ -56,7 +51,6 @@ async function onLoad(){
     const data = await verifyAndFetch("http://localhost:3000/api/protectedRoute");
     await addHtmlDocumentAtBeginning("./components/sideBar.html")
     await navBarRediretions()
-    // await document.getElementById('home').classList.add('active')
     await document.getElementById("toogleMenu").addEventListener("click", toggleMenuChange)
     await document.getElementById("otros").addEventListener("click", mostrarOtros)
 }
@@ -139,6 +133,7 @@ function cambioIconoOut(){
 function redireccion(){
     let redireccion = this.querySelector("h3").innerText.replace(/\s/g, "").toLowerCase()
     if(window.location.pathname != ("/"+redireccion) && redireccion != "otros"){
+        console.log(redireccion)
         window.location.href = "/"+redireccion;
     }
 }

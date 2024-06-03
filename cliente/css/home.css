@@ -115,6 +115,10 @@
 
 
 @media (480 < width <= 900px) {
+    #homeSection{
+        width: 80vw;
+        margin-left: 0px;
+    }
     .bento1{
         & .conatinerPerfil{
             & .iconPerfil{
@@ -155,6 +159,7 @@
 
     #homeSection{
         width: 100vw;
+        min-width: 330px;
         margin-left: 0;
     }
 
@@ -163,11 +168,10 @@
         grid-template-rows: repeat(7, 1fr);
     }
 
-
-
     .bento1 { 
         grid-area: 1;
         padding: 10px 0px !important;
+        width: calc(100% - 5px);
         & .conatinerPerfil{
             flex-direction: column;
             height: 100%;
@@ -196,10 +200,34 @@
             }
         } 
     }
-    .bento2 { grid-area: 2; }
-    .bento3 { grid-area: 3; }
-    .bento4 { grid-area: 4; }
-    .bento5 { grid-area: 5; }
-    .bento6 { grid-area: 6; }
-    .bento7 { grid-area: 7; }
+    .bento2 {
+        height: 200px;
+        width: calc(100% - 5px);
+        grid-area: 2; 
+    }
+    .bento3 { 
+        height: 200px;
+        width: calc(100% - 5px);
+        grid-area: 3; 
+    }
+    .bento4 { 
+        height: 200px;
+        width: calc(100% - 5px);
+        grid-area: 4; 
+    }
+    .bento5 { 
+        height: 200px;
+        width: calc(100% - 5px);
+        grid-area: 5; 
+    }
+    .bento6 { 
+        height: 200px;
+        width: calc(100% - 5px);
+        grid-area: 6; 
+    }
+    .bento7 { 
+        height: 200px;
+        width: calc(100% - 5px);
+        grid-area: 7; 
+    }
 }

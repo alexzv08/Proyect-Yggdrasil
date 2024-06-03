@@ -150,8 +150,7 @@ app.get('/register', (req, res)=>{
 })
 app.get('/collection', (req, res)=>{
     console.log(process.cwd()+"/cliente/collection.html")
-
-    // res.sendFile(process.cwd()+"/cliente/collection.html")
+    res.sendFile(process.cwd()+"/cliente/collection.html")
 })
 app.get('/api/verify/:token', async (req, res) => {
     const { token } = req.params;
