@@ -105,6 +105,40 @@ async function register(req, res){
         res.status(400).send({status: "Error", message: "Error en el register", error: err})
     }
 }
+// REQUESTS REGISTER COMPANY
+async function registerEmpresa(req, res){
+    if(isValidEmail(req.body.email)){
+        // COMPRUEBO QUE EL USUARIO NO EXISTA EN LA BASE DE DATOS
+        let [result, data] = await connection.query(
+        'SELECT * FROM tienda WHERE email LIKE ?;',[req.body.email]
+        );
+        if(result.length > 0){
+            return res.status(400).send({status: "Error", message: "Usuario ya existe"});
+        }else{
+            // SI NO EXISTE EL USUARIO SE REGISTRA EN LA BASE DE DATOS
+            const verificationToken = crypto.randomBytes(32).toString('hex');
+            let result = await connection.query(
+                `insert into tienda (nombre_Usuario, email, password, nombre_tienda, cif, direccion, telefono, web, id_rol, isVerified, verificationToken) values (?,?,?,?,?,?,?,?,"2","0",?);`
+                ,[req.body.user, 
+                req.body.email,
+                await saltPassword(req.body.pass),
+                req.body.nombreEmpresa,
+                req.body.cif,
+                req.body.direcion,
+                req.body.tel,
+                req.body.web,
+                verificationToken]
+            );
+            
+            email.sendConfirmationEmail(req.body.email, verificationToken);
+
+            return res.status(201).send({status: "OK", message: "Usuario registrado", redirect:"/"})
+        }
+    }else{
+        console.log(err)
+        // return res.status(400).send({status: "Error", message: "Email erroneo"});
+    }
+}
 // FUNCTION TO HASH PASSWORD
 async function saltPassword(pass){
     const staticSalt = '$2a$10$abcdefghijklmnopqrstuvwxyz123456';
@@ -214,6 +248,7 @@ async function recuperarMazosUsuario(req, res){
 export const methods = {
     login, 
     register, 
+    registerEmpresa,
     sacarUsuariosChat,
     crearMazo, 
     eliminarmazo,
@@ -223,7 +258,7 @@ export const methods = {
     ultimoIdChat,
     verifyToken,
     salasUsuario,
-    verifyUsuario
+    verifyUsuario,
 }
 
 

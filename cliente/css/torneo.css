@@ -1,0 +1,83 @@
+.mainContainer{
+    height: auto;
+    width: calc(100% - 100px);
+    margin-left: 100px;
+    display: flex;
+    gap:20px 30px;
+    padding: 5%;
+}
+
+@media (width<=800px) {
+    .mainContainer{
+        width: 100vw;
+        height: calc(100vh - 75px);
+        margin: auto;
+        flex-direction: column;
+        /* justify-content: center; */
+        padding-bottom: 100px;
+    }
+    .buscador{
+        width: 80vw;
+        font-size: 20px;
+        color: white;
+        margin: 10px auto;
+        text-align: center;
+        justify-content: center;
+        display: flex;
+        & img{
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+    }
+    .filtroEvento{
+        width: 80vw;
+        color: white;
+        margin: 10px auto;
+        text-align: center;
+        display: none;
+        & form{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            & label{
+                text-align: start;
+            }
+        }
+    }
+    .listaTorneos{
+        display: flex;
+        flex-direction: wrap;
+        gap: 10px;
+
+        & .torneoContainer{
+            border: 1px solid white;
+            border-radius: 20px;
+            background-color: white;
+            box-shadow: 1px 1px 10px 0px rgba(0,0,0,0.75);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+
+            & div h4,h2{
+                margin: 10px 0;
+                color: black;
+                text-align: start;
+            }
+            & .buttons{
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                margin: 15px;
+                & button{
+                    cursor: pointer;
+                }
+            }
+
+        }
+    }
+}   

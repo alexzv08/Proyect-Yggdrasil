@@ -3,11 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/torneo.css">
+    <script type="module" src="./js/torneo.js"></script>
+    <script type="module" src="./js/notification.js"></script>
+
     <title>Torneos</title>
 </head>
 <body>
-    <section>
-        <div class="buscador">Buscar torneo</div>
+    <section class="mainContainer">
+        <div class="buscador">Buscar torneo <img src="src/icons/downArrow.svg" alt=""></div>
         <div class="filtroEvento">
             <form action="">
                 <label for="">Provincia</label>
@@ -17,7 +23,9 @@
                 <input type="text">
 
                 <label for="">Fecha</label>
+                <label for="">Desde</label>
                 <input type="date" name="" id="">
+                <label for="">Hasta</label>
                 <input type="date" name="" id="">
 
                 <label for="">Tipo de torneo</label>
@@ -30,12 +38,12 @@
                     <img src="" alt="">
                 </div>
                 <div>
+                    <h2>Nombre tienda:</h2>
+                    <h4>Nombre torneo:</h2>
                     <h4>fecha - hora</h4>
-                    <h4>fecha - hora</h4>
-                    <h4>Nombre torneo</h2>
-                    <h2>Nombre tienda</h2>
-                    <h4>Direccion tienda</h4>
-                    <h4>Participantes</h4>
+                    <h4>Direccion tienda:</h4>
+                    <h4>Participantes: </h4>
+                    <h4>Estado: </h4>
                     <!-- <div>taggs Evento</div> -->
                     <div class="buttons">
                         <!-- <button>Detalles</button> -->

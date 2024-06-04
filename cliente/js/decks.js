@@ -38,6 +38,12 @@ async function crearMazo(){
         alert('Tiene que darle un nombre al mazo')
     }
 }
+// FUNCION PARA REDIRECCIONAR A LA PAGINA DE EDICION DE MAZO CON EL ID DEL MAZO
+function editarMazo(){
+    let mazoContainer = this.parentElement.parentElement
+    localStorage.setItem("id_mazo", mazoContainer.dataset.id_mazo)
+    window.location.href = "/deckBuilder";
+}
 // FUNCION PARA ELIMINAR UN MAZO DE LA BBDD Y DEL HTML
 async function eliminarmazo(){
     let mazoContainer = this.parentElement.parentElement
@@ -95,6 +101,7 @@ function crearContainerMazo(element){
     let butn1 = document.createElement('button')
     butn1.classList.add('Editar')
     butn1.innerText ="Editar"
+    butn1.addEventListener('click', editarMazo)
 
     let butn2 = document.createElement('button')
     butn2.addEventListener('click', eliminarmazo)

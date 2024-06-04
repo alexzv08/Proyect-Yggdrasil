@@ -123,8 +123,6 @@ app.use(logger('dev'))
 // añadir la validacion de la cookie antes de validar la ruta, 
 // si no es correcto redireccionar a login
 app.get('/', (req, res)=>{
-    console.log(process.cwd()+"/cliente/login.html")
-
     res.sendFile(process.cwd()+"/cliente/login.html")
 })
 app.get('/home',(req, res)=>{
@@ -147,6 +145,9 @@ app.get('/login', (req, res)=>{
 })
 app.get('/register', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/register.html")
+})
+app.get('/eventos', (req, res)=>{
+    res.sendFile(process.cwd()+"/cliente/torneos.html")
 })
 app.get('/collection', (req, res)=>{
     console.log(process.cwd()+"/cliente/collection.html")
@@ -187,6 +188,7 @@ app.get('/api/protectedRoute', autentificador.verifyToken, async (req, res) => {
 app.post('/api/login', autentificador.login)
 app.post('/api/register', autentificador.register)
 app.post('/api/usuarios', autentificador.sacarUsuariosChat)
+app.post('/api/registerEmpresa', autentificador.registerEmpresa)
 app.post('/api/usuarioExistente', autentificador.sacarUsuarios)
 app.post('/api/crearMazo', autentificador.crearMazo)
 app.post('/api/eliminarmazo', autentificador.eliminarmazo)

@@ -1,19 +1,21 @@
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
+import 'dotenv/config';
+
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp-relay.brevo.com', // Corregido el host para usar Gmail SMTP
-  port: 587, // Puerto SMTP
+  host: process.env.HOST_MAIL, // Corregido el host para usar Gmail SMTP
+  port: process.env.PORT_MAIL, // Puerto SMTP
   secure: false, // true para 465, false para otros puertos
   auth: {
-    user: '75c333002@smtp-brevo.com', // Reemplaza con tu correo electrónico
-    pass: 'yGv8gELCdXjnmr3T' // Reemplaza con tu contraseña
+    user: process.env.USER_MAIL, // Reemplaza con tu correo electrónico
+    pass: process.env.PASS_MAIL // Reemplaza con tu contraseña
   }
 });
 
 async function sendConfirmationEmail(userEmail, confirmationToken) {
     const mailOptions = {
-      from: 'Tu nombre <tu-correo-electronico@tu-proveedor.com>', // Reemplaza con tu nombre y correo
+      from: 'Tu nombre <alexzv8@gmail.com>', // Reemplaza con tu nombre y correo
       to: userEmail,
       subject: 'Confirma tu cuenta',
       html: `

@@ -66,7 +66,6 @@ async function insertCartas(){
 }
 
 function mostrarOtros(){
-    console.log(desplegableNavBar.style.visibility)
     if(desplegableNavBar.style.visibility == "hidden" || desplegableNavBar.style.visibility == ""){
         desplegableNavBar.style.visibility="visible"
     }else{

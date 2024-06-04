@@ -6,6 +6,23 @@ id_rol int auto_increment,
   descripcion varchar(500),
   PRIMARY KEY (id_rol)
 );
+create table tienda(
+  id_tienda varchar(50) not null unique,
+  nombre_Usuario varchar(150) not null,
+  email varchar(100) not null unique,
+  password varchar(150) not null,
+  nombre_tienda varchar(150) not null,
+  cif varchar(50) not null unique,
+  direccion varchar(550) not null,
+  telefono int ,
+  web varchar(150),
+  id_rol int,
+  PRIMARY KEY (id_tienda),
+  FOREIGN KEY (id_rol) REFERENCES rol(id_rol)
+);
+ALTER TABLE tienda
+ADD COLUMN verificationToken VARCHAR(255),
+ADD COLUMN isVerified BOOLEAN DEFAULT FALSE;
 create table usuarios(
   usuario varchar(50) not null unique,
   password varchar(150) not null,
@@ -157,7 +174,7 @@ ALTER TABLE mazo_cartas
 ADD CONSTRAINT unique_mazo_carta UNIQUE (id_mazo, id_carta);
 
 
-CREATE TABLE Amistades (
+CREATE TABLE amistades (
     Usuario_ID_1 varchar(50),
     Usuario_ID_2 varchar(50),
     FOREIGN KEY (Usuario_ID_1) REFERENCES usuarios(usuario),
@@ -165,8 +182,27 @@ CREATE TABLE Amistades (
     PRIMARY KEY (Usuario_ID_1, Usuario_ID_2)
 );
 
+CREATE TABLE eventos (
+    id_evento varchar(50) AUTO_INCREMENT,
+    id_tienda varchar(50),
+    fecha_inicio DATETIME,
+    participantes_max INT,
+    participantes_actuales INT,
+    FOREIGN KEY (id_tienda) REFERENCES tienda(id_tienda),
+    PRIMARY KEY (id_evento)
+);
+CREATE TABLE eventosDetalle (
+    id_evento_usuario int AUTO_INCREMENT,
+    id_evento varchar(50) AUTO_INCREMENT,
+    id_usuario varchar(50),
+    FOREIGN KEY (id_evento) REFERENCES eventos(id_evento),
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(usuario),
+    PRIMARY KEY (id_fila)
+);
 -- INSERTS
-insert into rol(n_rol,descripcion) values ("Admin","Admin");
+insert into rol(n_rol,descripcion) values ("Usuario","Usuario");
+insert into rol(n_rol,descripcion) values ("Tienda","Tienda");
+
 insert into juego(id_Juego,nombre) values ("DG","Digimon");
 insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT1","","DG");
 insert into coleccion(id_coleccion,nombre,id_Juego) values ("BT2","","DG");
