@@ -107,8 +107,6 @@ io.on("connection", async (socket) =>{
         socket.join(user);
         socket.join(idSala);
         console.log(`Cliente ${socket.id} se unió a la sala ${idSala} - user: ${user}`);
-        // Optional: Send a response to the client confirming the room join
-        // socket.emit('salaUnida', idSala);
     });
 })
 
@@ -157,6 +155,9 @@ app.get('/perfil', (req, res)=>{
 })
 app.get('/torneosAdmin', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/torneosAdmin.html")
+})
+app.get('/logout', (req, res)=>{
+    res.sendFile(process.cwd()+"/cliente/login.html")
 })
 app.get('/api/verify/:token', async (req, res) => {
     const { token } = req.params;

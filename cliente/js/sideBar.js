@@ -139,6 +139,11 @@ function cambioIconoOut(){
 }
 function redireccion(){
     let redireccion = this.querySelector("h3").innerText.replace(/\s/g, "").toLowerCase()
+    if(redireccion=="logout"){
+        sessionStorage.clear();
+        localStorage.clear();
+        window.location.href = "/login";
+    }
     if(window.location.pathname != ("/"+redireccion) && redireccion != "otros"){
         console.log(redireccion)
         window.location.href = "/"+redireccion;
