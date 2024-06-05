@@ -150,8 +150,13 @@ app.get('/eventos', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/torneos.html")
 })
 app.get('/collection', (req, res)=>{
-    console.log(process.cwd()+"/cliente/collection.html")
     res.sendFile(process.cwd()+"/cliente/collection.html")
+})
+app.get('/perfil', (req, res)=>{
+    res.sendFile(process.cwd()+"/cliente/perfil.html")
+})
+app.get('/torneosAdmin', (req, res)=>{
+    res.sendFile(process.cwd()+"/cliente/torneosAdmin.html")
 })
 app.get('/api/verify/:token', async (req, res) => {
     const { token } = req.params;

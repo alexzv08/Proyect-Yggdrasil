@@ -2,6 +2,7 @@
 import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js"
 import { methods as windowOnLoad } from "./sideBar.js";
 
+let tamañoPantalla = false
 // INFORMACION QUE CONTIENE Socket.IO AL ENVIAR AL SERVIDOR POR PARTE DEL CLIENTE
 let socket = io({
     auth: {
@@ -28,7 +29,6 @@ function reportWindowSize() {
 
 window.onload= async ()=>{
     await windowOnLoad.onLoad()
-    // await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
     await cargarUsuarios()
     await document.getElementById('chatSide').classList.add('active')
     await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
@@ -43,11 +43,12 @@ window.onload= async ()=>{
         tamañoPantalla = true
         console.log(tamañoPantalla)
     }
-
-    atrasChat.addEventListener("click",()=>{
+    document.querySelector("#infoChat #atrasChat").addEventListener("click", atras)
+}
+function atras(){
+        console.log("click")
         document.getElementById("chat-mensajes").style.display = "none"
         document.querySelector(".friends").style.display = "flex"
-    })
 }
 // FUNCION PARA CARCARGAR EL CHAT CON UN USUARIO
 async function cargarChat(user){

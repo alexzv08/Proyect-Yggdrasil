@@ -22,6 +22,8 @@ window.onload = ()  => {
         if(resJson.redirect){
             sessionStorage.setItem("user", resJson.datos[0].usuario);
             sessionStorage.setItem("token", resJson.token);
+            sessionStorage.setItem("rol", resJson.datos[0].id_rol);
+
             document.cookie = `session=${resJson.session}; path=/`;
             if(resJson.datos[0].id_rol == 1){
                 window.location.href = "/homeAdmin";

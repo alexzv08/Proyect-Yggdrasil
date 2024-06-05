@@ -38,10 +38,14 @@ async function verifyAndFetch(url, options = {}) {
 window.onload = async()=>{
     try {
         const data = await verifyAndFetch("http://localhost:3000/api/protectedRoute");
-        await addHtmlDocumentAtBeginning("./components/sideBar.html")
+        if(sessionStorage.getItem("rol") == 1){
+            await addHtmlDocumentAtBeginning("./components/sideBarAdmin.html")
+        }else{
+            await addHtmlDocumentAtBeginning("./components/sideBar.html")
+            await document.getElementById("otros").addEventListener("click", mostrarOtros)
+        }
         await document.getElementById('home').classList.add('active')
         await document.getElementById("toogleMenu").addEventListener("click", toggleMenuChange)
-        await document.getElementById("desplegableNavBar").addEventListener("click", mostrarOtros)
         navBarRediretions()
     } catch (error) {
         console.error("Error en la solicitud:", error);
@@ -49,10 +53,14 @@ window.onload = async()=>{
 }
 async function onLoad(){
     const data = await verifyAndFetch("http://localhost:3000/api/protectedRoute");
-    await addHtmlDocumentAtBeginning("./components/sideBar.html")
+    if(sessionStorage.getItem("rol") == 1){
+        await addHtmlDocumentAtBeginning("./components/sideBarAdmin.html")
+    }else{
+        await addHtmlDocumentAtBeginning("./components/sideBar.html")
+        await document.getElementById("otros").addEventListener("click", mostrarOtros)
+    }
     await navBarRediretions()
     await document.getElementById("toogleMenu").addEventListener("click", toggleMenuChange)
-    await document.getElementById("otros").addEventListener("click", mostrarOtros)
 }
 async function insertCartas(){
     contenidoWeb.innerHTML =""

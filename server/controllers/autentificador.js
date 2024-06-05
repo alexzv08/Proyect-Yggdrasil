@@ -72,6 +72,9 @@ function verifyToken(req, res, next) {
 
 // REQUESTS REGISTER
 async function register(req, res){
+    if(!isValidPass(req.body.pass)){
+        return res.status(400).send({status: "Error", message: "Contraseña no cumple los requisitos. Tiene que contene 8caracteres, una mayuscula, una minuscula y un caracter especial"});
+    }
     if(!req.body.user || !req.body.pass){
         // SI LOS CAMPOS ESTAN VACIOS SALTA UN ALERT
         return res.status(400).send({status: "Error", message: "Campos vacios"})
@@ -107,6 +110,12 @@ async function register(req, res){
 }
 // REQUESTS REGISTER COMPANY
 async function registerEmpresa(req, res){
+    if(!isValidPass(req.body.pass)){
+        return res.status(400).send({status: "Error", message: "Contraseña no cumple los requisitos. Tiene que contene 8caracteres, una mayuscula, una minuscula y un caracter especial"});
+    }
+    if(!isValidCIF(req.body.cif)){
+        return res.status(400).send({status: "Error", message: "CIF incorrecto"});
+    }
     if(isValidEmail(req.body.email)){
         // COMPRUEBO QUE EL USUARIO NO EXISTA EN LA BASE DE DATOS
         let [result, data] = await connection.query(
@@ -150,6 +159,16 @@ function isValidEmail(email) {
     // Regular expression for checking email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+}
+function isValidPass(pass) {
+    // Regular expression for checking password format
+    const emailRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])\S{8}$/;
+    return emailRegex.test(pass);
+}
+function isValidCIF(cif) {
+    // Regular expression for checking CIF format
+    const emailRegex = /^[A-Z]{1}\d{8}$/;
+    return emailRegex.test(cif);
 }
 async function insertarToken(req, res){ 
     let [result, data] = await connection.query(
