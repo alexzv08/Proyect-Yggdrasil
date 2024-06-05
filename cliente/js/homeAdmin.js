@@ -67,8 +67,16 @@ function cambioIconoOut(){
 }
 function redireccion(){
     let redireccion = this.querySelector("h3").innerText.replace(/\s/g, "").toLowerCase()
-    if(window.location.pathname != ("/"+redireccion) && redireccion != "otros"){
+    if(redireccion=="logout"){
+        sessionStorage.clear();
+        localStorage.clear();
+        window.location.href = "/login";
+    }
+    if(redireccion=="eventos" && sessionStorage.getItem("rol") == 1){
         console.log(redireccion)
+        window.location.href = "/torneoAdmin";
+    }
+    if(window.location.pathname != ("/"+redireccion) && redireccion != "otros"){
         window.location.href = "/"+redireccion;
     }
 }

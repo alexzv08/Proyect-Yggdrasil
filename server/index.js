@@ -153,7 +153,7 @@ app.get('/collection', (req, res)=>{
 app.get('/perfil', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/perfil.html")
 })
-app.get('/torneosAdmin', (req, res)=>{
+app.get('/torneoAdmin', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/torneosAdmin.html")
 })
 app.get('/logout', (req, res)=>{
