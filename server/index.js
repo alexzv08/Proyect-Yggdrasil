@@ -147,14 +147,14 @@ app.get('/register', (req, res)=>{
 app.get('/eventos', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/torneos.html")
 })
+app.get('/torneoAdmin', (req, res)=>{
+    res.sendFile(process.cwd()+"/cliente/torneosAdmin.html")
+})
 app.get('/collection', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/collection.html")
 })
 app.get('/perfil', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/perfil.html")
-})
-app.get('/torneoAdmin', (req, res)=>{
-    res.sendFile(process.cwd()+"/cliente/torneosAdmin.html")
 })
 app.get('/logout', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/login.html")

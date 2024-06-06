@@ -149,7 +149,7 @@ function redireccion(){
         console.log(redireccion)
         window.location.href = "/torneoAdmin";
     }
-    if(window.location.pathname != ("/"+redireccion) && redireccion != "otros"){
+    else if(window.location.pathname != ("/"+redireccion) && redireccion != "otros"){
         window.location.href = "/"+redireccion;
     }
 }

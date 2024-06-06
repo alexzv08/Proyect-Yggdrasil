@@ -6,7 +6,16 @@ window.onload = async ()=>{
     windowOnLoad.navBarRediretions()
     await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
     notification.solicitarSala()
-    document.querySelector(".buscador img").addEventListener("click", mostrarFiltro)
+    // document.querySelector(".filtroEvento img").addEventListener("click", mostrarFiltro)
+    document.querySelector(".button button").addEventListener("click", mostrarNuevoTorneo)
+    cover.addEventListener("click", quitarModal)
+    document.querySelector("form").addEventListener('click', function(event) {
+        // Detener la propagación del evento
+        event.stopPropagation();
+    });
+    document.querySelector(".aceptar").addEventListener("click", crearTorneoApi)
+    document.querySelector(".cancelar").addEventListener("click", quitarModal)
+
 }
 
 function mostrarFiltro(){
@@ -16,4 +25,32 @@ function mostrarFiltro(){
     }else{
         filtro.style.display = "none"
     }
+}
+function quitarModal(e){
+    e.preventDefault()
+    this.style.display = "none"
+    crearTorneo.style.display = "none"
+    console.log(this)
+}
+function crearTorneoApi(e){
+    e.preventDefault()
+    let formulario = document.querySelectorAll('#formCrearTorneo input');
+    let datos = []
+    formulario.forEach(element => {
+        datos.push(element.value)
+        console.log(element.value);
+    });
+
+    document.querySelectorAll("#formCrearTorneo input").forEach(element => {
+        datos.push(element.value);
+    });
+    datos.push(document.querySelectorAll("#formCrearTorneo textarea").value);
+
+}
+
+
+function mostrarNuevoTorneo(){
+    cover.style.display = "block"
+    crearTorneo.style.display = "flex"
+
 }

@@ -77,7 +77,7 @@ function redireccion(){
         window.location.href = "/torneoAdmin";
     }
     if(window.location.pathname != ("/"+redireccion) && redireccion != "otros"){
-        window.location.href = "/"+redireccion;
+        // window.location.href = "/"+redireccion;
     }
 }
 function redireccionButton(){

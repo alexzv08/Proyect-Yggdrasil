@@ -11,27 +11,59 @@
     <title>Torneos</title>
 </head>
 <style>
-    section{
+    #mainContent{
         width: calc(100vw - 100px);
         left: 100px;
+        & h1{
+            text-align: center;
+        }	
+    }
+    .button{
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        margin: 20px auto;
+    }
+    #cover{
+        background-color: rgba(0, 0, 0, 0.35);
+        width: 100%;
+        height: 900px;
+        position: absolute;
+        top: 0;
+        margin-bottom: 500px;
+        display: none;
     }
     #crearTorneo{
-        display: flex;
+        display: none;
+        width: 300px;
+        height: 800px;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        
+        background-color: black;
+        border-radius: 25px;
+        position: absolute;
+        top: 65%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /* margin-bottom: 150px; */
+        color: white;
+
+        & h1{
+            text-align: center;
+            /* display: none; */
+        }
         & form{
             border: 1px solid black;
             width: 500px;
-            display: flex;
+            /* display: none; */
             flex-direction: column;
             align-items: center;
             justify-content: space-around;
             
             
             & div{
-                display: flex;
+                /* display: none; */
                 flex-direction: row;
                 padding: 10px;
                 justify-content: space-around;
@@ -65,55 +97,83 @@
             }
         }
     }
+
+    @media (width <= 800px){
+        #mainContent{
+            width: 100vw;
+            left: 0;
+        }
+        #crearTorneo{
+            & form{
+                width: 100%;
+                & div{
+                    flex-direction: column;
+                    & div{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+        #listaTorneos{
+            width: 100%;
+            & .torneoContainer{
+                width: 100%;
+            }
+        }
+    }
 </style>
 <body>
-    <section>
-        <div id="crearTorneo">
-            <h1>Crear Torneo</h1>
-            <form action="">
-                <div>
+    <section id="mainContent">
+        <h1>Administrar Torneos</h1>
+        <div class="button">
+            <button>Crear Torneo</button>
+        </div>
+        <div id="cover"></div>
+            <div id="crearTorneo"> 
+                <h1>Datos Torneo</h1>
+                <form action="" id="formCrearTorneo">
                     <div>
-                        <label for="">Nombre del torneo</label>
-                        <input type="text">
+                        <div>
+                            <label for="">Nombre del torneo</label>
+                            <input type="text">
+                        </div>
+                        <div>
+                            <label for="">Fecha</label>
+                            <input type="date">
+                        </div>
+                        <div>
+                            <label for="">Hora inicio</label>
+                            <input type="time">
+                        </div>
                     </div>
                     <div>
-                        <label for="">Fecha</label>
-                        <input type="date">
+                        <!-- <div>
+                            <label for="">Tipo de torneo</label>
+                            <select name="" id="">
+                                <option value="">Tipo 1</option>
+                                <option value="">Tipo 2</option>
+                                <option value="">Tipo 3</option>
+                            </select>
+                        </div> -->
+                        <div>
+                            <label for="">Numero maximo de participantes</label>
+                            <input type="number">
+                        </div>
                     </div>
                     <div>
-                        <label for="">Hora</label>
-                        <input type="time">
+                        <div>
+                            <label for="">Descripcion</label>
+                            <textarea name="" id="" cols="30" rows="10"></textarea>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <div>
-                        <label for="">Tipo de torneo</label>
-                        <select name="" id="">
-                            <option value="">Tipo 1</option>
-                            <option value="">Tipo 2</option>
-                            <option value="">Tipo 3</option>
-                        </select>
+                    <div class="buttons">
+                        <button class="aceptar">Aceptar</button>
+                        <button class="cancelar">Cancelar</button>
                     </div>
-                    <div>
-                        <label for="">Numero maximo de participantes</label>
-                        <input type="number">
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        <label for="">Descripcion</label>
-                        <textarea name="" id="" cols="30" rows="10"></textarea>
-                    </div>
-                </div>
-                <div class="buttons">
-                    <button>Aceptar</button>
-                    <button>Cancelar</button>
-                </div>
 
-            </form>
+                </form>
         </div>
         <h1>Torneos Activos</h1>
-        <button>Crear Torneo</button>
         <div class="filtroEvento">
             <form action="">
                 <label for="">Provincia</label>
