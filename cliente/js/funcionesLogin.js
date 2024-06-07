@@ -26,9 +26,9 @@ window.onload = ()  => {
 
             document.cookie = `session=${resJson.session}; path=/`;
             if(resJson.datos[0].id_rol == 1){
-                window.location.href = "/homeAdmin";
-            }else if(resJson.datos[0].id_rol == 2){
                 window.location.href = "/home";
+            }else if(resJson.datos[0].id_rol == 2){
+                window.location.href = "/homeAdmin";
             }
         }
     })

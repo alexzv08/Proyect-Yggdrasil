@@ -28,11 +28,10 @@ function mostrarFiltro(){
 }
 function quitarModal(e){
     e.preventDefault()
-    this.style.display = "none"
+    cover.style.display = "none"
     crearTorneo.style.display = "none"
-    console.log(this)
 }
-function crearTorneoApi(e){
+async function crearTorneoApi(e){
     e.preventDefault()
     let formulario = document.querySelectorAll('#formCrearTorneo input');
     let datos = []
@@ -40,14 +39,27 @@ function crearTorneoApi(e){
         datos.push(element.value)
         console.log(element.value);
     });
-
     document.querySelectorAll("#formCrearTorneo input").forEach(element => {
         datos.push(element.value);
     });
     datos.push(document.querySelectorAll("#formCrearTorneo textarea").value);
 
-}
 
+    const res = await fetch("http://localhost:3000/api/registrarEvento",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+            nombreTorneo: datos[0],
+            fecha: datos[1],
+            hora: datos[2],
+            participantesMax: datos[3],
+            descripcion: datos[4],
+            usuario: sessionStorage.getItem("user")
+        })
+    })
+}
 
 function mostrarNuevoTorneo(){
     cover.style.display = "block"

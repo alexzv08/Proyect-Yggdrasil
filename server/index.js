@@ -202,6 +202,7 @@ app.post('/api/recuperarMazosUsuario', autentificador.recuperarMazosUsuario)
 app.post('/api/idSalaChat', autentificador.recuperarSala)
 app.post('/api/ultimoIdChat', autentificador.ultimoIdChat)
 app.post('/api/salasUsuario', autentificador.salasUsuario)
+app.post('/api/registrarEvento', autentificador.registrarEvento)
 
 app.post('/api/filtroCartas', apiDigimon.filtroCartas)
 app.post('/api/listaColecciones', apiDigimon.listaColecciones)
@@ -214,7 +215,6 @@ app.post('/api/updateCartaMazo', apiDigimon.updateCartaMazo)
 app.post('/api/removeCartaMazo', apiDigimon.removeCartaMazo)
 app.post('/api/cartasMazo', apiDigimon.cartasMazo)
 app.post('/api/baciarMazo', apiDigimon.baciarMazo)
-
 
 //Know which port is listening
 server.listen(port, ()=>{

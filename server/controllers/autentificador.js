@@ -118,8 +118,18 @@ async function registerEmpresa(req, res){
     }
     if(isValidEmail(req.body.email)){
         // COMPRUEBO QUE EL USUARIO NO EXISTA EN LA BASE DE DATOS
+
+        let fecha = new Date(); // Obtén la fecha actual
+
+        let dia = String(fecha.getDate()).padStart(2, '0');
+        let mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses en JavaScript empiezan en 0
+        let ano = fecha.getFullYear();
+
+        let fechaMysql = `${ano}-${mes}-${dia}`;
+
+
         let [result, data] = await connection.query(
-        'SELECT * FROM tienda WHERE email LIKE ?;',[req.body.email]
+        'SELECT * FROM usuarios WHERE email LIKE ? and id_rol="2";',[req.body.email]
         );
         if(result.length > 0){
             return res.status(400).send({status: "Error", message: "Usuario ya existe"});
@@ -127,16 +137,24 @@ async function registerEmpresa(req, res){
             // SI NO EXISTE EL USUARIO SE REGISTRA EN LA BASE DE DATOS
             const verificationToken = crypto.randomBytes(32).toString('hex');
             let result = await connection.query(
-                `insert into tienda (nombre_Usuario, email, password, nombre_tienda, cif, direccion, telefono, web, id_rol, isVerified, verificationToken) values (?,?,?,?,?,?,?,?,"2","0",?);`
-                ,[req.body.user, 
+                `insert into usuarios (usuario, email, password, fechaCreacion, id_rol, isVerified, verificationToken) values (?,?,?,?,?,?,?);`
+                ,[req.body.user,
                 req.body.email,
                 await saltPassword(req.body.pass),
+                fechaMysql,
+                "2",
+                false,
+                verificationToken]
+            );
+
+            result = await connection.query(
+                `insert into tienda (id_usuario, nombre_tienda, cif, direccion, telefono, web) values (?,?,?,?,?,?);`
+                ,[req.body.user,
                 req.body.nombreEmpresa,
                 req.body.cif,
                 req.body.direcion,
                 req.body.tel,
-                req.body.web,
-                verificationToken]
+                req.body.web]
             );
             
             email.sendConfirmationEmail(req.body.email, verificationToken);
@@ -264,6 +282,14 @@ async function recuperarMazosUsuario(req, res){
     return res.status(200).send({status: "OK", result: result})
 } 
 
+
+async function registrarEvento(req, res){   
+    let result = await connection.query(
+        'insert into eventos (id_tienda,fecha_inicio,participantes_max,hora_inicio) values (?,?,?,?);',[req.body.usuario, req.body.fecha, req.body.hora, req.body.participantesMax]
+        );
+        return res.status(200).send({status: "OK", message: "Torneo registrado correctamente"})
+}
+
 export const methods = {
     login, 
     register, 
@@ -278,6 +304,7 @@ export const methods = {
     verifyToken,
     salasUsuario,
     verifyUsuario,
+    registrarEvento
 }
 
 

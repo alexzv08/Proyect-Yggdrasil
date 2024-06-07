@@ -1,3 +1,4 @@
+drop database prueba;
 create database prueba;
 use prueba;
 create table rol(
@@ -6,23 +7,6 @@ id_rol int auto_increment,
   descripcion varchar(500),
   PRIMARY KEY (id_rol)
 );
-create table tienda(
-  id_tienda varchar(50) not null unique,
-  nombre_Usuario varchar(150) not null,
-  email varchar(100) not null unique,
-  password varchar(150) not null,
-  nombre_tienda varchar(150) not null,
-  cif varchar(50) not null unique,
-  direccion varchar(550) not null,
-  telefono int ,
-  web varchar(150),
-  id_rol int,
-  PRIMARY KEY (id_tienda),
-  FOREIGN KEY (id_rol) REFERENCES rol(id_rol)
-);
-ALTER TABLE tienda
-ADD COLUMN verificationToken VARCHAR(255),
-ADD COLUMN isVerified BOOLEAN DEFAULT FALSE;
 create table usuarios(
   usuario varchar(50) not null unique,
   password varchar(150) not null,
@@ -32,9 +16,24 @@ create table usuarios(
   PRIMARY KEY (usuario),
   FOREIGN KEY (id_rol) REFERENCES rol(id_rol)
 );
+
 ALTER TABLE usuarios
 ADD COLUMN verificationToken VARCHAR(255),
 ADD COLUMN isVerified BOOLEAN DEFAULT FALSE;
+
+create table tienda(
+  id_tienda int auto_increment,  
+  id_usuario varchar(50) NOT NULL,               
+  nombre_tienda VARCHAR(150) NOT NULL,  
+  cif VARCHAR(50) NOT NULL UNIQUE,      
+  direccion VARCHAR(550) NOT NULL,      
+  telefono INT,                         
+  web VARCHAR(150),                      
+  PRIMARY KEY (id_tienda),                
+  FOREIGN KEY (id_usuario) REFERENCES usuarios(usuario) ON DELETE CASCADE
+
+);
+
 
 CREATE TABLE juego (
     id_Juego VARCHAR(10) NOT NULL,
@@ -48,7 +47,7 @@ CREATE TABLE coleccion (
     id_Juego VARCHAR(10) NOT NULL,
     fecha_Salida DATE,
     PRIMARY KEY (id_coleccion),
-    FOREIGN KEY (id_Juego) REFERENCES juego(id_Juego)
+    FOREIGN KEY (id_Juego) REFERENCES juego(id_Juego) ON DELETE CASCADE
 );
 
 CREATE TABLE cartas (
@@ -74,8 +73,8 @@ CREATE TABLE cartas (
     -- Clave primaria compuesta por id_juego, id_coleccion y id_carta
     PRIMARY KEY (id_juego, id_coleccion, id_carta),
     -- Claves foráneas
-    FOREIGN KEY (id_coleccion) REFERENCES coleccion(id_coleccion),
-    FOREIGN KEY (id_juego) REFERENCES coleccion(id_juego)
+    FOREIGN KEY (id_coleccion) REFERENCES coleccion(id_coleccion) ON DELETE CASCADE,
+    FOREIGN KEY (id_juego) REFERENCES coleccion(id_juego) ON DELETE CASCADE
 );
 ALTER TABLE cartas
 ADD UNIQUE INDEX idx_cartas (id_carta, id_coleccion, id_Juego);
@@ -86,8 +85,8 @@ CREATE TABLE salas_chat (
     id_usuario1 VARCHAR(50),
     id_usuario2 VARCHAR(50),
     PRIMARY KEY (id_sala),
-    FOREIGN KEY (id_usuario1) REFERENCES usuarios(usuario),
-    FOREIGN KEY (id_usuario2) REFERENCES usuarios(usuario)
+    FOREIGN KEY (id_usuario1) REFERENCES usuarios(usuario) ON DELETE CASCADE,
+    FOREIGN KEY (id_usuario2) REFERENCES usuarios(usuario) ON DELETE CASCADE
 );
 CREATE TABLE mensajes (
     id_mensaje INT AUTO_INCREMENT,
@@ -119,8 +118,8 @@ id_mensajeP int AUTO_INCREMENT,
   contenid text,
   fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id_mensajeP),
-  FOREIGN KEY (id_usuarioMP) REFERENCES usuarios(usuario),
-  FOREIGN KEY (id_post) REFERENCES post(id_post)
+  FOREIGN KEY (id_usuarioMP) REFERENCES usuarios(usuario) ON DELETE CASCADE,
+  FOREIGN KEY (id_post) REFERENCES post(id_post) ON DELETE CASCADE
 );
 
 CREATE TABLE usuarioColeccion (
@@ -131,10 +130,10 @@ CREATE TABLE usuarioColeccion (
   cantidad INT,
   id_usuario VARCHAR(50),
   PRIMARY KEY (id_Usuariocoleccion),
-  FOREIGN KEY (id_usuario) REFERENCES usuarios(usuario),
-  FOREIGN KEY (id_Juego) REFERENCES cartas(id_Juego),
-  FOREIGN KEY (id_coleccion) REFERENCES cartas(id_coleccion),
-  FOREIGN KEY (id_carta) REFERENCES cartas(id_carta)
+  FOREIGN KEY (id_usuario) REFERENCES usuarios(usuario) ON DELETE CASCADE,
+  FOREIGN KEY (id_Juego) REFERENCES cartas(id_Juego) ON DELETE CASCADE,
+  FOREIGN KEY (id_coleccion) REFERENCES cartas(id_coleccion) ON DELETE CASCADE,
+  FOREIGN KEY (id_carta) REFERENCES cartas(id_carta)  ON DELETE CASCADE
 );
 ALTER TABLE usuarioColeccion
 DROP FOREIGN KEY usuariocoleccion_ibfk_3; -- Elimina la restricción de clave foránea existente
@@ -152,7 +151,7 @@ CREATE TABLE mazos (
     nombre_mazo VARCHAR(50),
     fecha DATETIME  DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id_mazo),
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(usuario)
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(usuario) ON DELETE CASCADE
 );
 
 -- Crear la tabla `mazo_cartas` con las claves externas y `ON DELETE CASCADE`
@@ -164,9 +163,9 @@ CREATE TABLE mazo_cartas (
     cantidad INT,
     PRIMARY KEY (id_mazo, id_carta),
     FOREIGN KEY (id_mazo) REFERENCES mazos(id_mazo) ON DELETE CASCADE,
-    FOREIGN KEY (id_carta) REFERENCES cartas(id_carta),
-    FOREIGN KEY (id_coleccion) REFERENCES cartas(id_coleccion),
-    FOREIGN KEY (id_juego) REFERENCES cartas(id_juego)
+    FOREIGN KEY (id_carta) REFERENCES cartas(id_carta) ON DELETE CASCADE,
+    FOREIGN KEY (id_coleccion) REFERENCES cartas(id_coleccion) ON DELETE CASCADE,
+    FOREIGN KEY (id_juego) REFERENCES cartas(id_juego) ON DELETE CASCADE
 );
 
 -- Agregar una restricción única en la tabla `mazo_cartas`
@@ -183,21 +182,23 @@ CREATE TABLE amistades (
 );
 
 CREATE TABLE eventos (
-    id_evento varchar(50) AUTO_INCREMENT,
-    id_tienda varchar(50),
-    fecha_inicio DATETIME,
-    participantes_max INT,
-    participantes_actuales INT,
-    FOREIGN KEY (id_tienda) REFERENCES tienda(id_tienda),
-    PRIMARY KEY (id_evento)
+  id_evento INT AUTO_INCREMENT PRIMARY KEY,
+  id_tienda INT NOT NULL,
+  fecha_inicio DATETIME,
+  participantes_max INT,
+  participantes_actuales INT,
+  FOREIGN KEY (id_tienda) REFERENCES tienda(id_tienda) ON DELETE CASCADE
 );
+ALTER TABLE eventos
+ADD hora_inicio TIME;
+
 CREATE TABLE eventosDetalle (
     id_evento_usuario int AUTO_INCREMENT,
-    id_evento varchar(50) AUTO_INCREMENT,
+    id_evento int ,
     id_usuario varchar(50),
     FOREIGN KEY (id_evento) REFERENCES eventos(id_evento),
     FOREIGN KEY (id_usuario) REFERENCES usuarios(usuario),
-    PRIMARY KEY (id_fila)
+    PRIMARY KEY (id_evento_usuario)
 );
 -- INSERTS
 insert into rol(n_rol,descripcion) values ("Usuario","Usuario");
