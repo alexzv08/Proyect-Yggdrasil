@@ -126,7 +126,7 @@ async function mostrarCartasColeccion(){
     }
 }
 function cargarImg2(element){
-    console.log(element)
+    console.log(element.name)
     let div = document.createElement("div")
     div.addEventListener("click", expandirCarta)
     div.classList.add("carta")
@@ -144,9 +144,13 @@ function cargarImg2(element){
     divMas.classList.add("button")
     divMas.classList.add("mas")
     // divMas.addEventListener("click", sumarALaColeccion)
-    
+    let divCont = document.createElement("div")
+    divCont.classList.add("divCont")
     let divCantidad = document.createElement("div")
-    divCantidad.innerText = element.cantidad > 0 ? element.cantidad : "0"
+    let divCambio = element.cambio > 0 ? element.cambio : "0"
+    let divTotal  = element.cantidad > 0 ? element.cantidad : "0"
+    divCantidad.innerText = divCambio + "/" + divTotal
+
     divCantidad.classList.add("button")
     divCantidad.classList.add("cantidad")
 
@@ -157,9 +161,10 @@ function cargarImg2(element){
     // divMenos.addEventListener("click", restarALaColeccion)
 
     div.appendChild(img)
-    div.appendChild(divMas)
-    div.appendChild(divCantidad)
-    div.appendChild(divMenos)
+    div.appendChild(divCont)
+    divCont.appendChild(divMas)
+    divCont.appendChild(divCantidad)
+    divCont.appendChild(divMenos)
 }
 function expandirCarta(){
     console.log(this.dataset.cardnumber)
