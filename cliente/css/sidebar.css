@@ -178,7 +178,7 @@ body{
     }
 }
 #notificacion{
-    /* display: none; */
+    display: none;
 }
 @media (width <= 800px) {
     #containerSidebar{

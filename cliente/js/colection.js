@@ -19,10 +19,6 @@ let listaFiltro = {
     minCost: [],
     maxCost: [],
 }
-let mazo = {
-    "eggDeck": [],
-    "deck": []
-};
 
 window.onload = async() => {
     // await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
@@ -33,9 +29,8 @@ window.onload = async() => {
     await listaColecciones()
     await imgCartas() 
     document.querySelector("#search").addEventListener("click", filtroBusqueda)
-    let paguinacionB = document.querySelectorAll("#paginacion .button")
-    paguinacionB[0].addEventListener("click", paginaMenos)
-    paguinacionB[1].addEventListener("click", paginaMas)
+    document.querySelectorAll("#paginacion .button")[0].addEventListener("click", paginaMenos)
+    document.querySelectorAll("#paginacion .button")[1].addEventListener("click", paginaMas)
 
     iconoFiltroMovil.addEventListener("click", mostrarFiltroMovil)
 }
@@ -58,9 +53,7 @@ async function imgCartas(){
     await mostrarCartasColeccion()
 
 }
-// TODO
-// REFACTORIZAR LA FORMA DE CARGAR LAS IMAGENES
-// FUNCION EN LA QUE GENERA LA IMAGEN DE LAS CARTAS Y LOS DATOS NECESARIOS
+
 function cargarImg(element){
     let div = document.createElement("div")
     div.addEventListener("click", expandirCarta)
@@ -132,16 +125,8 @@ function cargarImg2(element){
     div.appendChild(divMas)
     div.appendChild(divCantidad)
     div.appendChild(divMenos)
-    
 }
-// FUNCION QUE SE LE AÑADE A CADA CARTA PARA AÑADIRLA A LA COLECCION
-function eventoClick(){
-    let cantidad = añadirCartaColeccion(this)
-    if(parseInt(this.dataset.cantidad) > 0){
-        this.classList.remove("off")
-    }
-    this.dataset.calntidad = cantidad
-}
+
 // FUNCION QUE AÑADE LA CARTA PINCHADA Y QUE GESTIONA LA CANTIDAD DE CARTAS QUE POSE EL USUARIO DE DICHA CARTA
 async function añadirCartaColeccion(element) {
     if(parseInt(element.dataset.cantidad ) == 0){
@@ -400,13 +385,13 @@ async function listaColecciones(){
     });
 }
 async function paginaMas() {
+    if (pagina >= totalPaginas) {
+        return;
+    }
     containerListaCartas.innerHTML = '';
     
     const totalPaginas = Math.ceil(listaCartas.length / 20);
 
-    if (pagina >= totalPaginas) {
-        return;
-    }
     pagina++;
     
     let limiteInferior = (pagina - 1) * 20;
@@ -420,10 +405,10 @@ async function paginaMas() {
 }
 
 async function paginaMenos() {
-    containerListaCartas.innerHTML = '';
     if (pagina <= 1) {
         return;
     }
+    containerListaCartas.innerHTML = '';
 
     pagina--;
     

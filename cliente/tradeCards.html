@@ -3,15 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <script type="module" src="js/sideBar.js"></script>
     <script type="module" src="./js/notification.js"></script>
 
     <title>Document</title>
 </head>
+<script type="module">
+    // window.onload = () => {
+        document.querySelectorAll('.gestionTrade div button')[0].addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = "/cartasOfreces";
+        });
+        document.querySelectorAll('.gestionTrade div button')[1].addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = "/cartasBuscas";
+        });
+        despliegeFiltro.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (document.querySelector(".filtroTrade form").style.display != 'flex') {
+                document.querySelector(".filtroTrade form").style.display = 'flex';
+            } else {
+                document.querySelector(".filtroTrade form").style.display = 'none';
+            }
+        });
+    // }
+</script>
 <style>
     #body{
         width: 100vw;
         height: 100vh;
         position: relative;
+        color: white;
+        overflow-y: scroll;
+    }
+    .gestionTrade{
+        width: 90%;
+        height: 200px;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        margin: 10px auto 0 auto;
+        & div{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+            & button{
+                width: 45%;
+            }
+        }
+    }
+    .filtroTrade{
+        width: 90%;
+        margin: auto;
+        cursor: pointer;
+        & #despliegeFiltro{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding-bottom:5px ;
+            border-bottom: 2px solid white;
+            & img{
+                width: 20px;
+                height: 20px;
+            }
+        }
+        & form{
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+            & div{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                & input{
+                    width: 20px;
+                    height: 20px;
+                }
+                & label{
+                    width: 90%;  
+                }
+            }
+            & .inputDetail{
+                display: flex;
+                flex-direction: column !important;
+                & input{
+                    width: 100%;
+                    margin: auto;
+                    height: auto;
+                }
+            }
+            & button{
+                margin: 15px auto 0;
+            }
+        }
     }
     #detalleTradeCartasOfrece{
         border: 1px solid red;
@@ -23,6 +117,7 @@
         background-color: rgba(0, 0, 0, 0.300);
         display: flex;
         justify-content: center;
+        display: none;
         & table{
             width: 80%;
             height: 200px;
@@ -45,12 +140,24 @@
 </style>
 <body>
     <section id="body">
+        <div class="gestionTrade">
+            <h1>Gestiona las cartas que cambias</h1>
+            <div>
+                <button>Cartas que cambias</button>
+                <button>Cartas que buscas</button>
+            </div>
+        </div>
         <div class="filtroTrade">
+            <div id="despliegeFiltro"><h3>Filtro</h3><img src="src/icons/downArrow.svg" alt=""></div>
             <form action="">
-                <label for="">Filtrar por cartas que buscas</label>
-                <input type="checkbox" name="" id="">
-                <label for="">Filtrar por cartas que ofreces</label>
-                <input type="checkbox" name="" id="">
+                <div>
+                    <input type="checkbox" name="" id="">
+                    <label for="">Filtrar por cartas que buscas</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="" id="">
+                    <label for="">Filtrar por cartas que ofreces</label>
+                </div>
                 <label for="">Nombre de usuario</label>
                 <input type="text">
                 <label for="">Nombre de carta</label>
@@ -67,10 +174,11 @@
                 <button>Filtrar</button>
             </form>
         </div>
-        <div class="listarades">
+        <h2>Usuarios:</h2>
+        <div class="listaTrades">
             <div class="tradesContainer">
                 <div>
-                    <h2>Usuario: </h2>
+                    <h2>Usuario: XXX </h2>
                 </div>
                 <div>
                     <div class="buttons">

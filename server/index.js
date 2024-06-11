@@ -156,6 +156,15 @@ app.get('/collection', (req, res)=>{
 app.get('/perfil', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/perfil.html")
 })
+app.get('/trade', (req, res)=>{
+    res.sendFile(process.cwd()+"/cliente/tradeCards.html")
+})
+app.get('/cartasOfreces', (req, res)=>{
+    res.sendFile(process.cwd()+"/cliente/cartasOfreces.html")
+})
+app.get('/cartasBuscas', (req, res)=>{
+    res.sendFile(process.cwd()+"/cliente/cartasBuscas.html")
+})
 app.get('/logout', (req, res)=>{
     res.sendFile(process.cwd()+"/cliente/login.html")
 })
@@ -215,6 +224,8 @@ app.post('/api/updateCartaMazo', apiDigimon.updateCartaMazo)
 app.post('/api/removeCartaMazo', apiDigimon.removeCartaMazo)
 app.post('/api/cartasMazo', apiDigimon.cartasMazo)
 app.post('/api/baciarMazo', apiDigimon.baciarMazo)
+app.post('/api/cartasEnLaColeccion', apiDigimon.cartasColeccionUsuarioAllData)
+
 
 //Know which port is listening
 server.listen(port, ()=>{

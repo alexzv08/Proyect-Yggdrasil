@@ -105,6 +105,17 @@ async function cartasColeccionUsuario(req, res){
     );
     return res.status(200).send({status: "OK", result: result})
 } 
+async function cartasColeccionUsuarioAllData(req, res){
+    let result = await connection.query(
+        `SELECT uc.*, c.* 
+        FROM usuariocoleccion AS uc 
+        JOIN cartas AS c ON uc.id_carta = c.id_carta 
+            AND uc.id_coleccion = c.id_coleccion 
+            AND uc.id_juego = c.id_juego 
+        WHERE uc.id_usuario = ?`,[req.body.user]
+    );
+    return res.status(200).send({status: "OK", result: result})
+}
 
 export const methods = {
     filtroCartas, 
@@ -117,5 +128,6 @@ export const methods = {
     updateCartaMazo,
     removeCartaMazo,
     cartasMazo,
-    baciarMazo
+    baciarMazo,
+    cartasColeccionUsuarioAllData
 }
