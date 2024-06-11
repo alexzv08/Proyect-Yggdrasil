@@ -1,5 +1,7 @@
 // DEPENDENCIAS NECESARIAS
 import { methods as windowOnLoad} from "./sideBar.js";
+import { methods as notification } from "./notification.js";
+
 
 let elementoDrag, copia;
 // ARRAY CON LOS FILTROS DE BUSQUEDA
@@ -41,6 +43,8 @@ window.onload = async() => {
     document.querySelector('#deckbuilder2 img').src = "src/icons/decksblack.svg"
     clearMazo.addEventListener("click", limpiarMazo)
     await cargarMazo();
+    notification.solicitarSala()
+
 }
 // FUNCION PARA CARGAR LAS IMAGENES DE LAS CARTAS
 function imgCartas(){
@@ -51,7 +55,7 @@ function imgCartas(){
 function cargarImg(element){
     // console.log(element)
     let div = document.createElement("div")
-    div.addEventListener("click", eventoClick)
+    div.addEventListener("click", expandirCarta)
     div.addEventListener("dragstart", drag)
     div.draggable="true"
     div.dataset.nombre =  element.name 
@@ -295,6 +299,26 @@ function cargarCartas(element){
     div.appendChild(img)
     añadirButtons(div,element.cantidad)
 }
+
+function expandirCarta(){
+    console.log(this.dataset.cardnumber)
+    let divCapa = document.createElement("div")
+    divCapa.id ="capa"
+    divCapa.addEventListener("click", () => {
+        divCapa.remove()
+    })
+
+    let divCarta = document.createElement("div")
+    divCarta.id = "cartaMostrar"
+
+    let img = document.createElement("img")
+    img.src = this.querySelector("img").src
+
+    document.querySelector("#main-container").appendChild(divCapa)
+    divCapa.appendChild(divCarta)
+    divCarta.appendChild(img)
+}
+
 // FUNCION PARA AÑADIR BOTONES A LAS CARTAS DEL MAZO
 function añadirButtons(element, cantidad){
     let divMas = document.createElement("img")

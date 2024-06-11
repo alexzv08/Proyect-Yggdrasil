@@ -1,5 +1,6 @@
 import { methods as funcionesCartas } from "./funcionesCartas.js";
 import { methods as funcionesFiltro } from "./funcionesFiltroCartas.js";
+import { methods as notification } from "./notification.js";
 
 let ocultoMenu, ocultoChatHamburger=false;
 let ocultoChat=false;
@@ -39,10 +40,10 @@ window.onload = async()=>{
     try {
         const data = await verifyAndFetch("http://localhost:3000/api/protectedRoute");
         if(sessionStorage.getItem("rol") == 1){
-            await addHtmlDocumentAtBeginning("./components/sideBarAdmin.html")
-        }else{
             await addHtmlDocumentAtBeginning("./components/sideBar.html")
             await document.getElementById("otros").addEventListener("click", mostrarOtros)
+        }else{
+            await addHtmlDocumentAtBeginning("./components/sideBarAdmin.html")
         }
         await document.getElementById('home').classList.add('active')
         await document.getElementById("toogleMenu").addEventListener("click", toggleMenuChange)
@@ -50,14 +51,15 @@ window.onload = async()=>{
     } catch (error) {
         console.error("Error en la solicitud:", error);
     }
+    notification.solicitarSala()
 }
 async function onLoad(){
     const data = await verifyAndFetch("http://localhost:3000/api/protectedRoute");
     if(sessionStorage.getItem("rol") == 1){
-        await addHtmlDocumentAtBeginning("./components/sideBarAdmin.html")
-    }else{
         await addHtmlDocumentAtBeginning("./components/sideBar.html")
         await document.getElementById("otros").addEventListener("click", mostrarOtros)
+    }else{
+        await addHtmlDocumentAtBeginning("./components/sideBarAdmin.html")
     }
     await navBarRediretions()
     await document.getElementById("toogleMenu").addEventListener("click", toggleMenuChange)

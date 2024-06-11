@@ -180,12 +180,12 @@ function isValidEmail(email) {
 }
 function isValidPass(pass) {
     // Regular expression for checking password format
-    const emailRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])\S{8}$/;
+    const emailRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])\S{8,}$/;
     return emailRegex.test(pass);
 }
 function isValidCIF(cif) {
     // Regular expression for checking CIF format
-    const emailRegex = /^[A-Z]{1}\d{8}$/;
+    const emailRegex = /^\d{8}[A-Z]$/;
     return emailRegex.test(cif);
 }
 async function insertarToken(req, res){ 

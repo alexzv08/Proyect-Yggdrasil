@@ -31,9 +31,8 @@ async function solicitarSala(){
 }
 // FUNCION PARA NOTIFICAR DE UN MENSAJE NUEVO
 socket.on('notification', (msg, serverOffset, username, fecha) => {
-    alert("Mensaje de: " + username  + ": " + msg)
+    // alert("Mensaje de: " + username  + ": " + msg)
     notificacion.style.display = "flex"
-
     // GESTIONAR PARA QUE SALGA LA NOTIFICACION EN EL ICONO DE CHAT DEL SIDEBAR O EN LA BARRA DEL NAVEGADOR
 })
 export const methods = {

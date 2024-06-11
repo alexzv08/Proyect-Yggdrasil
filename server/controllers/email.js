@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 
 async function sendConfirmationEmail(userEmail, confirmationToken) {
     const mailOptions = {
-      from: 'Tu nombre <alexzv8@gmail.com>', // Reemplaza con tu nombre y correo
+      from: 'Nexus <alexzv8@gmail.com>', // Reemplaza con tu nombre y correo
       to: userEmail,
       subject: 'Confirma tu cuenta',
       html: `
@@ -23,11 +23,9 @@ async function sendConfirmationEmail(userEmail, confirmationToken) {
         <p>Gracias por registrarte en nuestra aplicación.</p>
         <p>Para confirmar tu cuenta, haz clic en el siguiente enlace:</p>
         <a href="http://localhost:3000/api/verify/${confirmationToken}">Confirmar cuenta</a>
-        <p>Si no puedes hacer clic en el enlace, copia y pega el siguiente en tu navegador:</p>
-        <p>http://localhost:3000/api/verify/${confirmationToken}</p>
         <p>Este enlace solo es válido durante 24 horas.</p>
         <p>Atentamente,</p>
-        <p>El equipo de Tu aplicación</p>
+        <p>El equipo de Nexus</p>
       `
     };
   

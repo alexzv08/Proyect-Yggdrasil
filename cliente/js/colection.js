@@ -63,7 +63,7 @@ async function imgCartas(){
 // FUNCION EN LA QUE GENERA LA IMAGEN DE LAS CARTAS Y LOS DATOS NECESARIOS
 function cargarImg(element){
     let div = document.createElement("div")
-    div.addEventListener("click", eventoClick)
+    div.addEventListener("click", expandirCarta)
     div.classList.add("carta")
     div.dataset.nombre =  element.name
     div.dataset.cardnumber =  element.cardnumber 
@@ -100,7 +100,7 @@ function cargarImg(element){
 
 function cargarImg2(element){
     let div = document.createElement("div")
-    div.addEventListener("click", eventoClick)
+    div.addEventListener("click", expandirCarta)
     div.classList.add("carta")
     div.dataset.nombre =  element.name
     div.dataset.cardnumber =  element.id_coleccion+"-"+element.id_carta.padStart(3, "0")
@@ -436,7 +436,28 @@ async function paginaMenos() {
     document.querySelector("#pagina").innerText = pagina;
 }
 
+function expandirCarta(){
+    console.log(this.dataset.cardnumber)
+    let divCapa = document.createElement("div")
+    divCapa.id ="capa"
+    divCapa.addEventListener("click", () => {
+        divCapa.remove()
+    })
+
+    let divCarta = document.createElement("div")
+    divCarta.id = "cartaMostrar"
+
+    let img = document.createElement("img")
+    img.src = this.querySelector("img").src
+
+    document.querySelector("#main-container").appendChild(divCapa)
+    divCapa.appendChild(divCarta)
+    divCarta.appendChild(img)
+}
+
 export const methods = {
     imgCartas: imgCartas,
     cargarImg: cargarImg,
 }
+
+

@@ -10,6 +10,29 @@ body{
     display: flex;
     flex-direction: row;
 }
+#capa{
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    z-index: 9997;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & #cartaMostrar {
+        height: 400px;
+        width: 300px;
+        border:2px solid white;
+        border-radius: 20px;
+
+        & img{
+            height: 400px;
+            width: 300px;
+        }   
+    }
+}
 /* TAMAÑO 1536px A MAS */
 #filtroEscritorio{
     display: flex;
