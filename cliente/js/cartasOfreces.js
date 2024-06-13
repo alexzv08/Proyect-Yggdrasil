@@ -1,5 +1,5 @@
 import { methods as windowOnLoad} from "./sideBar.js";
-import 'dotenv/config';
+// import 'dotenv/config';
 
 let elementoDrag, copia, listaCartas, pagina, limiteActual, limitePaginacion;
 // ARRAY PARA ALMACENAR EL FILTRO DE BUSQUEDA DE LAS CARTAS
@@ -34,7 +34,7 @@ window.onload = async() => {
 }
 
 async function listaColecciones(){
-    const res = await fetch(`http://${process.env.CONECXION_AWS}/api/listaColecciones`,{
+    const res = await fetch(`http://localhost:3000/api/listaColecciones`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -58,7 +58,7 @@ async function listaColecciones(){
     });
 }
 async function mostrarCartas(){
-    const res = await fetch(`http://${process.env.CONECXION_AWS}/api/cartasColeccionUsuario`,{
+    const res = await fetch(`http://localhost:3000/api/cartasColeccionUsuario`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -82,7 +82,7 @@ async function mostrarCartas(){
 async function peticionAPIFiltro(sql){
     pagina = 1;
     limiteActual=0
-    const res = await fetch(`http://${process.env.CONECXION_AWS}/api/filtroCartas`,{
+    const res = await fetch(`http://localhost:3000/api/filtroCartas`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -109,7 +109,7 @@ async function peticionAPIFiltro(sql){
 async function mostrarCartasColeccion(){
     pagina = 1;
     limiteActual=0
-    const res = await fetch(`http://${process.env.CONECXION_AWS}/api/cartasEnLaColeccion`,{
+    const res = await fetch(`http://localhost:3000/api/cartasEnLaColeccion`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"

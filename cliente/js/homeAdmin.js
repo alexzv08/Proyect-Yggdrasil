@@ -1,9 +1,9 @@
-import 'dotenv/config';
+// import 'dotenv/config';
 
 
 window.onload = async ()=>{
     try {
-        const data = await verifyAndFetch(`http://${process.env.CONECXION_AWS}/api/protectedRoute`);
+        const data = await verifyAndFetch(`http://localhost:3000/api/protectedRoute`);
         await addHtmlDocumentAtBeginning("./components/sideBarAdmin.html")
         await document.getElementById('home').classList.add('active')
         await navBarRediretions()
