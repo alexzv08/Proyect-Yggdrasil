@@ -94,21 +94,21 @@ async function updateCartaColeccion(req, res){
 //REQUEST FOR DELETE CARD TO COLLECTION
 async function eliminarCartaColeccion(req, res){
     let result = await connection.query(
-        "DELETE FROM usuariocoleccion WHERE id_usuario = ? AND id_carta = ? AND id_coleccion = ? AND id_Juego = ?;",[req.body.user, req.body.id_carta, req.body.id_coleccion,"DG"]
+        "DELETE FROM usuarioColeccion WHERE id_usuario = ? AND id_carta = ? AND id_coleccion = ? AND id_Juego = ?;",[req.body.user, req.body.id_carta, req.body.id_coleccion,"DG"]
     );
     return res.status(200).send({status: "OK", result: result})
 } 
 //REQUEST FOR SHOW CARDS IN COLLECTION USER
 async function cartasColeccionUsuario(req, res){
     let result = await connection.query(
-        "SELECT * FROM usuariocoleccion WHERE id_usuario = ?;",[req.body.user]
+        "SELECT * FROM usuarioColeccion WHERE id_usuario = ?;",[req.body.user]
     );
     return res.status(200).send({status: "OK", result: result})
 } 
 async function cartasColeccionUsuarioAllData(req, res){
     let result = await connection.query(
         `SELECT uc.*, c.* 
-        FROM usuariocoleccion AS uc 
+        FROM usuarioColeccion AS uc 
         JOIN cartas AS c ON uc.id_carta = c.id_carta 
             AND uc.id_coleccion = c.id_coleccion 
             AND uc.id_juego = c.id_juego 

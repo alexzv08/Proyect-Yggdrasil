@@ -136,7 +136,7 @@ CREATE TABLE usuarioColeccion (
   FOREIGN KEY (id_carta) REFERENCES cartas(id_carta)  ON DELETE CASCADE
 );
 ALTER TABLE usuarioColeccion
-DROP FOREIGN KEY usuariocoleccion_ibfk_3; -- Elimina la restricción de clave foránea existente
+DROP FOREIGN KEY usuarioColeccion_ibfk_3; -- Elimina la restricción de clave foránea existente
 
 ALTER TABLE usuarioColeccion
 MODIFY COLUMN id_coleccion VARCHAR(10); -- Modifica el tipo de datos de la columna id_coleccion si es necesario
