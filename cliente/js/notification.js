@@ -1,4 +1,5 @@
 import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js"
+import 'dotenv/config';
 
 
 let socket = io({
@@ -12,7 +13,7 @@ let socket = io({
 
 async function solicitarSala(){
     console.log("Solicitando sala")
-    const res = await fetch("http://localhost:3000/api/salasUsuario",{
+    const res = await fetch(`http://${process.env.CONECXION_AWS}/api/salasUsuario`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"

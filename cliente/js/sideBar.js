@@ -1,6 +1,7 @@
 import { methods as funcionesCartas } from "./funcionesCartas.js";
 import { methods as funcionesFiltro } from "./funcionesFiltroCartas.js";
 import { methods as notification } from "./notification.js";
+import 'dotenv/config';
 
 let ocultoMenu, ocultoChatHamburger=false;
 let ocultoChat=false;
@@ -38,7 +39,7 @@ async function verifyAndFetch(url, options = {}) {
 }
 window.onload = async()=>{
     try {
-        const data = await verifyAndFetch("http://localhost:3000/api/protectedRoute");
+        const data = await verifyAndFetch(`http://${process.env.CONECXION_AWS}/api/protectedRoute`);
         if(sessionStorage.getItem("rol") == 1){
             await addHtmlDocumentAtBeginning("./components/sideBar.html")
             await document.getElementById("otros").addEventListener("click", mostrarOtros)
@@ -54,7 +55,7 @@ window.onload = async()=>{
     notification.solicitarSala()
 }
 async function onLoad(){
-    const data = await verifyAndFetch("http://localhost:3000/api/protectedRoute");
+    const data = await verifyAndFetch(`http://${process.env.CONECXION_AWS}/api/protectedRoute`);
     if(sessionStorage.getItem("rol") == 1){
         await addHtmlDocumentAtBeginning("./components/sideBar.html")
         await document.getElementById("otros").addEventListener("click", mostrarOtros)

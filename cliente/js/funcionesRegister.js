@@ -1,10 +1,11 @@
 
 // import { methods as email } from "../../server/controllers/email.js";
+import 'dotenv/config';
 
 window.onload = () => {
     document.getElementById("register-form-user").addEventListener("submit", async (e)=>{
         e.preventDefault();
-        const res = await fetch("http://localhost:3000/api/register",{
+        const res = await fetch(`http://${process.env.CONECXION_AWS}/api/register`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -33,7 +34,7 @@ window.onload = () => {
         if (e.target.children[2].children.pass.value != e.target.children[3].children.confirmPassword.value) {
             return alert("Las contraseñas no coinciden");
         }
-        const res = await fetch("http://localhost:3000/api/registerEmpresa",{
+        const res = await fetch(`http://${process.env.CONECXION_AWS}/api/registerEmpresa`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"

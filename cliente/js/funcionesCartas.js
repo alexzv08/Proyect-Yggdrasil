@@ -1,6 +1,7 @@
 // DEPENDENCIAS NECESARIAS
 import { methods as windowOnLoad} from "./sideBar.js";
 import { methods as notification } from "./notification.js";
+import 'dotenv/config';
 
 
 let elementoDrag, copia;
@@ -173,7 +174,7 @@ function restarCantidad(event){
 // FUNCIONES RELACIONADAS AL MAZO
 async function insertCartaMazo(idCarta, idColeccion){
     // DATOS NECESARIOS ID_MAZO, IDCARTA, IDCOLECCION, IDJUEGO, CANTIDAD = 1
-    const res = await fetch("http://localhost:3000/api/insertCartaMazo",{
+    const res = await fetch(`http://${process.env.CONECXION_AWS}/api/insertCartaMazo`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -195,7 +196,7 @@ async function insertCartaMazo(idCarta, idColeccion){
 // PETICION QUE MODIFICA LA CANTIDAD DE UNA CARTA EN EL MAZO
 async function updateCartaMazo(idCarta, idColeccion, cantidad){
     // DATOS NECESARIOS ID_MAZO, IDCARTA, IDCOLECCION, IDJUEGO, CANTIDAD = 1
-    const res = await fetch("http://localhost:3000/api/updateCartaMazo",{
+    const res = await fetch(`http://${process.env.CONECXION_AWS}/api/updateCartaMazo`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -216,7 +217,7 @@ async function updateCartaMazo(idCarta, idColeccion, cantidad){
 // PETICION QUE ELIMINA LA CANTIDAD DE UNA CARTA EN EL MAZO
 async function removeCartaMazo(idCarta, idColeccion, cantidad){
     // DATOS NECESARIOS ID_MAZO, IDCARTA, IDCOLECCION, IDJUEGO, CANTIDAD = 1
-    const res = await fetch("http://localhost:3000/api/removeCartaMazo",{
+    const res = await fetch(`http://${process.env.CONECXION_AWS}/api/removeCartaMazo`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -243,7 +244,7 @@ async function limpiarMazo(){
             mazo["eggDeck"]=[]
             mazo["deck"]=[]
 
-        const res = await fetch("http://localhost:3000/api/baciarMazo",{
+        const res = await fetch(`http://${process.env.CONECXION_AWS}/api/baciarMazo`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -257,7 +258,7 @@ async function limpiarMazo(){
 }
 // PETICION PARA AÑADIR LAS CARTAS YA EXISTENTES DEL MAZO AL CARGAR LA PAGINA
 async function cargarMazo(){
-    const res = await fetch("http://localhost:3000/api/cartasMazo",{
+    const res = await fetch(`http://${process.env.CONECXION_AWS}/api/cartasMazo`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -445,7 +446,7 @@ async function creacionSentenciaSQL(listaFiltro){
 // HACER CONSULTA A LA API
 // FILTRANDO LA CONSULTA DEPENDIENDO DE LOS FILTROS SELECCIONADOS
 async function peticionAPIFiltro(sql){
-    const res = await fetch("http://localhost:3000/api/filtroCartas",{
+    const res = await fetch(`http://${process.env.CONECXION_AWS}/api/filtroCartas`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -467,7 +468,7 @@ async function peticionAPIFiltro(sql){
 }
 // FUNCION PARA LISTAR TODAS LAS COLEECIONES EN FILTROS
 async function listaColecciones(){
-    const res = await fetch("http://localhost:3000/api/listaColecciones",{
+    const res = await fetch(`http://${process.env.CONECXION_AWS}/api/listaColecciones`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"

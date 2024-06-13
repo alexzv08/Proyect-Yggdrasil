@@ -1,5 +1,6 @@
 import { methods as windowOnLoad } from "./sideBar.js";
 import { methods as notification } from "./notification.js";
+import 'dotenv/config';
 
 window.onload = async ()=>{
     await windowOnLoad.onLoad()
@@ -45,7 +46,7 @@ async function crearTorneoApi(e){
     datos.push(document.querySelectorAll("#formCrearTorneo textarea").value);
 
 
-    const res = await fetch("http://localhost:3000/api/registrarEvento",{
+    const res = await fetch(`http://${process.env.CONECXION_AWS}/api/registrarEvento`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"

@@ -1,6 +1,7 @@
 // DEPENDENCIAS NECESARIAS
 import { methods as windowOnLoad } from "./sideBar.js";
 import { methods as notification } from "./notification.js";
+import 'dotenv/config';
 
 
 window.onload = async ()=>{
@@ -18,7 +19,7 @@ window.onload = async ()=>{
 // FUNCION PARA INSERTAR UNA NUEVA ENTRADA EN LA BBDD CON UN NUEMO MAZO VINCULADO A UN USUARIO
 async function crearMazo(){
     if(nombreMazo.value !=''){
-        const res = await fetch("http://localhost:3000/api/crearMazo",{
+        const res = await fetch(`http://${process.env.CONECXION_AWS}/api/crearMazo`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -48,7 +49,7 @@ function editarMazo(){
 async function eliminarmazo(){
     let mazoContainer = this.parentElement.parentElement
     console.log(mazoContainer)
-    const res = await fetch("http://localhost:3000/api/eliminarmazo",{
+    const res = await fetch(`http://${process.env.CONECXION_AWS}/api/eliminarmazo`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -62,7 +63,7 @@ async function eliminarmazo(){
     }
 // FUNCION PARA RRECUPERAR LOS DISTINTOS MAZOS QUE TIENE UN USUARIO
 async function recuperarMazos(){
-const res = await fetch("http://localhost:3000/api/recuperarMazosUsuario",{
+const res = await fetch(`http://${process.env.CONECXION_AWS}/api/recuperarMazosUsuario`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"

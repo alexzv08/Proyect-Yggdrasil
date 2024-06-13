@@ -1,8 +1,10 @@
 const mesnsajeError = "";
+import 'dotenv/config';
+
 window.onload = ()  => {
     document.getElementById("register-form").addEventListener("submit", async (e)=>{
         e.preventDefault();
-        const res = await fetch("http://localhost:3000/api/login",{
+        const res = await fetch(`http://${process.env.CONECXION_AWS}/api/login`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
