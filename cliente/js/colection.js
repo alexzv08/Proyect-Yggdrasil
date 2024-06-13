@@ -63,11 +63,16 @@ function cargarImg(element){
     div.dataset.nombre =  element.name
     div.dataset.cardnumber =  element.cardnumber 
     div.dataset.color =  element.color
-    div.dataset.cantidad =  "0"
+    div.dataset.cantidad =  element.cantidad > 0 ? element.cantidad : "0"
+
     let img = document.createElement("img")
     img.src = element.image_url
     img.classList.add("off")
     containerListaCartas.appendChild(div)
+
+    let divContainer = document.createElement("div")
+    divContainer.classList.add("containerButtons")
+
 
     let divMas = document.createElement("img")
     divMas.src = "src/icons/plus-svgrepo-com.svg"
@@ -87,9 +92,10 @@ function cargarImg(element){
     divMenos.addEventListener("click", restarALaColeccion)
 
     div.appendChild(img)
-    div.appendChild(divMas)
-    div.appendChild(divCantidad)
-    div.appendChild(divMenos)
+    div.appendChild(divContainer)
+    divContainer.appendChild(divMas)
+    divContainer.appendChild(divCantidad)
+    divContainer.appendChild(divMenos)
     
 }
 
@@ -105,6 +111,9 @@ function cargarImg2(element){
     img.src = element.image_url
     element.cantidad > 0 ? img.classList.add("on") : img.classList.add("off")
     containerListaCartas.appendChild(div)
+
+    let divContainer = document.createElement("div")
+    divContainer.classList.add("containerButtons")
 
     let divMas = document.createElement("img")
     divMas.src = "src/icons/plus-svgrepo-com.svg"
@@ -124,16 +133,17 @@ function cargarImg2(element){
     divMenos.addEventListener("click", restarALaColeccion)
 
     div.appendChild(img)
-    div.appendChild(divMas)
-    div.appendChild(divCantidad)
-    div.appendChild(divMenos)
+    div.appendChild(divContainer)
+    divContainer.appendChild(divMas)
+    divContainer.appendChild(divCantidad)
+    divContainer.appendChild(divMenos)
 }
 
 // FUNCION QUE AÑADE LA CARTA PINCHADA Y QUE GESTIONA LA CANTIDAD DE CARTAS QUE POSE EL USUARIO DE DICHA CARTA
 async function añadirCartaColeccion(element) {
     if(parseInt(element.dataset.cantidad ) == 0){
         element.dataset.cantidad = parseInt(element.dataset.cantidad )+ 1
-        const res = await fetch(`http://13.37.66.226:3000/api/anadirAColeccion`,{
+        const res = await fetch(`http://localhost:3000/api/anadirAColeccion`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -146,11 +156,11 @@ async function añadirCartaColeccion(element) {
             })
         })
         element.childNodes[0].classList.remove("off")
-        element.childNodes[2].innerText = element.dataset.cantidad
+        element.childNodes[1].childNodes[1].innerText = element.dataset.cantidad
 
     }else if(parseInt(element.dataset.cantidad ) > 0){
         element.dataset.cantidad = parseInt(element.dataset.cantidad ) + 1
-        const res = await fetch(`http://13.37.66.226:3000/api/updateCartaColeccion`,{
+        const res = await fetch(`http://localhost:3000/api/updateCartaColeccion`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -162,7 +172,7 @@ async function añadirCartaColeccion(element) {
                 cantidad: element.dataset.cantidad
             })
         })
-        element.childNodes[2].innerText = element.dataset.cantidad
+        element.childNodes[1].childNodes[1].innerText = element.dataset.cantidad
     }
     return element.dataset.cantidad
 }
@@ -171,7 +181,7 @@ async function quitarCartaColeccion(element) {
     if(parseInt(element.dataset.cantidad ) > 0){
         element.dataset.cantidad = parseInt(element.dataset.cantidad )- 1
         if(parseInt(element.dataset.cantidad ) > 0){
-            const res = await fetch(`http://13.37.66.226:3000/api/updateCartaColeccion`,{
+            const res = await fetch(`http://localhost:3000/api/updateCartaColeccion`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json"
@@ -184,7 +194,7 @@ async function quitarCartaColeccion(element) {
                 })
             })
         }else if(parseInt(element.dataset.cantidad ) == 0){
-            const res = await fetch(`http://13.37.66.226:3000/api/eliminarCartaColeccion`,{
+            const res = await fetch(`http://localhost:3000/api/eliminarCartaColeccion`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json"
@@ -197,22 +207,23 @@ async function quitarCartaColeccion(element) {
             })
             element.childNodes[0].classList.add("off")
         }
-        element.childNodes[2].innerText = element.dataset.cantidad
+        element.childNodes[1].childNodes[1].innerText = element.dataset.cantidad
+
     }
 }
 // FUNCION PARA AÑADIR 1 CARTA A LA COLECCION ATRAVES DEL BOTON DE SUMAR
 function sumarALaColeccion(event){
     event.stopPropagation()
-    añadirCartaColeccion(this.parentNode)
+    añadirCartaColeccion(this.parentNode.parentNode)
 }
 // FUNCION PARA RESTAR 1 CARTA A LA COLECCION ATRAVES DEL BOTON DE RESTAR, SI LLEGA A 0 CARTAS SE ELIMINA DE LA COLECCION
 function restarALaColeccion(event){
     event.stopPropagation()
-    quitarCartaColeccion(this.parentNode)
+    quitarCartaColeccion(this.parentNode.parentNode)
 }
 // FUNCION PARA RECUPERAR QUE CARTAS TIENE EL USUARIO EN SU COLECCION Y MOSTRAR LAS CARTAS QUE POSEE
 async function mostrarCartasColeccion(){
-    const res = await fetch(`http://13.37.66.226:3000/api/cartasColeccionUsuario`,{
+    const res = await fetch(`http://localhost:3000/api/cartasColeccionUsuario`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -228,7 +239,7 @@ async function mostrarCartasColeccion(){
             if(card.dataset.cardnumber == (element.id_coleccion+"-"+element.id_carta)){
                 card.childNodes[0].classList.remove("off")
                 card.dataset.cantidad = element.cantidad
-                card.childNodes[2].innerText = element.cantidad
+                card.childNodes[1].childNodes[1].innerText = element.cantidad ? element.cantidad : "0"
             }
         });
     });
@@ -335,7 +346,7 @@ async function creacionSentenciaSQL(listaFiltro){
 async function peticionAPIFiltro(sql){
     pagina = 1;
     limiteActual=0
-    const res = await fetch(`http://13.37.66.226:3000/api/filtroCartas`,{
+    const res = await fetch(`http://localhost:3000/api/filtroCartas`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -363,7 +374,7 @@ async function peticionAPIFiltro(sql){
 }
 
 async function listaColecciones(){
-    const res = await fetch(`http://13.37.66.226:3000/api/listaColecciones`,{
+    const res = await fetch(`http://localhost:3000/api/listaColecciones`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"

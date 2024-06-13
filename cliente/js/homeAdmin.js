@@ -3,7 +3,7 @@
 
 window.onload = async ()=>{
     try {
-        const data = await verifyAndFetch(`http://13.37.66.226:3000/api/protectedRoute`);
+        const data = await verifyAndFetch(`http://localhost:3000/api/protectedRoute`);
         await addHtmlDocumentAtBeginning("./components/sideBarAdmin.html")
         await document.getElementById('home').classList.add('active')
         await navBarRediretions()

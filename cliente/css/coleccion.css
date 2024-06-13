@@ -164,7 +164,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         gap: 10px;
-        & div {
+        & .carta {
             /* background-color: red; */
             height: 160px;
             width: 118px;
@@ -267,7 +267,7 @@
         }
     }
 }
-@media (width <= 400px){
+@media (width <= 450px){
     #main-container{
         width: 100vw;
         margin-left: 0px;
@@ -279,5 +279,22 @@
         margin: auto;
         height: calc(100vh - 75px) ;
         background-color: var(--color-primario);
+    }
+    .containerButtons{
+        height: 20px;
+        width: 114px;
+        border: 1px solid white;
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        position: absolute;
+        bottom: 0;
+        justify-content: space-around;
+        background: white;
+    }
+    .mas, .menos{
+        height: 20px;
+        width: 20px;
+        color: white;
     }
 }
