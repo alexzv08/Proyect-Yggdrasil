@@ -275,7 +275,7 @@
     #filtroEscritorio{
         display: none;
         position: absolute;
-        z-index: 9998;
+        z-index: 1000;
         margin: auto;
         height: calc(100vh - 75px) ;
         background-color: var(--color-primario);
