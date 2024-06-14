@@ -7,6 +7,20 @@
     height: 250px;
     min-height: 350px;
     padding: 5% 0;
+    
+    & >div{
+        width: 20vw;
+        height: 20vh;
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        & img {
+            height: 126px;
+            margin: auto;
+        }
+    }
+
     & form{
         height: 250px;
         display: flex;
@@ -14,6 +28,7 @@
         justify-content: space-between;
         align-items: center;
         gap: 30px;
+        padding-bottom: 100px;
         & .form-wrapper{
             width: 100%;
             position: relative;
@@ -99,7 +114,46 @@
         }
     }
 }
-
+.usuario{
+    display: flex;
+    flex-direction: column;
+}
 .empresa{
     display: none;
+}
+#register-form-empresa{
+    margin-top: 30px;
+}
+.formEmpresa{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    & label{
+        top: -20px !important;
+    }
+    & input::placeholder{
+        color: white;
+    } 
+}
+
+
+@media (width <= 450px){
+    #buttons{
+        margin: auto;
+        display: flex;
+        flex-direction: column !important;
+        justify-content: center;
+        align-items: center;
+        gap: 10;
+
+        & button{
+            margin: 10px 0;
+            width: 80% !important;
+        }
+    }
+
+    #register-form-empresa{
+        height: 1000px !important;
+    }
 }

@@ -116,6 +116,27 @@ async function cartasColeccionUsuarioAllData(req, res){
     );
     return res.status(200).send({status: "OK", result: result})
 }
+// REQUESTS FOR SHOW CUANTITI OF CARDS IN COLLECTION USER
+async function cartasEnPosesion(req, res){
+    let result = await connection.query(
+        `SELECT COUNT(*) AS cantidad
+        FROM usuarioColeccion AS uc
+        WHERE uc.id_usuario = ?`,[req.body.user]
+    );
+    return res.status(200).send({status: "OK", result: result})
+}
+async function cantidadTorneosActivos(req, res){
+    let result = await connection.query(
+        `SELECT count(*) FROM eventos WHERE CAST(fecha_inicio AS date) >= CAST(NOW() AS date);`
+    );
+    return res.status(200).send({status: "OK", result: result})
+}
+async function cantidadTorneosApuntados(req, res){
+    let result = await connection.query(
+        `SELECT COUNT(*) AS event_count FROM eventosDetalle AS ed JOIN eventos AS e ON ed.id_evento = e.id_evento WHERE ed.id_usuario = ?;`, [req.body.user]
+    );
+    return res.status(200).send({status: "OK", result: result})
+}
 
 export const methods = {
     filtroCartas, 
@@ -129,5 +150,8 @@ export const methods = {
     removeCartaMazo,
     cartasMazo,
     baciarMazo,
-    cartasColeccionUsuarioAllData
+    cartasColeccionUsuarioAllData,
+    cartasEnPosesion,
+    cantidadTorneosActivos,
+    cantidadTorneosApuntados
 }

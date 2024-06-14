@@ -9,6 +9,7 @@
 </head>
 <body>
     <div id="container-login" class="usuario">
+        <div><img src="src/icons/logo.svg" alt=""></div>
         <form class="form" action="" id="register-form-user">
             <div class="form-wrapper">
                 <input name="email" type="text" placeholder="" required>
@@ -24,12 +25,14 @@
             </div>
             <div id="buttons">
                 <button id="register" type="submit">Registrarse</button>
-                <button id="login" type="button">Login</button>
+                <button id="login" type="button">Logear</button>
                 <button id="registerEmpresa" type="button">Registrarse como empresa</button>
             </div>
         </form>
     </div>
     <div id="container-login" class="empresa">
+        <div><img src="src/icons/logo.svg" alt=""></div>
+
         <form action="" id="register-form-empresa">
             <div class="form-wrapper">
                 <input type="text" id="user" name="user" required><br>
@@ -53,15 +56,15 @@
             </div>
             <div class="form-wrapper">
                 <input type="text" id="cif" name="cif" required><br>
-                <label for="cif">Número de Identificación CIF:</label>
+                <label for="cif">CIF:</label>
             </div>
-            <div class="form-wrapper">
-                <label for="address">Dirección de la Empresa:</label><br>
-                <input type="text" id="street" name="street" placeholder="Calle" required><br>
-                <input type="text" id="city" name="city" placeholder="Ciudad" required><br>
-                <input type="text" id="state" name="state" placeholder="Estado/Provincia" required><br>
-                <input type="text" id="postal-code" name="postal" placeholder="Código Postal" required><br>
-                <input type="text" id="country" name="country" placeholder="País" required><br>
+            <div class="form-wrapper formEmpresa">
+                <label for="address">Dirección de la Empresa:</label>
+                <input type="text" id="street" name="street" placeholder="Calle" required>
+                <input type="text" id="city" name="city" placeholder="Ciudad" required>
+                <input type="text" id="state" name="state" placeholder="Estado/Provincia" required>
+                <input type="text" id="postal-code" name="postal" placeholder="Código Postal" required>
+                <input type="text" id="country" name="country" placeholder="País" required>
             </div>
             <div class="form-wrapper">
                 <input type="tel" id="tel" name="tel"><br>
@@ -72,6 +75,7 @@
                 <label for="website">Sitio Web de la Empresa:</label>
             </div>
             <button type="submit">Registrarse</button>
+            <button id="login" type="button">Logear</button>
             <button id="registerUsuario" type="button">Registrarse como usuario</button>
 
         </form>

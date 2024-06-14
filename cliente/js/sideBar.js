@@ -52,6 +52,18 @@ window.onload = async()=>{
     } catch (error) {
         console.error("Error en la solicitud:", error);
     }
+    console.log(document.querySelector(".infoPerfil #bloque1 button")[0])
+    document.querySelectorAll(".infoPerfil #bloque1 button")[0].addEventListener("click", function(){
+        window.location.href = "/perfil"
+    })
+    document.querySelectorAll(".infoPerfil #bloque1 button")[1].addEventListener("click", function(){
+        window.location.href = "/trade"
+    })
+    document.querySelectorAll(".infoPerfil #bloque2 button")[0].addEventListener("click", function(){
+        window.location.href = "/chat"
+    })
+    cartasEnPosesion()
+    cantidadTorneosActivos()
     notification.solicitarSala()
 }
 async function onLoad(){
@@ -64,16 +76,6 @@ async function onLoad(){
     }
     await navBarRediretions()
     await document.getElementById("toogleMenu").addEventListener("click", toggleMenuChange)
-}
-async function insertCartas(){
-    contenidoWeb.innerHTML =""
-    await fetch("seccionCartas.html")
-    .then(data => data.text())
-    .then(data =>{
-        contenidoWeb.insertAdjacentHTML("beforeend", data)
-    })
-    funcionesCartas.imgCartas()
-    console.log("hola")
 }
 
 function mostrarOtros(){
@@ -179,8 +181,65 @@ async function addHtmlDocumentAtBeginning(url) {
         console.error('Error al cargar o añadir el documento HTML:', error);
     }
 }
+async function cartasEnPosesion(){
+    const res = await fetch(`http://localhost:3000/api/cartasEnPosesion`,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                user: sessionStorage.getItem("user")
+            })
+        })
+    if(!res.ok){
+        const resJson = await res.json()
+        alert(resJson.message)
+        return
+    }
+    const resJson = await res.json()
+    console.log(resJson.result[0][0].cantidad)
+    let cantidad = resJson.result[0][0].cantidad ?? 0
+    document.querySelector(".bento2 p").innerText += " "+ cantidad
+}
 
+async function cantidadTorneosActivos(){
+    const res = await fetch(`http://localhost:3000/api/cantidadTorneosActivos`,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+        })
+    if(!res.ok){
+        const resJson = await res.json()
+        alert(resJson.message)
+        return
+    }
+    const resJson = await res.json()
+    console.log(resJson.result[0][0].cantidad)
+    let cantidad = resJson.result[0][0].cantidad ?? 0
+    document.querySelectorAll(".bento5 p")[0].innerText += " "+ cantidad
+}
 
+async function cantidadTorneosApuntados(){
+    const res = await fetch(`http://localhost:3000/api/cantidadTorneosActivos`,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                user: sessionStorage.getItem("user")
+            })
+        })
+    if(!res.ok){
+        const resJson = await res.json()
+        alert(resJson.message)
+        return
+    }
+    const resJson = await res.json()
+    console.log(resJson.result[0][0].cantidad)
+    let cantidad = resJson.result[0][0].cantidad ?? 0
+    document.querySelectorAll(".bento5 p")[1].innerText += " "+ cantidad
+}
 export const methods = {
     toggleMenuChange,
     navBarRediretions,

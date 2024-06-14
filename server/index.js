@@ -200,6 +200,7 @@ app.get('/api/protectedRoute', autentificador.verifyToken, async (req, res) => {
     let userData = req.user;
     res.status(200).json({ message: 'Ruta protegida accesible', user: userData});
 })
+// CALLS RELATED TO THE USER
 app.post('/api/login', autentificador.login)
 app.post('/api/register', autentificador.register)
 app.post('/api/usuarios', autentificador.sacarUsuariosChat)
@@ -212,7 +213,8 @@ app.post('/api/idSalaChat', autentificador.recuperarSala)
 app.post('/api/ultimoIdChat', autentificador.ultimoIdChat)
 app.post('/api/salasUsuario', autentificador.salasUsuario)
 app.post('/api/registrarEvento', autentificador.registrarEvento)
-
+// CALLS RELATED TO THE GAME CARDS
+app.post('/api/cartasEnPosesion', apiDigimon.cartasEnPosesion)
 app.post('/api/filtroCartas', apiDigimon.filtroCartas)
 app.post('/api/listaColecciones', apiDigimon.listaColecciones)
 app.post('/api/anadirAColeccion', apiDigimon.añadirAColeccion)
@@ -225,6 +227,10 @@ app.post('/api/removeCartaMazo', apiDigimon.removeCartaMazo)
 app.post('/api/cartasMazo', apiDigimon.cartasMazo)
 app.post('/api/baciarMazo', apiDigimon.baciarMazo)
 app.post('/api/cartasEnLaColeccion', apiDigimon.cartasColeccionUsuarioAllData)
+app.post('/api/cantidadTorneosActivos', apiDigimon.cantidadTorneosActivos)
+app.post('/api/cantidadTorneosApuntados', apiDigimon.cantidadTorneosApuntados)
+
+
 
 
 //Know which port is listening

@@ -27,7 +27,6 @@ window.onload = () => {
 
     document.getElementById("register-form-empresa").addEventListener("submit", async (e)=>{
         e.preventDefault();
-        console.log(e.target.children[6].children[2].value);
         if (e.target.children[2].children.pass.value != e.target.children[3].children.confirmPassword.value) {
             return alert("Las contraseñas no coinciden");
         }
@@ -64,7 +63,11 @@ window.onload = () => {
     })
 
 
-    login.addEventListener("click" ,(e)=>{
+    login[0].addEventListener("click" ,(e)=>{
+        e.preventDefault();
+        window.location.href = "/login";
+    })
+    login[1].addEventListener("click" ,(e)=>{
         e.preventDefault();
         window.location.href = "/login";
     })
