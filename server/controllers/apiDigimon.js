@@ -133,7 +133,7 @@ async function cantidadTorneosActivos(req, res){
 }
 async function cantidadTorneosApuntados(req, res){
     let result = await connection.query(
-        `SELECT COUNT(*) AS event_count FROM eventosDetalle AS ed JOIN eventos AS e ON ed.id_evento = e.id_evento WHERE ed.id_usuario = ?;`, [req.body.user]
+        `SELECT COUNT(*) AS event_count FROM eventosDetalle AS ed JOIN eventos AS e ON ed.id_evento = e.id_evento WHERE ed.id_usuario = ? AND e.fecha_inicio > CAST(NOW() AS date);`, [req.body.user]
     );
     return res.status(200).send({status: "OK", result: result})
 }

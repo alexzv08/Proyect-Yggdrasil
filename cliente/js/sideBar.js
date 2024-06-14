@@ -64,6 +64,7 @@ window.onload = async()=>{
     })
     cartasEnPosesion()
     cantidadTorneosActivos()
+    cantidadTorneosApuntados()
     notification.solicitarSala()
 }
 async function onLoad(){
@@ -197,7 +198,6 @@ async function cartasEnPosesion(){
         return
     }
     const resJson = await res.json()
-    console.log(resJson.result[0][0].cantidad)
     let cantidad = resJson.result[0][0].cantidad ?? 0
     document.querySelector(".bento2 p").innerText += " "+ cantidad
 }
@@ -236,7 +236,6 @@ async function cantidadTorneosApuntados(){
         return
     }
     const resJson = await res.json()
-    console.log(resJson.result[0][0].cantidad)
     let cantidad = resJson.result[0][0].cantidad ?? 0
     document.querySelectorAll(".bento5 p")[1].innerText += " "+ cantidad
 }
