@@ -39,7 +39,7 @@ async function verifyAndFetch(url, options = {}) {
 }
 window.onload = async()=>{
     try {
-        const data = await verifyAndFetch(`http://localhost:80/api/protectedRoute`);
+        const data = await verifyAndFetch(`http://localhost3000/api/protectedRoute`);
         if(sessionStorage.getItem("rol") == 1){
             await addHtmlDocumentAtBeginning("./components/sideBar.html")
             await document.getElementById("otros").addEventListener("click", mostrarOtros)
@@ -68,7 +68,7 @@ window.onload = async()=>{
     notification.solicitarSala()
 }
 async function onLoad(){
-    const data = await verifyAndFetch(`http://localhost:80/api/protectedRoute`);
+    const data = await verifyAndFetch(`http://localhost3000/api/protectedRoute`);
     if(sessionStorage.getItem("rol") == 1){
         await addHtmlDocumentAtBeginning("./components/sideBar.html")
         await document.getElementById("otros").addEventListener("click", mostrarOtros)
@@ -183,7 +183,7 @@ async function addHtmlDocumentAtBeginning(url) {
     }
 }
 async function cartasEnPosesion(){
-    const res = await fetch(`http://localhost:80/api/cartasEnPosesion`,{
+    const res = await fetch(`http://localhost3000/api/cartasEnPosesion`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -203,7 +203,7 @@ async function cartasEnPosesion(){
 }
 
 async function cantidadTorneosActivos(){
-    const res = await fetch(`http://localhost:80/api/cantidadTorneosActivos`,{
+    const res = await fetch(`http://localhost3000/api/cantidadTorneosActivos`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -221,7 +221,7 @@ async function cantidadTorneosActivos(){
 }
 
 async function cantidadTorneosApuntados(){
-    const res = await fetch(`http://localhost:80/api/cantidadTorneosActivos`,{
+    const res = await fetch(`http://localhost3000/api/cantidadTorneosActivos`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"

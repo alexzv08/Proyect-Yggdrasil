@@ -34,7 +34,7 @@ window.onload = async() => {
 }
 
 async function listaColecciones(){
-    const res = await fetch(`http://localhost:80/api/listaColecciones`,{
+    const res = await fetch(`http://localhost3000/api/listaColecciones`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -58,7 +58,7 @@ async function listaColecciones(){
     });
 }
 async function mostrarCartas(){
-    const res = await fetch(`http://localhost:80/api/cartasColeccionUsuario`,{
+    const res = await fetch(`http://localhost3000/api/cartasColeccionUsuario`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -82,7 +82,7 @@ async function mostrarCartas(){
 async function peticionAPIFiltro(sql){
     pagina = 1;
     limiteActual=0
-    const res = await fetch(`http://localhost:80/api/filtroCartas`,{
+    const res = await fetch(`http://localhost3000/api/filtroCartas`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -109,7 +109,7 @@ async function peticionAPIFiltro(sql){
 async function mostrarCartasColeccion(){
     pagina = 1;
     limiteActual=0
-    const res = await fetch(`http://localhost:80/api/cartasEnLaColeccion`,{
+    const res = await fetch(`http://localhost3000/api/cartasEnLaColeccion`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"

@@ -22,7 +22,7 @@ async function sendConfirmationEmail(userEmail, confirmationToken) {
         <p>Hola ${userEmail},</p>
         <p>Gracias por registrarte en nuestra aplicación.</p>
         <p>Para confirmar tu cuenta, haz clic en el siguiente enlace:</p>
-        <a href="http://localhost:80/api/verify/${confirmationToken}">Confirmar cuenta</a>
+        <a href="http://localhost3000/api/verify/${confirmationToken}">Confirmar cuenta</a>
         <p>Este enlace solo es válido durante 24 horas.</p>
         <p>Atentamente,</p>
         <p>El equipo de Nexus</p>
@@ -39,7 +39,7 @@ async function sendConfirmationEmail(userEmail, confirmationToken) {
 
 async function token(userEmail, confirmationToken) {
 
-    const res = await fetch(`http://localhost:80/api/register`,{
+    const res = await fetch(`http://localhost3000/api/register`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"

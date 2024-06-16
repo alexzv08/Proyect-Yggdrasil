@@ -3,7 +3,7 @@ const mesnsajeError = "";
 window.onload = ()  => {
     document.getElementById("register-form").addEventListener("submit", async (e)=>{
         e.preventDefault();
-        const res = await fetch(`http://localhost:80/api/login`,{
+        const res = await fetch(`http://localhost3000/api/login`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
