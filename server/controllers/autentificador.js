@@ -92,7 +92,7 @@ async function register(req, res){
                 // SI NO EXISTE EL USUARIO SE REGISTRA EN LA BASE DE DATOS
                 const verificationToken = crypto.randomBytes(32).toString('hex');
                 let result = await connection.query(
-                    'insert into usuarios (usuario,password,email,id_rol,isVerified,verificationToken) values (?,?,?,1,"false",?);',[req.body.user, await saltPassword(req.body.pass),req.body.email,verificationToken]
+                    'insert into usuarios (usuario,password,email,id_rol,isVerified,verificationToken) values (?,?,?,1,false,?);',[req.body.user, await saltPassword(req.body.pass),req.body.email,verificationToken]
                 );
                 
                 email.sendConfirmationEmail(req.body.email, verificationToken);
@@ -143,7 +143,7 @@ async function registerEmpresa(req, res){
                 await saltPassword(req.body.pass),
                 fechaMysql,
                 "2",
-                false,
+                0,
                 verificationToken]
             );
 

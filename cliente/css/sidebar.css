@@ -25,7 +25,6 @@ body{
     overflow-y: visible;
     transition: all 0.3s;
     
-
     & .img-logo-sidebar{
         background-color: transparent;
         height: 150px;
@@ -146,8 +145,12 @@ body{
     #containerSidebar{
         transition: none;
         visibility: hidden;
-
+        transition: 0s;
+        & span{
+            transition: none;
+        }
         & img{
+            transition: none;
             transition: 0s;
         }
     }
@@ -182,7 +185,7 @@ body{
 }
 @media (width <= 800px) {
     #containerSidebar{
-        transition: none;
+        transition: 0.1s;
     }
     #info{
         justify-content: flex-start !important;
