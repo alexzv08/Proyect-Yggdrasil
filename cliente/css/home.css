@@ -284,33 +284,19 @@
         } 
     }
     .bento2 {
-        height: 200px;
+        height: 250px;
         width: calc(100% - 5px);
         grid-area: 2; 
     }
     .bento3 { 
-        height: 200px;
+        height: 250px;
         width: calc(100% - 5px);
         grid-area: 3; 
     }
     .bento4 { 
-        height: 200px;
+        height: 250px;
         width: calc(100% - 5px);
         grid-area: 4; 
-    }
-    .bento5 { 
-        height: 200px;
-        width: calc(100% - 5px);
-        grid-area: 5; 
-    }
-    .bento6 { 
-        height: 200px;
-        width: calc(100% - 5px);
-        grid-area: 6; 
-    }
-    .bento7 { 
-        height: 200px;
-        width: calc(100% - 5px);
-        grid-area: 7; 
+        margin-bottom: 350px;
     }
 }
