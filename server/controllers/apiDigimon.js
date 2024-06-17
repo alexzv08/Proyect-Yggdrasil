@@ -31,8 +31,9 @@ async function listaColecciones(req, res){
 } 
 // REQUESTS FOR FILTER CARDS
 async function filtroCartas(req, res){
+    console.log(req.body.sql)
     let result = await connection.query(
-        `${req.body.sql} ORDER BY id_coleccion, id_carta; `
+        `${req.body.sql} `
     );
     return res.status(200).send({status: "OK", result: result})
 } 

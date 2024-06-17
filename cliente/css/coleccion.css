@@ -1,5 +1,5 @@
 #main-container{
-    width: calc(20% - 100px);
+    width: calc(100% - 100px);
     height: 100vh;
     /* width: 100vw; */
     margin-left: 100px;
@@ -12,17 +12,37 @@
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    background-color: rgb(0, 174, 255);
+    color: var(--color-blanco);
+    background-color: var(--color-primario);
     z-index: 9999;
     display: flex;
     justify-content: center;
     align-items: center;
     top: 5px;
     left: 5px;
+    cursor: pointer;
     & img{
         height: 30px;
         width: 30px;
     }
+}
+.containerButtons{
+    height: 20px;
+    width: 114px;
+    border: 1px solid white;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    bottom: 0;
+    justify-content: space-around;
+    background: white;
+}
+.mas, .menos{
+    height: 20px;
+    width: 20px;
+    color: white;
+    cursor: pointer;
 }
 /* TAMAÑO 1536px A MAS */
 #filtroEscritorio{
@@ -146,6 +166,7 @@
             left: 42%;
             color: black;
             text-align: center;
+            cursor: default;
         }
         & .mas{
             top: 80%;
@@ -164,6 +185,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         gap: 10px;
+        padding-top: 10px;
         & .carta {
             /* background-color: red; */
             height: 160px;
@@ -200,7 +222,7 @@
                 left: 0;
                 color: black;
                 text-align: center;
-    
+                cursor: default;
             }
             & .mas{
                 top: 80%;
@@ -213,12 +235,21 @@
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
-        
-        & div img{
-            height: 30px;
-            width: 30px;
-            background-color: rgb(0, 174, 255);
-            border-radius: 50%;
+        & div{ 
+            font-size: 3vh;
+            
+            & img{
+                height: 50px;
+                width: 50px;
+                color: var(--color-blanco);
+                background-color: var(--color-primario);
+                border: none;
+                cursor: pointer;
+                border-radius: 50%;
+                &:hover{
+                    background-color: #851eb1;
+                }
+            }
         }
     }
 }
@@ -245,29 +276,39 @@
         }   
     }
 }
-@media (1533px >= width >= 1200px){
-    #main-container{
-        border: 1px solid rgb(123, 255, 0);
-    }
-    #filtroEscritorio{
-        width: 300px;
-        padding: 20px 5px 200px 5px;
-        border: 1px solid rgb(200, 255, 0);
-        margin-right: 20px;
-        & #cerrar{
-            height: 30px;
-            width: 30px;
-            position: absolute;
-            right: 15px;
-            border: 1px solid rgb(200, 255, 0);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+#paginacion{
+    margin: auto;
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 0;
+    color: white;
+    & div img{
+        height: 40px;
+        width: 40px;
+        color: var(--color-blanco);
+        background-color: var(--color-primario);
+        border: none;
+        cursor: pointer;
+        border-radius: 50%;
+        &:hover{
+            background-color: #851eb1;
         }
     }
 }
-@media (width <= 450px){
+@media (width > 850px){
+    #main-container{
+        width: calc(100% - 100px);
+        height: 100vh;
+        /* width: 100vw; */
+        margin-left: 100px;
+        display: flex;
+        flex-direction: row;
+    }
+}
+@media (width <= 800px){
     #main-container{
         width: 100vw;
         margin-left: 0px;
@@ -275,10 +316,10 @@
     #filtroEscritorio{
         display: none;
         position: absolute;
-        z-index: 1000;
+        z-index: 9999;
         margin: auto;
         height: calc(100vh - 75px) ;
-        background-color: var(--color-primario);
+        background-color: rgb(31, 31, 31);
     }
     .containerButtons{
         height: 20px;

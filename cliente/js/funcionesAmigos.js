@@ -75,7 +75,6 @@ const input = document.getElementById("input")
 const messages = document.getElementById("message")
 // CARGAR LOS MENSAJES EN EL CHAT CUANDO LOS RECIBE EL SOCKET
 socket.on('chat message', (msg, serverOffset, username, fecha) => {
-    console.log("que entroooo loco")
     let item = `<li`;
     if (socket.auth.username === username) {
         item += ` class='propio'`;

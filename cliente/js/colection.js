@@ -5,6 +5,8 @@ import { methods as windowOnLoad} from "./sideBar.js";
 let elementoDrag, copia, listaCartas, pagina, limiteActual, limitePaginacion;
 // ARRAY PARA ALMACENAR EL FILTRO DE BUSQUEDA DE LAS CARTAS
 let listaFiltro = {
+    freeLetra: "",
+    Nombre: "",
     coleccion: Boolean,
     ListaEdiciones: [],
     numCarta: "",
@@ -31,6 +33,8 @@ window.onload = async() => {
     await listaColecciones()
     await imgCartas() 
     document.querySelector("#search").addEventListener("click", filtroBusqueda)
+    document.querySelector("#clear").addEventListener("click", clearForm)
+
     document.querySelectorAll("#paginacion .button")[0].addEventListener("click", paginaMenos)
     document.querySelectorAll("#paginacion .button")[1].addEventListener("click", paginaMas)
 
@@ -38,7 +42,16 @@ window.onload = async() => {
 }
 function mostrarFiltroMovil() {
     if (filtroEscritorio.style.display === 'none' || filtroEscritorio.style.display === '') {
-      filtroEscritorio.style.display = 'flex';
+        filtroEscritorio.style.display = 'flex';
+
+        let divCapa = document.createElement("div")
+        divCapa.id ="capa"
+        divCapa.addEventListener("click", () => {
+            divCapa.remove()
+            filtroEscritorio.style.display = 'none';
+        })
+        document.querySelector("#main-container").appendChild(divCapa)
+
     } else {
       filtroEscritorio.style.display = 'none';
     }
@@ -56,50 +69,8 @@ async function imgCartas(){
 
 }
 
-function cargarImg(element){
-    let div = document.createElement("div")
-    div.addEventListener("click", expandirCarta)
-    div.classList.add("carta")
-    div.dataset.nombre =  element.name
-    div.dataset.cardnumber =  element.cardnumber 
-    div.dataset.color =  element.color
-    div.dataset.cantidad =  element.cantidad > 0 ? element.cantidad : "0"
-
-    let img = document.createElement("img")
-    img.src = element.image_url
-    img.classList.add("off")
-    containerListaCartas.appendChild(div)
-
-    let divContainer = document.createElement("div")
-    divContainer.classList.add("containerButtons")
-
-
-    let divMas = document.createElement("img")
-    divMas.src = "src/icons/plus-svgrepo-com.svg"
-    divMas.classList.add("button")
-    divMas.classList.add("mas")
-    divMas.addEventListener("click", sumarALaColeccion)
-    
-    let divCantidad = document.createElement("div")
-    divCantidad.innerText = "0"
-    divCantidad.classList.add("button")
-    divCantidad.classList.add("cantidad")
-
-    let divMenos = document.createElement("img")
-    divMenos.src = "src/icons/minus-svgrepo-com.svg"
-    divMenos.classList.add("button")
-    divMenos.classList.add("menos")
-    divMenos.addEventListener("click", restarALaColeccion)
-
-    div.appendChild(img)
-    div.appendChild(divContainer)
-    divContainer.appendChild(divMas)
-    divContainer.appendChild(divCantidad)
-    divContainer.appendChild(divMenos)
-    
-}
-
 function cargarImg2(element){
+    console.log(element)
     let div = document.createElement("div")
     div.addEventListener("click", expandirCarta)
     div.classList.add("carta")
@@ -233,6 +204,7 @@ async function mostrarCartasColeccion(){
         })
     })
     const resJson = await res.json()
+    console.log(resJson)
     await resJson.result[0].forEach(element => {
         let allCard = document.querySelectorAll("#containerListaCartas>.carta")
         allCard.forEach(card => {
@@ -247,6 +219,9 @@ async function mostrarCartasColeccion(){
 // FUNCION PARA RELLENAR EL ARRAY CON LOS DATOS DEL FILTRO
 function filtroBusqueda(event){
     event.preventDefault()
+
+    // listaFiltro.freeLetra = document.querySelector("#freeLetra").value
+    listaFiltro.nombre = document.querySelector("#nombre").value
 
     document.querySelectorAll("#FiltroEdicion input").forEach(element => {
         if(element.checked){
@@ -300,6 +275,10 @@ async function creacionSentenciaSQL(listaFiltro){
         var sql = "SELECT c.* FROM cartas c WHERE 1 = 1";
 
         // Agregar condiciones basadas en los filtros seleccionados
+        if (listaFiltro.nombre !== "") {
+            sql += " AND name = '" + listaFiltro.nombre + "'";
+        }
+
         if (listaFiltro.ListaEdiciones.length > 0) {
             sql += " AND id_coleccion IN ('" + listaFiltro.ListaEdiciones.join("','") + "')";
         }
@@ -340,7 +319,6 @@ async function creacionSentenciaSQL(listaFiltro){
         }
         console.log(sql);
         peticionAPIFiltro(sql)
-        // HACER CONSULTA A LA API
 }
 // FUNCION PARA REALIZAR LA PETICION A LA API CON LA SENTENCIA SQL Y FILTRAR LAS CARTAS DEPENDIENDO DE LOS FILTROS
 async function peticionAPIFiltro(sql){
@@ -363,12 +341,10 @@ async function peticionAPIFiltro(sql){
     listaCartas = resJson.result[0]
     limitePaginacion = Math.ceil(listaCartas.length/20)
     containerListaCartas.innerHTML = '' 
-    // await resJson.result[0].forEach(element => {
-    //     console.log(element)
-    //     cargarImg2(element)
-    // });
-    for (limiteActual; limiteActual < (pagina*20); limiteActual++) {
-        cargarImg2(listaCartas[limiteActual])
+    for (let limiteActual = 0; limiteActual < listaCartas.length && limiteActual < (pagina * 20); limiteActual++) {
+        console.log(limiteActual);
+        cargarImg2(listaCartas[limiteActual]);
+        containerListaCartas.scrollTop = 0;
     }
     await mostrarCartasColeccion()
 }
@@ -398,12 +374,10 @@ async function listaColecciones(){
     });
 }
 async function paginaMas() {
-    if (pagina >= totalPaginas) {
+    if (pagina >= limitePaginacion) {
         return;
     }
     containerListaCartas.innerHTML = '';
-    
-    const totalPaginas = Math.ceil(listaCartas.length / 20);
 
     pagina++;
     
@@ -414,7 +388,7 @@ async function paginaMas() {
         cargarImg2(listaCartas[i]);
     }
     document.querySelector("#pagina").innerText = pagina;
-
+    containerListaCartas.scrollTop = 0;
 }
 
 async function paginaMenos() {
@@ -432,10 +406,11 @@ async function paginaMenos() {
         cargarImg2(listaCartas[i]);
     }
     document.querySelector("#pagina").innerText = pagina;
+    containerListaCartas.scrollTop = 0;
+
 }
 
 function expandirCarta(){
-    console.log(this.dataset.cardnumber)
     let divCapa = document.createElement("div")
     divCapa.id ="capa"
     divCapa.addEventListener("click", () => {
@@ -452,10 +427,13 @@ function expandirCarta(){
     divCapa.appendChild(divCarta)
     divCarta.appendChild(img)
 }
+function clearForm(event) {
+    event.preventDefault()
+    document.getElementById("myform").reset();
+}
 
 export const methods = {
     imgCartas: imgCartas,
-    cargarImg: cargarImg,
 }
 
 
