@@ -55,6 +55,21 @@ async function login(req, res){
         return res.status(400).send({status: "Error", message: "Error en el login"})
     }
 }
+async function cambiarContraseña(req, res){
+    if(!isValidPass(req.body.pass)){
+        return res.status(400).send({status: "Error", message: "Contraseña no cumple los requisitos. Tiene que contene 8caracteres, una mayuscula, una minuscula y un caracter especial"});
+    }
+    try {
+        // PETICION A LA BASE DE DATOS PARA COMPROBAR QUE EL USUARIO EXISTE EN LA APLICACION
+        let [result, data] = await connection.query(
+            'UPDATE table_name set password = ? where usuario = ?;',[await saltPassword(req.body.pass),req.body.user]
+            );
+        return res.status(200).send({status: "OK", message: "Datos correctos", token: token, datos: result, redirect: "/home"});
+    } catch (err) {
+        console.log(err)
+        return res.status(400).send({status: "Error", message: "Al cambiar la contraseña"})
+    }
+}
 
 // Middleware verification token JWT
 function verifyToken(req, res, next) {
@@ -304,6 +319,7 @@ export const methods = {
     verifyToken,
     salasUsuario,
     verifyUsuario,
+    cambiarContraseña,
     registrarEvento
 }
 

@@ -213,6 +213,8 @@ app.post('/api/idSalaChat', autentificador.recuperarSala)
 app.post('/api/ultimoIdChat', autentificador.ultimoIdChat)
 app.post('/api/salasUsuario', autentificador.salasUsuario)
 app.post('/api/registrarEvento', autentificador.registrarEvento)
+app.post('/api/cambiarContraseña', autentificador.registrarEvento)
+
 // CALLS RELATED TO THE GAME CARDS
 app.post('/api/cartasEnPosesion', apiDigimon.cartasEnPosesion)
 app.post('/api/filtroCartas', apiDigimon.filtroCartas)

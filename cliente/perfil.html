@@ -21,6 +21,7 @@
             flex-direction: row;
             color: white;
             & div{
+                width: 100%;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -37,6 +38,9 @@
                 background: linear-gradient(45deg, var(--color-primario), var(--color-secundario));
                 box-shadow: rgb(30, 30, 31) 0px 0px 10px 0px;   
                 transition: box-shadow .5s;   
+            }
+            button{
+                width: 175px !important;
             }
         }
 
@@ -64,17 +68,18 @@
                 <div><img src="src/icons/perfilwhite.svg" alt=""></div>
                 <div>
                     <h2>Nombre Usuario</h2>
-                    <h3>Nick</h3>
+                    <h3 id="user">Nick</h3>
                 </div>
                 <div>
                     <h2>Email</h2>
-                    <h3>DireccinCorreo</h3>
+                    <h3 id="email"></h3>
                 </div>
             </div>
             <div>
                 <h2>Contraseña</h2>
                 <h3>**************</h3>
-                <button>Cambiar contraseña</button>
+                <input type="text" name="" id="newpassword">
+                <button id="cambiarContraseña">Cambiar contraseña</button>
             </div>
             <div>
                 <h2>Cartas en posesion</h2>
