@@ -80,6 +80,7 @@ async function onLoad(){
 }
 
 function mostrarOtros(){
+    console.log("jeje otros")
     if(desplegableNavBar.style.visibility == "hidden" || desplegableNavBar.style.visibility == ""){
         desplegableNavBar.style.visibility="visible"
     }else{
