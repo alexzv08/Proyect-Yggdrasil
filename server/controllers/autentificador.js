@@ -62,12 +62,12 @@ async function cambiarContrasena(req, res){
     try {
         // PETICION A LA BASE DE DATOS PARA COMPROBAR QUE EL USUARIO EXISTE EN LA APLICACION
         let [result, data] = await connection.query(
-            'UPDATE table_name set password = ? where usuario = ?;',[await saltPassword(req.body.pass),req.body.user]
+            'UPDATE usuarios set password = ? where usuario = ?;',[await saltPassword(req.body.pass),req.body.user]
             );
         return res.status(200).send({status: "OK", message: "Datos correctos", token: token, datos: result, redirect: "/home"});
     } catch (err) {
         console.log(err)
-        return res.status(400).send({status: "Error", message: "Al cambiar la contraseña"})
+        return res.status(400).send({status: "Error", message: "Error al cambiar la contraseña"})
     }
 }
 
