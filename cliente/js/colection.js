@@ -1,5 +1,7 @@
 // DEPENDENCIAS NECESARIAS PARA EL FUNCIONAMIENTO DE LA APLICACION
 import { methods as windowOnLoad} from "./sideBar.js";
+import { methods as notification } from "./notification.js";
+
 // import 'dotenv/config';
 
 let elementoDrag, copia, listaCartas, pagina, limiteActual, limitePaginacion;
@@ -30,6 +32,8 @@ window.onload = async() => {
     await document.getElementById('deckbuilder').classList.add('active')
     await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
     windowOnLoad.navBarRediretions()
+    notification.solicitarSala()
+
     await listaColecciones()
     await imgCartas() 
     document.querySelector("#search").addEventListener("click", filtroBusqueda)
