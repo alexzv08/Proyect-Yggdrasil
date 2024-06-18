@@ -23,11 +23,11 @@
             <div><h2>Filtro cartas</h2></div>
             <form action="">
 
-                <label for="">Palabra libre</label>
-                <input type="text" placeholder="Palabra libre">
+                <!-- <label for="">Palabra libre</label>
+                <input type="text" placeholder="Palabra libre"> -->
 
                 <label for="">Nombre</label>
-                <input type="text" placeholder="Nombre">
+                <input type="text" placeholder="Nombre" id="nombre">
 
                 <details class="detallesForm" id="FiltroEdicion">
                     <summary>Filtrar cartas por colección</summary>
@@ -271,6 +271,11 @@
                 <!-- <h1>Deck Builder</h1> -->
             </div>
             <div id="containerListaCartas"></div>
+            <div id="paginacion">
+                <div class="button"><img src="src/icons/arrow-left.svg" alt=""></div>
+                <div id="pagina">1</div>
+                <div class="button"><img src="src/icons/arrow-rigth copy.svg" alt=""></div>
+            </div>
             <div id="containerListaMazo">
                 <div id="info">
                     <h4>Arrastra o haz click para añadir cartas</h4>

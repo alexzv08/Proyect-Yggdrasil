@@ -247,6 +247,29 @@ body{
             }
         }
     }
+    & #paginacion{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        color: white;
+        & div{ 
+            font-size: 3vh;
+            
+            & img{
+                height: 50px;
+                width: 50px;
+                color: var(--color-blanco);
+                background-color: var(--color-primario);
+                border: none;
+                cursor: pointer;
+                border-radius: 50%;
+                &:hover{
+                    background-color: #851eb1;
+                }
+            }
+        }
+    }
 }
 @media (1533px >= width >= 1200px){
     #main-container{
@@ -299,6 +322,11 @@ body{
 
     #filtroEscritorio{
         display: none;
+        position: absolute;
+        z-index: 9999;
+        margin: auto;
+        height: calc(100vh - 75px) ;
+        background-color: rgb(31, 31, 31);
     }
 
     #oderBy{

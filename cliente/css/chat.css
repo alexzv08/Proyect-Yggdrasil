@@ -65,6 +65,7 @@
                 justify-content: space-between;
                 word-wrap: break-word;
                 height: auto;
+                cursor: pointer;
                 .icon-user{
                     padding:0 15px;
                     background-color: transparent;
@@ -140,17 +141,22 @@
             flex-direction: row;
             color: white;   
             align-items: center;
-
+            cursor: default;
             & div:first-child{
                 background-color: white;
                 color: black;
                 width: 30px;
                 height: 30px;
                 display: none;
+                cursor: pointer;
 
                 & img{
                     height: 20px;
                     z-index: 1;
+                }
+
+                &:hover{
+                    background-color: rgb(221, 221, 221);
                 }
             }       
             & div:last-child{
@@ -178,6 +184,7 @@
                 padding-bottom: 70px;
                 & >li{
                     padding: .5rem 1rem;
+                    cursor: default;
                 }
                 & >li:nth-child(odd){
                     background: #85858534;
@@ -204,7 +211,7 @@
                     padding: 0 8px !important;
                 }
                 & button{
-                    background-color: #09f;
+                    /* background-color: #09f; */
                     color: #eee;
                     border: 0;
                     margin: 4px;
@@ -212,7 +219,7 @@
                     min-width: 75px;
                 }
                 & button:hover{
-                    background-color: #0cf;
+                    /* background-color: #0cf; */
                 }
             }
         }

@@ -114,7 +114,7 @@ function cargarImg2(element){
 async function añadirCartaColeccion(element) {
     if(parseInt(element.dataset.cantidad ) == 0){
         element.dataset.cantidad = parseInt(element.dataset.cantidad )+ 1
-        const res = await fetch(`http://localhost:3000/api/anadirAColeccion`,{
+        const res = await fetch(`http://alexfullstack.net/api/anadirAColeccion`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -131,7 +131,7 @@ async function añadirCartaColeccion(element) {
 
     }else if(parseInt(element.dataset.cantidad ) > 0){
         element.dataset.cantidad = parseInt(element.dataset.cantidad ) + 1
-        const res = await fetch(`http://localhost:3000/api/updateCartaColeccion`,{
+        const res = await fetch(`http://alexfullstack.net/api/updateCartaColeccion`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -152,7 +152,7 @@ async function quitarCartaColeccion(element) {
     if(parseInt(element.dataset.cantidad ) > 0){
         element.dataset.cantidad = parseInt(element.dataset.cantidad )- 1
         if(parseInt(element.dataset.cantidad ) > 0){
-            const res = await fetch(`http://localhost:3000/api/updateCartaColeccion`,{
+            const res = await fetch(`http://alexfullstack.net/api/updateCartaColeccion`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json"
@@ -165,7 +165,7 @@ async function quitarCartaColeccion(element) {
                 })
             })
         }else if(parseInt(element.dataset.cantidad ) == 0){
-            const res = await fetch(`http://localhost:3000/api/eliminarCartaColeccion`,{
+            const res = await fetch(`http://alexfullstack.net/api/eliminarCartaColeccion`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json"
@@ -194,7 +194,7 @@ function restarALaColeccion(event){
 }
 // FUNCION PARA RECUPERAR QUE CARTAS TIENE EL USUARIO EN SU COLECCION Y MOSTRAR LAS CARTAS QUE POSEE
 async function mostrarCartasColeccion(){
-    const res = await fetch(`http://localhost:3000/api/cartasColeccionUsuario`,{
+    const res = await fetch(`http://alexfullstack.net/api/cartasColeccionUsuario`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -317,6 +317,7 @@ async function creacionSentenciaSQL(listaFiltro){
         if (listaFiltro.coleccion) {
             sql += " AND (c.id_carta, c.id_coleccion, c.id_juego) IN ( SELECT id_carta, id_coleccion, id_juego FROM usuarioColeccion WHERE id_usuario = '" + sessionStorage.getItem('user') + "')";
         }
+        sql += " ORDER BY c.id_coleccion ASC, c.id_carta ASC";
         console.log(sql);
         peticionAPIFiltro(sql)
 }
@@ -324,7 +325,7 @@ async function creacionSentenciaSQL(listaFiltro){
 async function peticionAPIFiltro(sql){
     pagina = 1;
     limiteActual=0
-    const res = await fetch(`http://localhost:3000/api/filtroCartas`,{
+    const res = await fetch(`http://alexfullstack.net/api/filtroCartas`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -350,7 +351,7 @@ async function peticionAPIFiltro(sql){
 }
 
 async function listaColecciones(){
-    const res = await fetch(`http://localhost:3000/api/listaColecciones`,{
+    const res = await fetch(`http://alexfullstack.net/api/listaColecciones`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"

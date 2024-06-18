@@ -4,9 +4,10 @@ import { methods as notification } from "./notification.js";
 // import 'dotenv/config';
 
 
-let elementoDrag, copia;
+let elementoDrag, copia,listaCartas, pagina, limiteActual, limitePaginacion;
 // ARRAY CON LOS FILTROS DE BUSQUEDA
 let listaFiltro = {
+    nombre: "",
     coleccion: Boolean,
     ListaEdiciones: [],
     numCarta: "",
@@ -36,7 +37,7 @@ window.onload = async() => {
     await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
     await document.getElementById("dropZone").addEventListener("drop", drop)
     await document.getElementById("dropZone").addEventListener("dragover", allowDrop)
-    await document.getElementById("oderBy").addEventListener("change", filtroBusqueda)
+    await document.getElementById("filtroButton").addEventListener("click", mostrarFiltro)
     windowOnLoad.navBarRediretions()
     imgCartas()    
     document.querySelector("#search").addEventListener("click", filtroBusqueda);
@@ -44,6 +45,8 @@ window.onload = async() => {
     document.querySelector('#deckbuilder2 img').src = "src/icons/decksblack.svg"
     clearMazo.addEventListener("click", limpiarMazo)
     await cargarMazo();
+    document.querySelectorAll("#paginacion .button")[0].addEventListener("click", paginaMenos)
+    document.querySelectorAll("#paginacion .button")[1].addEventListener("click", paginaMas)
     notification.solicitarSala()
 
 }
@@ -174,7 +177,7 @@ function restarCantidad(event){
 // FUNCIONES RELACIONADAS AL MAZO
 async function insertCartaMazo(idCarta, idColeccion){
     // DATOS NECESARIOS ID_MAZO, IDCARTA, IDCOLECCION, IDJUEGO, CANTIDAD = 1
-    const res = await fetch(`http://localhost:3000/api/insertCartaMazo`,{
+    const res = await fetch(`http://alexfullstack.net/api/insertCartaMazo`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -196,7 +199,7 @@ async function insertCartaMazo(idCarta, idColeccion){
 // PETICION QUE MODIFICA LA CANTIDAD DE UNA CARTA EN EL MAZO
 async function updateCartaMazo(idCarta, idColeccion, cantidad){
     // DATOS NECESARIOS ID_MAZO, IDCARTA, IDCOLECCION, IDJUEGO, CANTIDAD = 1
-    const res = await fetch(`http://localhost:3000/api/updateCartaMazo`,{
+    const res = await fetch(`http://alexfullstack.net/api/updateCartaMazo`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -217,7 +220,7 @@ async function updateCartaMazo(idCarta, idColeccion, cantidad){
 // PETICION QUE ELIMINA LA CANTIDAD DE UNA CARTA EN EL MAZO
 async function removeCartaMazo(idCarta, idColeccion, cantidad){
     // DATOS NECESARIOS ID_MAZO, IDCARTA, IDCOLECCION, IDJUEGO, CANTIDAD = 1
-    const res = await fetch(`http://localhost:3000/api/removeCartaMazo`,{
+    const res = await fetch(`http://alexfullstack.net/api/removeCartaMazo`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -244,7 +247,7 @@ async function limpiarMazo(){
             mazo["eggDeck"]=[]
             mazo["deck"]=[]
 
-        const res = await fetch(`http://localhost:3000/api/baciarMazo`,{
+        const res = await fetch(`http://alexfullstack.net/api/baciarMazo`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -258,7 +261,7 @@ async function limpiarMazo(){
 }
 // PETICION PARA AÑADIR LAS CARTAS YA EXISTENTES DEL MAZO AL CARGAR LA PAGINA
 async function cargarMazo(){
-    const res = await fetch(`http://localhost:3000/api/cartasMazo`,{
+    const res = await fetch(`http://alexfullstack.net/api/cartasMazo`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -401,6 +404,9 @@ async function creacionSentenciaSQL(listaFiltro){
         var sql = "SELECT c.* FROM cartas c WHERE 1 = 1";
 
         // Agregar condiciones basadas en los filtros seleccionados
+
+        listaFiltro.nombre = document.querySelector("#nombre").value
+
         if (listaFiltro.ListaEdiciones.length > 0) {
             sql += " AND id_coleccion IN ('" + listaFiltro.ListaEdiciones.join("','") + "')";
         }
@@ -440,13 +446,17 @@ async function creacionSentenciaSQL(listaFiltro){
         if (listaFiltro.coleccion) {
             sql += " AND (c.id_carta, c.id_coleccion, c.id_juego) IN ( SELECT id_carta, id_coleccion, id_juego FROM usuarioColeccion WHERE id_usuario = '" + sessionStorage.getItem('user') + "')";
         }
-        // console.log(sql);
+        sql += " ORDER BY c.id_coleccion, c.id_carta";
+        console.log(sql);
         peticionAPIFiltro(sql)
 }
 // HACER CONSULTA A LA API
 // FILTRANDO LA CONSULTA DEPENDIENDO DE LOS FILTROS SELECCIONADOS
 async function peticionAPIFiltro(sql){
-    const res = await fetch(`http://localhost:3000/api/filtroCartas`,{
+    pagina = 1;
+    limiteActual=0
+
+    const res = await fetch(`http://alexfullstack.net/api/filtroCartas`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -460,16 +470,23 @@ async function peticionAPIFiltro(sql){
         return
     }
     const resJson = await res.json()
+    listaCartas = resJson.result[0]
+    limitePaginacion = Math.ceil(listaCartas.length/20)
     containerListaCartas.innerHTML = '' 
     console.log(resJson.result[0])
-    await resJson.result[0].forEach(element => {
-        cargarImg(element)
-    });
+    for (let limiteActual = 0; limiteActual < listaCartas.length && limiteActual < (pagina * 20); limiteActual++) {
+        cargarImg(listaCartas[limiteActual]);
+        containerListaCartas.scrollTop = 0;
+    }
+
+    // await resJson.result[0].forEach(element => {
+    //     cargarImg(element)
+    // });
     
 }
 // FUNCION PARA LISTAR TODAS LAS COLEECIONES EN FILTROS
 async function listaColecciones(){
-    const res = await fetch(`http://localhost:3000/api/listaColecciones`,{
+    const res = await fetch(`http://alexfullstack.net/api/listaColecciones`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -492,6 +509,61 @@ async function listaColecciones(){
         FiltroEdicion.appendChild(label)
     });
 }
+
+async function paginaMas() {
+    if (pagina >= limitePaginacion) {
+        return;
+    }
+    containerListaCartas.innerHTML = '';
+
+    pagina++;
+    
+    let limiteInferior = (pagina - 1) * 20;
+    let limiteSuperior = Math.min(pagina * 20, listaCartas.length);
+
+    for (let i = limiteInferior; i < limiteSuperior; i++) {
+        cargarImg(listaCartas[i]);
+    }
+    document.querySelector("#pagina").innerText = pagina;
+    containerListaCartas.scrollTop = 0;
+}
+
+async function paginaMenos() {
+    if (pagina <= 1) {
+        return;
+    }
+    containerListaCartas.innerHTML = '';
+
+    pagina--;
+    
+    let limiteInferior = (pagina - 1) * 20;
+    let limiteSuperior = Math.min(pagina * 20, listaCartas.length);
+
+    for (let i = limiteInferior; i < limiteSuperior; i++) {
+        cargarImg(listaCartas[i]);
+    }
+    document.querySelector("#pagina").innerText = pagina;
+    containerListaCartas.scrollTop = 0;
+
+}
+
+function mostrarFiltro(){
+    if (filtroEscritorio.style.display === 'none' || filtroEscritorio.style.display === '') {
+        filtroEscritorio.style.display = 'flex';
+
+        let divCapa = document.createElement("div")
+        divCapa.id ="capa"
+        divCapa.addEventListener("click", () => {
+            divCapa.remove()
+            filtroEscritorio.style.display = 'none';
+        })
+        document.querySelector("#main-container").appendChild(divCapa)
+
+    } else {
+      filtroEscritorio.style.display = 'none';
+    }
+}
+
 // REALIZAR EL DRAG AND DROP
 function allowDrop(ev) {
     ev.preventDefault();

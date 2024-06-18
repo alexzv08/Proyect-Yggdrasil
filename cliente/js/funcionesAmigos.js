@@ -99,7 +99,7 @@ form.addEventListener("submit", async (e) =>{
 })
 // FUNCION PARA CARGAR LOS DISTINTOS CHATS ACTIVOS QUE DISPONE EL USUARIO
 async function cargarUsuarios(){
-    const res = await fetch(`http://localhost:3000/api/usuarios`,{
+    const res = await fetch(`http://alexfullstack.net/api/usuarios`,{
     method:"POST",
     headers:{
         "Content-Type":"application/json"
@@ -166,7 +166,7 @@ function añadirChat(){
             return
         }
 
-        const res = await fetch(`http://localhost:3000/api/usuarioExistente`,{
+        const res = await fetch(`http://alexfullstack.net/api/usuarioExistente`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -222,7 +222,7 @@ function añadirChat(){
 // FUNCION PARA RECUPERAR LA SALA VINCULADA A 2 USUARIOS
 async function recuperarSala(user1, user2){
     console.log(user1,user2)
-    const res = await fetch(`http://localhost:3000/api/idSalaChat`,{
+    const res = await fetch(`http://alexfullstack.net/api/idSalaChat`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -239,7 +239,7 @@ async function recuperarSala(user1, user2){
 // FUNCION PARA RECUPERAR EL ULTIMO ID DE UNA SALA POSIBLE Y ASI PODER AÑADIR UNA SALA VALIDA
 async function ultimoIdSalaPosible(user1,user2){
     console.log(user1,user2)
-    const res = await fetch(`http://localhost:3000/api/ultimoIdChat`,{
+    const res = await fetch(`http://alexfullstack.net/api/ultimoIdChat`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
