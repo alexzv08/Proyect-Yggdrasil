@@ -55,7 +55,7 @@ async function login(req, res){
         return res.status(400).send({status: "Error", message: "Error en el login"})
     }
 }
-async function cambiarContraseña(req, res){
+async function cambiarContrasena(req, res){
     if(!isValidPass(req.body.pass)){
         return res.status(400).send({status: "Error", message: "Contraseña no cumple los requisitos. Tiene que contene 8caracteres, una mayuscula, una minuscula y un caracter especial"});
     }
@@ -319,7 +319,7 @@ export const methods = {
     verifyToken,
     salasUsuario,
     verifyUsuario,
-    cambiarContraseña,
+    cambiarContrasena,
     registrarEvento
 }
 

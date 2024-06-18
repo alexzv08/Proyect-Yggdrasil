@@ -26,11 +26,11 @@ async function cambiarContraseña(event){
                 pass: newpassword.value
             })
         })
-        if(!res.ok){
-            const resJson = await res.json()
-            console.log(resJson)
-            alert(resJson.message)
-            return
-        }
-        alert("Contraseña cambiada correctamente")
+    if(!res.ok){
+        const resJson = await res.json()
+        console.log(resJson)
+        alert(resJson.message)
+        return
+    }
+    alert("Contraseña cambiada correctamente")
 }
