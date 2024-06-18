@@ -32,5 +32,6 @@ async function cambiarContraseña(event){
         alert(resJson.message)
         return
     }
+    newpassword.value = ""
     alert("Contraseña cambiada correctamente")
 }
