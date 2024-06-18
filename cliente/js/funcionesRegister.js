@@ -21,6 +21,7 @@ window.onload = () => {
         }
         const resJson = await res.json()
         if(resJson.redirect){
+            alert("Registro exitoso, revisa tu correo para confirmar tu cuenta");
             window.location.href = "/login";
         }
     })
@@ -58,6 +59,7 @@ window.onload = () => {
         }
         const resJson = await res.json()
         if(resJson.redirect){
+            alert("Registro exitoso, revisa tu correo para confirmar tu cuenta");
             window.location.href = "/login";
         }
     })

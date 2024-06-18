@@ -264,124 +264,264 @@ Plan inicial de inversiones y gastos
     permitirá involucrar a la comunidad y obtener financiación adicional.
 
 
-6.  Elección de las tecnologías 
+6.  Elección de las tecnologías y desarrollo 
 
-En el proyecto queria realizarlo con tecnologias con las cuales me sintiera comodo y añadir algun punto
-el cual me hiciera aprender algo nuevo. Por eso añadi Node.js, que me permitiari añadir nuevis conocimientos
-y una nueva tecnologia demandada en el sector.
+    En el proyecto queria realizarlo con tecnologias con las cuales me sintiera comodo y añadir algun punto
+    el cual me hiciera aprender algo nuevo. Por eso añadi Node.js, que me permitiari añadir nuevis conocimientos
+    y una nueva tecnologia demandada en el sector.
 
-    6.1 Backend: Node.js + Express.js
+        6.1 Backend: Node.js + Express.js
 
-    Node.js: Un motor Javascript multiplataforma, asíncrono y orientado a eventos, basado en el motor 
-    V8 de Google. Su popularidad ha crecido exponencialmente en los últimos años, siendo utilizado por 
-    empresas como Netflix o la NASA. A diferencia de servidores web tradicionales como Apache, Node.js 
-    no tiene límite de peticiones ni hilos, ya que todo se ejecuta en un único hilo.
+        Node.js: Un motor Javascript multiplataforma, asíncrono y orientado a eventos, basado en el motor 
+        V8 de Google. Su popularidad ha crecido exponencialmente en los últimos años, siendo utilizado por 
+        empresas como Netflix o la NASA. A diferencia de servidores web tradicionales como Apache, Node.js 
+        no tiene límite de peticiones ni hilos, ya que todo se ejecuta en un único hilo.
 
-    NPM (Node Package Manager): El gestor de paquetes de Node.js, de código abierto, que permite gestionar 
-    las dependencias de un proyecto de manera sencilla y eficiente.
+        NPM (Node Package Manager): El gestor de paquetes de Node.js, de código abierto, que permite gestionar 
+        las dependencias de un proyecto de manera sencilla y eficiente.
 
-    Express.js: Un framework de Node.js que facilita la creación de aplicaciones web con menos código 
-    y mayor rapidez. Ofrece herramientas como middlewares, rutas y motores de plantilla para simplificar 
-    el desarrollo.
+        Express.js: Un framework de Node.js que facilita la creación de aplicaciones web con menos código 
+        y mayor rapidez. Ofrece herramientas como middlewares, rutas y motores de plantilla para simplificar 
+        el desarrollo.
 
-    Chat a tiempo real
+        BBDD
 
-        Retos y Soluciones para la Interacción en Tiempo Real: Socket.IO vs HTTP/REST
-        El desafío: Interacción en tiempo real entre usuarios conectados en una misma sala.
+        IMG base de datos
 
-        Dificultad: Planificar la comunicación eficiente para un gran número de usuarios.
+        Chat a tiempo real
 
-        Solución: Socket.io
+            Retos y Soluciones para la Interacción en Tiempo Real: Socket.IO vs HTTP/REST
+            El desafío: Interacción en tiempo real entre usuarios conectados en una misma sala.
 
-        Funcionamiento:
-            Se establece una conexión WebSocket persistente entre el cliente y el servidor.
-            El servidor envía actualizaciones a todos los clientes conectados en tiempo real.
-            Los clientes pueden enviar información al servidor de forma inmediata.
-        Ventajas:
-            Baja latencia: La comunicación WebSocket permite una interacción en tiempo real con mínima latencia.
-            Reducción de la carga del servidor: Al utilizar una única conexión por cliente, se reduce el número de peticiones al servidor.
-            Escalabilidad: Socket.IO está diseñado para manejar un gran número de usuarios sin afectar el rendimiento.
-        Desventajas:
-            Curva de aprendizaje: Requiere aprender nuevas tecnologías como WebSocket y Socket.IO.
-            Complejidad: Implementar Socket.IO puede ser más complejo que usar HTTP/REST.
+            Dificultad: Planificar la comunicación eficiente para un gran número de usuarios.
+
+            Solución: Socket.io
+
+            Funcionamiento:
+                Se establece una conexión WebSocket persistente entre el cliente y el servidor.
+                El servidor envía actualizaciones a todos los clientes conectados en tiempo real.
+                Los clientes pueden enviar información al servidor de forma inmediata.
+            Ventajas:
+                Baja latencia: La comunicación WebSocket permite una interacción en tiempo real con mínima latencia.
+                Reducción de la carga del servidor: Al utilizar una única conexión por cliente, se reduce el número de peticiones al servidor.
+                Escalabilidad: Socket.IO está diseñado para manejar un gran número de usuarios sin afectar el rendimiento.
+            Desventajas:
+                Curva de aprendizaje: Requiere aprender nuevas tecnologías como WebSocket y Socket.IO.
+                Complejidad: Implementar Socket.IO puede ser más complejo que usar HTTP/REST.
 
 
-    Funcionamiento de socket.io:
+        Funcionamiento de socket.io:
 
-    Con esta dependencia usamos la conecxion de websockets. La cual nos permite comunicarnos con el servidor y que este
-    envie una respuesta a todos los usuarios conectados, o el propio servidor puede comunicarse con los usuarios 
-    si les es necesario
+        Con esta dependencia usamos la conecxion de websockets. La cual nos permite comunicarnos con el servidor y que este
+        envie una respuesta a todos los usuarios conectados, o el propio servidor puede comunicarse con los usuarios 
+        si les es necesario
 
-    IMG de las distintas conecxiones.
+        IMG de las distintas conecxiones.
 
-    Para poder usar esta dependencia hay que crear una instacia de esta dependencia, la cual estara en Funcionamiento
-    dentro del servidor.
-    
-        const io = new Server(server, {
-            connectionStateRecovery: {
+        Para poder usar esta dependencia hay que crear una instacia de esta dependencia, la cual estara en Funcionamiento
+        dentro del servidor.
+        
+            const io = new Server(server, {
+                connectionStateRecovery: {
+                }
+            });
+        
+        Usando "connectionStateRecovery" podremos saber si un usuario perdio la conexcion y se reconecto, y que informacion se perdio entre
+        medias
+
+        Una vez puesto en funcionamiento, tiene distintas formas de comunicarse entre usuario y el servidor.
+
+        io.on('connection', (socket) => {
+            console.log('a user connected');
+            socket.on('disconnect', () => {
+            console.log('user disconnected');
+            });
+        });
+
+        Con este pequeño bloque de codigo, sabremos si el usuario se esta conectando o desconectando.
+
+        Las dintintos tipos de comunicacion seria:
+
+            .on('evento'): Recive tanto el usuario y el servido y mediante el evento identifica que funcion tiene que ejecutar
+
+            .emit('evento'): Emision de un evento, lo puede emitir tanto el usuario como el servidor.
+
+            .to("sala/usuario").emit('evento'): De esta forma podremos emitir un evento en particular a una sala en concreto o a un usuario,
+            se pueden encadenar tanto distintas salas como usuarios. Si no se usa este comando el evento seria emitido a 
+            todos los usuarios
+
+            .broadcast.emit('hi'): De esta forma emitimos el evento a todos los usuarios menos a uno mismo
+
+        
+        Estructura de la Aplicación: Patrón MVC
+
+        Comenzar un proyecto con buenas prácticas es crucial para garantizar su éxito a largo plazo. En este caso, la elección del patrón de diseño adecuado es fundamental para estructurar la aplicación de manera organizada y mantenible.
+
+        Patrón MVC: Modelo, Vista, Controlador
+
+            He optado por el patrón MVC (Modelo-Vista-Controlador) para estructurar la aplicación. 
+            Este patrón divide la aplicación en tres componentes principales:
+
+            1. Modelo:
+
+                Almacenar y gestionar los datos de la aplicación.
+                Interactuar con fuentes de datos como bases de datos o APIs externas.
+                Proporcionar una interfaz para que el controlador acceda y manipule los datos.
+
+            2. Vista:
+
+                Mostrar la información del modelo al usuario de forma visual.
+                Proporcionar una interfaz de usuario (UI) para que el usuario interactúe con la aplicación.
+                No debe contener lógica de negocio ni acceder directamente a los datos.
+
+            3. Controlador:
+
+            Recibir las solicitudes del usuario a través de la vista.
+            Interactuar con el modelo para obtener, actualizar o eliminar datos.
+            Actualizar la vista en función de los datos del modelo.
+            No debe contener lógica de presentación ni acceder directamente a la base de datos.
+
+            img de mi modelo
+
+        AUTENTICACION Y AUTORIZACION
+
+            Durante toda la web se realizan diversas peticiones a la base de datos, ya sea para seleccionar,
+            modificar, eliminar o insertar datos, para ello se a generado diversos archivos los cuales se encargan
+            de administrar estas peticiones, no se realizan en el lado del cliente para añadir una capa de seguridad
+            y para liberar recursos del navegador.
+
+            Las peticiones son devuleven cierta informacion, si da cualquier tipo de error lo devuelve para poder manejarlo
+            en el lado del cliente, por ejemplo si no se a encontrado un usuario al intentar logear, devolvera un error
+            400 con un mensaje el cual se muestra en el lado del cliente.
+
+            Al registrarse los usuarios o las tiendas, se le pide los datos necesarios, ciertos datos como las contraseña,
+            cif, email, se verifica que los datos son correctos usando rgex
+
+            function isValidEmail(email) {
+                // Regular expression for checking email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
             }
-        });
-    
-    Usando "connectionStateRecovery" podremos saber si un usuario perdio la conexcion y se reconecto, y que informacion se perdio entre
-    medias
+            function isValidPass(pass) {
+                // Regular expression for checking password format
+                const emailRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])\S{8,}$/;
+                return emailRegex.test(pass);
+            }
+            function isValidCIF(cif) {
+                // Regular expression for checking CIF format
+                const emailRegex = /^\d{8}[A-Z]$/;
+                return emailRegex.test(cif);
+            }
 
-    Una vez puesto en funcionamiento, tiene distintas formas de comunicarse entre usuario y el servidor.
+            Una vez se verifiquen los datos, se codifica la contraseña de forma que quede cifraza en la BBDD
 
-    io.on('connection', (socket) => {
-        console.log('a user connected');
-        socket.on('disconnect', () => {
-        console.log('user disconnected');
-        });
-    });
+            async function saltPassword(pass){
+                const staticSalt = '$2a$10$abcdefghijklmnopqrstuvwxyz123456';
+                const hashPassword = await bcryptjs.hash(pass, staticSalt)
+                return hashPassword
+            }
 
-    Con este pequeño bloque de codigo, sabremos si el usuario se esta conectando o desconectando.
+            Una vez ya registrado el usuario de forma correcta, para verificar que se a registrado
+            un usuario el cual es propietario de ese correo, se le envia un correo para verificar la cuenta 
 
-    Las dintintos tipos de comunicacion seria:
+            async function sendConfirmationEmail(userEmail, confirmationToken) {
+                const mailOptions = {
+                from: 'Nexus <alexzv8@gmail.com>', // Reemplaza con tu nombre y correo
+                to: userEmail,
+                subject: 'Confirma tu cuenta',
+                html: `
+                    <p>Hola ${userEmail},</p>
+                    <p>Gracias por registrarte en nuestra aplicación.</p>
+                    <p>Para confirmar tu cuenta, haz clic en el siguiente enlace:</p>
+                    <a href="http://alexfullstack.net/api/verify/${confirmationToken}">Confirmar cuenta</a>
+                    <p>Este enlace solo es válido durante 24 horas.</p>
+                    <p>Atentamente,</p>
+                    <p>El equipo de Nexus</p>
+                `
+                };
+            
+                try {
+                await transporter.sendMail(mailOptions);
+                console.log('Correo electrónico de confirmación enviado a:', userEmail);
+                } catch (error) {
+                console.error('Error al enviar correo electrónico de confirmación:', error);
+                }
+            }
 
-        .on('evento'): Recive tanto el usuario y el servido y mediante el evento identifica que funcion tiene que ejecutar
+            Una vez el usuario va a logearse y accede con exito, se genera una sesion con informacion necesario
+            del usuario al igual que se genera un token de acceso con JWT, el cual se comprueba que sea correcto
+            mientras navega por la web
 
-        .emit('evento'): Emision de un evento, lo puede emitir tanto el usuario como el servidor.
+            const token = jwt.sign({ id:req.body.user, username: req.body.user }, SECRET_KEY, { expiresIn: '100h' });
 
-        .to("sala/usuario").emit('evento'): De esta forma podremos emitir un evento en particular a una sala en concreto o a un usuario,
-        se pueden encadenar tanto distintas salas como usuarios. Si no se usa este comando el evento seria emitido a 
-        todos los usuarios
 
-        .broadcast.emit('hi'): De esta forma emitimos el evento a todos los usuarios menos a uno mismo
+        Funcionamiento de la Web
 
-    
-    Estructura de la Aplicación: Patrón MVC
+            Una vez se accede a la web tenemos el Home donde se pueden obserbar los distintos apartados 
+            principales de la web
 
-    Comenzar un proyecto con buenas prácticas es crucial para garantizar su éxito a largo plazo. En este caso, la elección del patrón de diseño adecuado es fundamental para estructurar la aplicación de manera organizada y mantenible.
+            IMG Home
 
-    Patrón MVC: Modelo, Vista, Controlador
+            En este apartado en un futuro se podria hacer publicidad a tiendas, las cuales podrian pagar un precio
+            por la publicidad, o publicitar los torneos patrocinados, para que tengan mas repercusion.
 
-        He optado por el patrón MVC (Modelo-Vista-Controlador) para estructurar la aplicación. 
-        Este patrón divide la aplicación en tres componentes principales:
+            En la pagina del perfil podemos ver la informacion basica del usuario, donde tambien podemos cambiar la contraseña
+            o eliminar la cuenta de la web
 
-        1. Modelo:
+            IMG Perfil
 
-            Almacenar y gestionar los datos de la aplicación.
-            Interactuar con fuentes de datos como bases de datos o APIs externas.
-            Proporcionar una interfaz para que el controlador acceda y manipule los datos.
+            En la pagina del chat, tendremos un listado con los chats de los usuarios con los que sea tenido una comunicacion.
+            Esta para implementar el poder añadir usuarios a una lista de amigos y asi tener un acceso mas intuitivo.
+            Actualmente se puede buscar un usuario y entablar una conversacion de forma dinamica.
 
-        2. Vista:
+            IMG chat
 
-            Mostrar la información del modelo al usuario de forma visual.
-            Proporcionar una interfaz de usuario (UI) para que el usuario interactúe con la aplicación.
-            No debe contener lógica de negocio ni acceder directamente a los datos.
+            Al acceder a cualquier de los chats activos, se cargan los mensajes que tuvieras con ese usuario. Tambien si
+            le envias un mensaje a cualquier usuario, si este esta navegando por la web le saltara una notificacion, para
+            que sepa que tiene un mensaje sin leer.
 
-        3. Controlador:
+            Con este codigo es la forma que emitimos los mensajes.
 
-        Recibir las solicitudes del usuario a través de la vista.
-        Interactuar con el modelo para obtener, actualizar o eliminar datos.
-        Actualizar la vista en función de los datos del modelo.
-        No debe contener lógica de presentación ni acceder directamente a la base de datos.
+            form.addEventListener("submit", async (e) =>{
+                e.preventDefault()
+                if(input.value){
+                    let fecha = new Date
+                    await recuperarSala(socket.auth.username, localStorage.getItem('usuarioEnviarMensaje'))
+                    socket.emit("chat message", input.value, localStorage.getItem('usuarioEnviarMensaje'), fecha, localStorage.getItem('id_actual'))
+                    input.value = ""
+                }
+            })
 
-        img de mi modelo
+            Por el lado del servido, ahora tendria que emitir este mismo mensaje al otro usuario.
+            
+            socket.on("chat message", async (msg,username2,fecha,id_sala)=>{
+                let result
+                const username = socket.handshake.auth.username ?? 'anonymous'
+                // result = await connection.query('INSERT INTO mensajes (id_usuarioEnvia, id_usuarioRecibe,contenido, id_sala) VALUES (?,?,?,?);', [username, username2, msg, id_sala])
+                try {
+                    result = await connection.query('INSERT INTO mensajes (id_usuarioEnvia, contenido, id_sala) VALUES (?,?,?);', [username, msg, id_sala]);
+                } catch (error) {
+                    console.error('Error al insertar mensaje:', error);
+                }
+                // EMITE EL MENSAJE A TODOS LOS USUARIOS QUE ESTEN EN LA SALA, PARA QUE SE LES MUESTRE EL MENSAJE
+                console.log(id_sala)
+                io.to(id_sala).emit("chat message", msg, result.lastInsertRowid,username, fecha)
 
-    AUTENTICACION Y AUTORIZACION
+                io.to(username2).emit("notification", msg, result.lastInsertRowid,username, fecha)
 
-    
+            })
+
+            De esta forma guardamos el mensaje ne la base de datos y emitimos el mensaje al otro usuario.
+
+            Tanto en la paguinas de Coleccion y de Crear deck, se muestran todas las cartas que pertenecen 
+            en concreto a Digimon TCG, pero el sistema esta creado para que se puedan mostrar las cartas de 
+            cualquier TCG.
+
+            Para no saturar el navegador, se a creado un sistema de paginacion el cual cargara un numero de cartas
+            predefinido.
+
+            En ambas paginas existe un filtro, el cual esta mostado para poder generar una sntencia de sql de forma 
+            automatica dependiendo de los distintos datos que se quieran filtrar
 
 
 

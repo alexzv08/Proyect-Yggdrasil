@@ -244,7 +244,7 @@
         }
     }
 }
-@media (width <= 400px){
+@media (width <= 500px){
     .friends{
         display: flex;
         flex-direction: column;

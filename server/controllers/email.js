@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 
 async function sendConfirmationEmail(userEmail, confirmationToken) {
     const mailOptions = {
-      from: 'Nexus <alexzv8@gmail.com>', // Reemplaza con tu nombre y correo
+      from: 'Nexus TCG <alexzv8@gmail.com>', // Reemplaza con tu nombre y correo
       to: userEmail,
       subject: 'Confirma tu cuenta',
       html: `
@@ -23,9 +23,8 @@ async function sendConfirmationEmail(userEmail, confirmationToken) {
         <p>Gracias por registrarte en nuestra aplicación.</p>
         <p>Para confirmar tu cuenta, haz clic en el siguiente enlace:</p>
         <a href="http://alexfullstack.net/api/verify/${confirmationToken}">Confirmar cuenta</a>
-        <p>Este enlace solo es válido durante 24 horas.</p>
         <p>Atentamente,</p>
-        <p>El equipo de Nexus</p>
+        <p>El equipo de Nexus TCG</p>
       `
     };
   
@@ -36,31 +35,6 @@ async function sendConfirmationEmail(userEmail, confirmationToken) {
       console.error('Error al enviar correo electrónico de confirmación:', error);
     }
 }
-
-async function token(userEmail, confirmationToken) {
-
-    const res = await fetch(`http://alexfullstack.net/api/register`,{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify({
-                email: userEmail,
-                token: confirmationToken
-            })
-        })
-}
-
-// // FALTA HACER QUE LA CUENTA ESTE VERIFICADA, AÑADIR NUEVO CAMPO EN LA BBDD DOND EINDIQUE QUE A VERIFICADO
-// const { v4: uuidv4 } = require('uuid'); // Importar la biblioteca UUID
-// const { sendConfirmationEmail } = require('./email'); // Importar la función de envío de correo electrónico
-
-// // ... (En el código de registro de usuario)
-
-// const confirmationToken = uuidv4(); // Generar token de confirmación
-// await sendConfirmationEmail(userEmail, confirmationToken); // Enviar correo electrónico de confirmación
-// await User.findOneAndUpdate({ email: userEmail }, { verified: true }); // Marcar la cuenta como verificada
-
 
 
 const methods = {
