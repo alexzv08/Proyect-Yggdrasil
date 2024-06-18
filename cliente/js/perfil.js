@@ -9,7 +9,7 @@ window.onload = async ()=>{
     windowOnLoad.navBarRediretions()
     notification.solicitarSala()
 
-    usuario.innerHTML = localStorage.getItem("user")
+    user.innerHTML = localStorage.getItem("user")
     cambiarContraseña.addEventListener("click", cambiarContraseña)
 }
 
