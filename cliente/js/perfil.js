@@ -1,5 +1,5 @@
 import { methods as windowOnLoad } from "./sideBar.js";
-import { methods as notification } from "./notification.js";
+// import { methods as notification } from "./notification.js";
 
 
 window.onload = async ()=>{
