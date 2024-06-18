@@ -17,13 +17,12 @@
             height: 100vh;
             margin-left: 100px;
             display: flex;
+            justify-content: center;
             flex-direction: row;
             color: white;
-            border: 1px solid white;
             & div{
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
                 align-items: center;
                 gap : 20px;
             }
@@ -32,6 +31,8 @@
         @media (width <= 900px) {
             .containerPerfil{
                 width: 100vw;
+                margin: 0;
+                justify-content: flex-start;
             }
             
         }
@@ -42,6 +43,7 @@
         <div>
             <img src="" alt="">
             <div>
+                <div><img src="src/icons/perfilwhite.svg" alt=""></div>
                 <div>
                     <h2>Nombre Usuario</h2>
                     <h3>Nick</h3>
