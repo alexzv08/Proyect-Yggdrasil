@@ -1,0 +1,35 @@
+Abstract:
+    Introducción:
+
+    El mercado de los Juegos de Cartas Coleccionables (TCG) en elmundo ha experimentado un crecimiento 
+    significativo en los últimos años, impulsado por la popularidad de juegos como Pokémon, 
+    Magic: The Gathering, Yu-Gi-Oh!, etc. Sin embargo, la falta de una plataforma online completa y 
+    dedicada a los TCG limita la experiencia de los jugadores y dificulta la conexión entre ellos.
+
+    Objetivo:
+
+    El objetivo principal de este proyecto es desarrollar una web de TCG que satisfaga las necesidades 
+    de los jugadores, proporcionándoles una plataforma integral para comprar, vender, 
+    intercambiar, inscribirse a torneos y socializar en torno a sus juegos favoritos.
+
+    Metodología:
+
+    El desarrollo de la web de TCG se basará en las siguientes tecnologías web modernas y seguras:
+
+    Front-end:
+        HTML5: Para la estructura básica de las páginas web.
+        CSS3: Para el diseño visual y la presentación de los contenidos.
+        JavaScript: Para la interactividad y el dinamismo de la web.
+    Back-end:
+        Node.js: Para el desarrollo del servidor web y las APIs.
+        Express.js: Framework de Node.js para simplificar el desarrollo del servidor.
+        Socket.io: Para la comunicación en tiempo real entre el servidor y los clientes.
+    Base de datos:
+        MySQL: Para almacenar y gestionar los datos de la web, como usuarios, cartas, transacciones, etc.
+
+    Despliegue y Mantenimiento:
+
+        La web se desplegará en un servidor web en la nube, utilizando un servicio como Amazon Web Services (AWS)
+
+Introduccion:
+

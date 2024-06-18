@@ -1,41 +1,387 @@
 1. Introducción 
 
-Éste proyecto se trata de una web en la que su objetivo principal es ser una plataforma
-donde los usuarios administren sus cartas, monten mazos, participen en torneos y interactuane
-con otros usuarios. En la web se pueden registrar de dos formas:
+    El proyecto se basa en la creacion de una aplicacion web en la cual los aficionados de los juegos de cartas
+    puedan administrar sus colecciones, cear mazos, chatear con otros usuarios y inscribirse en torneos.
 
-    - Como usuario normal, donde podra chatear con usuarios, administrar cartas, registrarte en torneos,
-    y intercambiar con otros usuarios
+    Actualmente la aplicacion esta desarrollada para un unico TCG, pero todo el desarrollo y estructura de la aplicacion 
+    esta pensada para poder añadir y administrar todos los TCG's actuales del merecado.
 
-    - Como tienda, donde podran publicar eventos/torneos y gestionar dicho eventos
+    Los usuarios pueden administra su coleccion y con la cual poder crear mazos para participar en torneos o idear distintos
+    mazos con los cuales jugar, a la vez pueden contactar con otros usuarios para intercambiar cartas que tengan en su coleccion.
 
-Dentro de la aplicacion al crear los mazos, puedes solo crearlo con cartas que dispongas en tu coleccion, 
-al igual que si quieres intercambiar, se administran solo las que tengas registradas en la coleccion. Y al
-hacer el intercambio se administrara la cantidad de cartas en disposicion de forma automatica.
-El chat entre usuarios es de forma privada y de forma videccional y a tiempo real.
+    Las salas de chat son privadas, con lo que la conversacion entre usuarios es privada y de forma directa.
+
+    Dentro de la aplicacion existirian 2 roles muy diferenciados, por un lado estaria el usuario comun y tienda/empresa.
+
+        - Los usuarios normales tienen acceso para poder crear mazos, coleciones, chatear, inscibirse a torneos y ofrecer cartas para cambiar.
+
+        - Las tiendas, pueden chatear con otros usuarios y organizar y administrar los torneos.
+
+2. Idea de negocio
+
+    Justificacion de la idea
+
+    Actualmente existen muchas plataformas para hacer estas funciones, pero todas tienen algun tipo de carencia o tienes que usar
+    diversas plataformas para hacer los mismo. La idea es agrupar todas esas necesidades en una unica aplicacion, juntando
+    no solo todas las herramientas necesarias, si no tambien a las diversas comunidades de TCG's y locales.
+
+    En un futuro seria pasar la plataforma no solo en web, sino tambien en aplicacion movil/tablet
+
+    Segmentacion del mercado:
+
+    El target seria tanto a los usuarios de TCG's que quieren ampliar su coleccion, quienes quieran tener una plataforma en la cual
+    poder compartir ideas y opiniones, como quienes son mas competitivos y quieren participar torneos, tambien para aquellos
+    que quieren introducirse en el sector. Tambien va dirigido a las tiendas, para que sean mas visibles, y que los usuarios puedan 
+    conocer que tiendas hay por su zona, y que puedan tener una organizacion de los torneos mas fluida.
+
+    La aplicacion al principio estaria orientado al mercado español, una vez estabecidos y apliado la aplicacion con mas herramientas, saltar
+    al mercado ingles.
+
+3 Competencia:
+
+    Actualemnete existen muchas plataformas que ofrecen las mismas herramientas ofunciones, pero o no las incluyen todas o solo abarcan 
+    determinados TCG's, las web's o aplicaciones actuamente con las que tendriamos competencias serian, Card Market, TCG+, TCG Home
+    CardTrade, JCC Pokemon Live, CollectTR.
+
+    DAFO
+
+    Fortalezas:
+
+    Plataforma integral: Ofrece un centro centralizado para todas las actividades relacionadas con los TCG, incluyendo la gestión de cartas, la creación de mazos, la interacción social, la participación en torneos y el intercambio.
+    Interfaz fácil de usar: Ofrece una interfaz fluida e intuitiva que es fácil de navegar tanto para jugadores de TCG principiantes como experimentados.
+    Accesibilidad móvil: Disponible tanto en ordenadores de sobremesa como en dispositivos móviles, lo que garantiza la accesibilidad y la comodidad para los usuarios en movimiento.
+    Actualizaciones regulares: Lanza continuamente nuevas funciones, mejoras y correcciones de errores para mantener la satisfacción y el compromiso de los usuarios.
+
+    Debilidades:
+
+    Nuevo participante: Entrar en un mercado competitivo dominado por plataformas de TCG establecidas.
+    Reconocimiento limitado de la marca: Construir el conocimiento de la marca y establecer una fuerte reputación entre los jugadores de TCG.
+    Desafíos técnicos: Asegurar la estabilidad, la escalabilidad y la seguridad de la plataforma para manejar el creciente tráfico de usuarios y datos.
+    Gestión de la comunidad: Gestionar y moderar eficazmente la comunidad en línea para mantener un entorno positivo e inclusivo.
+
+    Oportunidades:
+
+    Ampliación del mercado objetivo: Aprovechar nuevos segmentos de la comunidad de TCG, como jugadores ocasionales, coleccionistas y organizadores de eventos.
+    Crecimiento junto la salida de nuevos TCG: Aprovechar la evolucion de los juegos, y utilizar ese crecimiento para expandirse y sacar nuevas herramientas.
+    Bienes y servicios virtuales: Ofrecer bienes virtuales, sacar una moneda virtual, con la cual se realizarin todas las transacciones dentro de la plataforma.
+    Asociaciones y colaboraciones: Formar asociaciones con editores de TCG, minoristas e influencers para ampliar el alcance y la credibilidad.
+
+4 Producto/servicio
+
+    Marketing
+
+    Marketing estrategico:
+    Principalmente el enfoque seria en la calidad, teniendo la mejor plataforma para los juegos TCG, en la que dispongamos
+    de todas las herramientas necesarias para los usuarios y para las tiendas. Teniendo una moneda virtual con la cual
+    poder hacer todas las transacciones, ya sea de cartas o de pagar la inscripcion a los eventos/torneos
+
+    Marketing operativo
+    1.Tipo de producto
+
+    Nombre de la Aplicacion:
+    Nexus TCG
+
+    Logo:
+    IMG
+
+    2.Estrategia precios
+
+    Etapa 1: Donaciones Voluntarias)
+    Objetivo: Atraer usuarios iniciales, generar reconocimiento de marca y fomentar la buena voluntad a través de donaciones voluntarias mientras la aplicación se desarrolla y gana tracción.
+
+    Método:
+
+    Aplicación Gratuita: La aplicación base con todas las funciones centrales estará disponible de forma gratuita para todos los usuarios.
+    Botón de Donación de PayMeACoffee: Implementa un botón de donación de PayMeACoffee claramente visible en la aplicación.
+    Agradecimiento y Reconocimiento: Expresa tu sincera gratitud a los donantes por su apoyo. Considera lo siguiente:
+    Mensaje de agradecimiento personalizado dentro de la aplicación.
+    Reconocimiento público en una sección especial "Donantes" de la aplicación (con el consentimiento del donante).
+    Acceso anticipado a nuevas funciones o contenido (opcional).
+    Participación en encuestas y pruebas beta exclusivas (opcional).
+
+    Etapa 2: Moneda Virtual con Comisiones
+
+    Objetivo: Generar ingresos a largo plazo y fomentar la participación activa de los usuarios en la aplicación.
+    Estrategia:
+    Implementa una moneda virtual en la aplicación que sea equivalente al euro.
+        Ejemplo: 1 moneda virtual = 1 euro.
+    Permite a los usuarios comprar la moneda virtual con dinero real.
+    Permite a los usuarios usar la moneda virtual para:
+        Comprar cartas y otros artículos dentro de la aplicación.
+        Participar en torneos y eventos.
+        Suscribirse a servicios premium.
+    Cobra una comisión del 5% + 0.35 céntimos por cada transacción realizada con la moneda virtual.
+
+    Ejemplo: Si un usuario quiere ingresar 10 monedas virtuales, pagará 10.50 monedas virtuales (5% de comisión + 0.35 céntimos).
+
+    Ofrece incentivos a los usuarios para que usen la moneda virtual, como descuentos, bonificaciones y recompensas.
+    Asegúrate de que la moneda virtual tenga un valor real y que sea fácil de usar.
 
 
+    Al implementar esta estrategia de precios en dos etapas, puedo generar ingresos de manera efectiva 
+    para la aplicación web mientras atraigo y retengo usuarios. La etapa inicial con PayMeACoffee 
+    me ayudará a validar la idea y generar ingresos tempranos, mientras que la etapa posterior con la moneda 
+    virtual me permitirá crear un modelo de negocio sostenible a largo plazo.
 
 
-2. Idea de negocio 
+    3.Promocion
 
-La idea surguio de la motivacion de crear una sola plataforma donde esten todas las necesidades
-de los jugadores/coleccionistas de TCG. Donde no tengan que usar diversas paginas o aplicaciones 
-para tener todas las herramientas necesarias, y asi unificar todo el secctor en una unica plataforma
+    Para promocionar la aplicación web de TCG de manera efectiva y generar interés entre el público objetivo, 
+    considero las siguientes estrategias:
 
-Que voy a ofrecer:
+        Publicidad Pagada:
 
-    - Unificacion de los distintos TCG en una plataforma
-    - Herramientas necesarias para todo jugador/coleccionista
-        - Creador de mazos
-        - Adminstrador de las distintas coleccionables
-        - Participar en torneos
-    - Interaccion con los otros usuarios mediante un chat online
-    - Posivilidad de intercacmbiar, comprar o vender las cartas
+        Plataformas:
+        Redes Sociales: Anuncios en plataformas como Facebook, Instagram, Twitter y TikTok.
+        Motores de Búsqueda: Anuncios de Google Ads y Bing Ads.
+        Aplicaciones Móviles: Anuncios en plataformas como AdMob y Unity Ads.
 
-¿A quién va dirigido?
+        Los costes de esta forma, varia mucho, ya que el pago es por click que haga una persona en el AD, pero se
+        puede limitar los costes, seria inicialmente poner un presupuesto de 150€ mensuales para la publicidad, usando
+        principalmente TikTok y instagram, ya que son las aplicaciones con mayor inpacto en la poblacion. Una vez se tenga
+        una mayor cuota de mercado y de ingresos, seria invertir mas mensualmete en la publicidad.
 
-A todos los usuarios de TCG, ya sean jugadores o coleccionistas, a todas las personas que se dedican
-a trader en TCG y a los locales que ofrecen torneos/eventos.
+        Patrocinios:
+        Publicitar torneos/eventos con asociacion con tiendas, las cuales organizarian el evento/torneo, se usaria el engadgment
+        de la tienda para publicitar la tienda,añadiendo X cantidad de dinero en premio, dependiendo de la participaciones
+        podria rondar los (30€ hasta los 500€), una vez ya establecido como una plataforma reconocida, organiar propios eventos o 
+        asociarse con tiendas de mayor renombre.
+
+        Marketing de Influencers:
+
+        Coste por Publicación:
+
+        Micro-influencers (1.000 - 10.000 seguidores): 50€ - 200€ por publicación.
+        Macro-influencers (10.000 - 100.000 seguidores): 200€ - 1.000€ por publicación.
+
+        Marketing por Correo Electrónico:
+
+        Crea una lista de correo electrónico de usuarios interesados en tu aplicación.
+        Envía correos electrónicos regulares con noticias, actualizaciones y ofertas especiales.
+        Segmenta tu lista de correo electrónico para enviar contenido relevante a diferentes grupos de usuarios.
+
+5.Analisis de costes
+
+
+    Costes fijos:
+
+    Etapa 1 
+
+    Salario del desarrollador: 0€ (asumes el desarrollo tú mismo)
+    Hosting y dominio: 100€ - 200€ anuales
+    Publicidad: 200€ anuales
+    Total: 300# - 400€ anuales 
+
+    Etapa 2 (1 desarrollador junior + yo):
+
+    Salario del desarrollador junior: 23.000€
+    Hosting y dominio: 200€ - 400€ anuales
+    Herramientas de desarrollo: 100€ - 200€ anuales
+    Otros costes: 1.000€ - 2.500€ anuales (búsqueda de colaboradores, marketing estratégico) 
+    Total: 24.300€ - 27.000€ anuales
+
+    Etapa 3 (2-3 desarrolladores):
+
+    Salarios de los desarrolladores: 40.000€ - 60.000€ anuales (2-3 x 20.000€ - 25.000€)
+    Hosting y dominio: 400€ - 800€ anuales
+    Herramientas de desarrollo: 200€ - 400€ anuales
+    Otros costes: 2.500€ - 5.000€ anuales (consolidación del equipo, marketing de contenidos) 
+    Total: 41.100€ - 80.800€ anuales
+
+Umbral de rentabilidad
+
+Poniendo que tenemos unos gastos de 30000€ una vez ya estemos en la etapa 2, y tenemos uno costes variables de 0.5€ por retirada o ingreso de dinero
+y un ingreso del 5% +0.35 de ingreso/retirada, y poniendo de media que las transacciones enten de media en los 10€,
+
+UR = 30.000€ / (0,85€ - 0,5€) = 85.714 transacciones
+
+Plan inicial de inversiones y gastos
+
+    Inversión Inicial:
+
+    Desarrollo web:
+
+    Diseño gráfico: 1.000€ - 2.000€ (creación de logo, interfaz de usuario, etc.)
+    Herramientas de desarrollo: 200€ - 500€ (software, plugins, etc.)
+    Marketing y publicidad:
+
+    Campañas online: 1.000€ - 2.000€ (publicidad en redes sociales, Google Ads, etc.)
+    Material promocional: 500€ - 1.000€ (folletos, banners, etc.)
+    Participación en eventos: 200€ - 500€ (ferias, torneos, etc.)
+    Infraestructura:
+
+    Hosting y dominio: 100€ - 200€ anuales (alojamiento web)
+    Seguridad web: 200€ - 500€ (certificado SSL, protección contra ataques, etc.)
+    Total Inversión Inicial: 8.700€ - 23.200€
+
+    Gastos Recurrentes:
+
+    Personal:
+
+    Atención al cliente: 100€ - 500€ mensuales (si se requiere)
+    Otros: 500€ - 1.000€ mensuales (marketing, administración, etc.)
+    Marketing y publicidad:
+
+    Campañas online: 500€ - 1.000€ mensuales (según estrategia)
+    Participación en eventos: 50€ - 100€ mensuales (según eventos)
+    Infraestructura:
+
+    Hosting y dominio: 10€ - 20€ anual
+    Seguridad web: 10€ - 20€ mensuales
+    Mantenimiento técnico: 50€ - 100€ mensuales
+    Total Gastos Recurrentes: 1.210€ - 3.000€ mensuales durante la 1º etapa
+
+    Financiación:
+
+    Capital propio:
+
+    Ahorros personales: Se utilizarán 5000€ de ahorros personales para financiar una parte 
+    de la inversión inicial.
+
+    Financiación pública:
+
+    Subvenciones: Se investigarán las subvenciones disponibles para emprendedores y empresas del sector 
+    digital en España, como las ofrecidas por el CDTI (Centro para el Desarrollo Tecnológico Industrial) 
+    o las ayudas de las comunidades autónomas.
+
+    Programas de incubación y aceleración: Se participará en programas de incubación o aceleración 
+    que ofrezcan apoyo financiero, mentoría y acceso a redes de contactos, como el programa Lanzadera.
+
+    Crowdfunding:
+
+    Plataformas de crowdfunding: Se lanzará una campaña de crowdfunding en plataformas online, como buyme a coffee.
+
+    Business angels y venture capital:
+
+    Business angels: Se buscarán inversores ángel que estén dispuestos a invertir en el proyecto 
+    a cambio de una participación en la empresa y su experiencia.
+
+    Estrategia de Financiación:
+
+    La estrategia de financiación se basará en la diversificación de fuentes, buscando una combinación de 
+    capital propio, financiación pública y crowdfunding. Se priorizará la obtención de subvenciones y ayudas 
+    públicas, ya que ofrecen condiciones ventajosas y no requieren devolución ,mientras que el crowdfunding 
+    permitirá involucrar a la comunidad y obtener financiación adicional.
+
+
+6.  Elección de las tecnologías 
+
+En el proyecto queria realizarlo con tecnologias con las cuales me sintiera comodo y añadir algun punto
+el cual me hiciera aprender algo nuevo. Por eso añadi Node.js, que me permitiari añadir nuevis conocimientos
+y una nueva tecnologia demandada en el sector.
+
+    6.1 Backend: Node.js + Express.js
+
+    Node.js: Un motor Javascript multiplataforma, asíncrono y orientado a eventos, basado en el motor 
+    V8 de Google. Su popularidad ha crecido exponencialmente en los últimos años, siendo utilizado por 
+    empresas como Netflix o la NASA. A diferencia de servidores web tradicionales como Apache, Node.js 
+    no tiene límite de peticiones ni hilos, ya que todo se ejecuta en un único hilo.
+
+    NPM (Node Package Manager): El gestor de paquetes de Node.js, de código abierto, que permite gestionar 
+    las dependencias de un proyecto de manera sencilla y eficiente.
+
+    Express.js: Un framework de Node.js que facilita la creación de aplicaciones web con menos código 
+    y mayor rapidez. Ofrece herramientas como middlewares, rutas y motores de plantilla para simplificar 
+    el desarrollo.
+
+    Chat a tiempo real
+
+        Retos y Soluciones para la Interacción en Tiempo Real: Socket.IO vs HTTP/REST
+        El desafío: Interacción en tiempo real entre usuarios conectados en una misma sala.
+
+        Dificultad: Planificar la comunicación eficiente para un gran número de usuarios.
+
+        Solución: Socket.io
+
+        Funcionamiento:
+            Se establece una conexión WebSocket persistente entre el cliente y el servidor.
+            El servidor envía actualizaciones a todos los clientes conectados en tiempo real.
+            Los clientes pueden enviar información al servidor de forma inmediata.
+        Ventajas:
+            Baja latencia: La comunicación WebSocket permite una interacción en tiempo real con mínima latencia.
+            Reducción de la carga del servidor: Al utilizar una única conexión por cliente, se reduce el número de peticiones al servidor.
+            Escalabilidad: Socket.IO está diseñado para manejar un gran número de usuarios sin afectar el rendimiento.
+        Desventajas:
+            Curva de aprendizaje: Requiere aprender nuevas tecnologías como WebSocket y Socket.IO.
+            Complejidad: Implementar Socket.IO puede ser más complejo que usar HTTP/REST.
+
+
+    Funcionamiento de socket.io:
+
+    Con esta dependencia usamos la conecxion de websockets. La cual nos permite comunicarnos con el servidor y que este
+    envie una respuesta a todos los usuarios conectados, o el propio servidor puede comunicarse con los usuarios 
+    si les es necesario
+
+    IMG de las distintas conecxiones.
+
+    Para poder usar esta dependencia hay que crear una instacia de esta dependencia, la cual estara en Funcionamiento
+    dentro del servidor.
+    
+        const io = new Server(server, {
+            connectionStateRecovery: {
+            }
+        });
+    
+    Usando "connectionStateRecovery" podremos saber si un usuario perdio la conexcion y se reconecto, y que informacion se perdio entre
+    medias
+
+    Una vez puesto en funcionamiento, tiene distintas formas de comunicarse entre usuario y el servidor.
+
+    io.on('connection', (socket) => {
+        console.log('a user connected');
+        socket.on('disconnect', () => {
+        console.log('user disconnected');
+        });
+    });
+
+    Con este pequeño bloque de codigo, sabremos si el usuario se esta conectando o desconectando.
+
+    Las dintintos tipos de comunicacion seria:
+
+        .on('evento'): Recive tanto el usuario y el servido y mediante el evento identifica que funcion tiene que ejecutar
+
+        .emit('evento'): Emision de un evento, lo puede emitir tanto el usuario como el servidor.
+
+        .to("sala/usuario").emit('evento'): De esta forma podremos emitir un evento en particular a una sala en concreto o a un usuario,
+        se pueden encadenar tanto distintas salas como usuarios. Si no se usa este comando el evento seria emitido a 
+        todos los usuarios
+
+        .broadcast.emit('hi'): De esta forma emitimos el evento a todos los usuarios menos a uno mismo
+
+    
+    Estructura de la Aplicación: Patrón MVC
+
+    Comenzar un proyecto con buenas prácticas es crucial para garantizar su éxito a largo plazo. En este caso, la elección del patrón de diseño adecuado es fundamental para estructurar la aplicación de manera organizada y mantenible.
+
+    Patrón MVC: Modelo, Vista, Controlador
+
+        He optado por el patrón MVC (Modelo-Vista-Controlador) para estructurar la aplicación. 
+        Este patrón divide la aplicación en tres componentes principales:
+
+        1. Modelo:
+
+            Almacenar y gestionar los datos de la aplicación.
+            Interactuar con fuentes de datos como bases de datos o APIs externas.
+            Proporcionar una interfaz para que el controlador acceda y manipule los datos.
+
+        2. Vista:
+
+            Mostrar la información del modelo al usuario de forma visual.
+            Proporcionar una interfaz de usuario (UI) para que el usuario interactúe con la aplicación.
+            No debe contener lógica de negocio ni acceder directamente a los datos.
+
+        3. Controlador:
+
+        Recibir las solicitudes del usuario a través de la vista.
+        Interactuar con el modelo para obtener, actualizar o eliminar datos.
+        Actualizar la vista en función de los datos del modelo.
+        No debe contener lógica de presentación ni acceder directamente a la base de datos.
+
+        img de mi modelo
+
+    AUTENTICACION Y AUTORIZACION
+
+    
+
 
 
