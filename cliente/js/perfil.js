@@ -16,7 +16,7 @@ window.onload = async ()=>{
 async function cambiarContraseña(event){
     event.preventDefault()
 
-    const res = await fetch(`http://alexfullstack.net/api/cambiarContraseña`,{
+    const res = await fetch(`http://alexfullstack.net/api/cambiarContrasena`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
