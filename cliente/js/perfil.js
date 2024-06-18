@@ -10,7 +10,7 @@ window.onload = async ()=>{
     notification.solicitarSala()
 
     user.innerHTML = localStorage.getItem("user")
-    cambiarContraseña.addEventListener("click", cambiarContraseña)
+    cambiarContraseñaB.addEventListener("click", cambiarContraseña)
 }
 
 async function cambiarContraseña(event){
