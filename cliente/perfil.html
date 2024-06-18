@@ -3,9 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/perfil.css">
+
     <script type="module" src="./js/notification.js"></script>
+    <script type="module" src="./js/perfil.js"></script>
+
 
     <title>Perfil</title>
+    <style>
+        .containerPerfil{
+            width: calc(100% - 100px);
+            height: 100vh;
+            margin-left: 100px;
+            display: flex;
+            flex-direction: row;
+
+            & div{
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
     <section class="containerPerfil">
