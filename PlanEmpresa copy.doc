@@ -86,7 +86,7 @@
 
     2.Estrategia precios
 
-    Etapa 1: Donaciones Voluntarias)
+    Etapa 1: Donaciones Voluntarias
     Objetivo: Atraer usuarios iniciales, generar reconocimiento de marca y fomentar la buena voluntad a través de donaciones voluntarias mientras la aplicación se desarrolla y gana tracción.
 
     Método:
@@ -124,7 +124,7 @@
     virtual me permitirá crear un modelo de negocio sostenible a largo plazo.
 
 
-    3.Promocion
+    4.Promocion
 
     Para promocionar la aplicación web de TCG de manera efectiva y generar interés entre el público objetivo, 
     considero las siguientes estrategias:
@@ -433,7 +433,7 @@ Plan inicial de inversiones y gastos
                     <p>Hola ${userEmail},</p>
                     <p>Gracias por registrarte en nuestra aplicación.</p>
                     <p>Para confirmar tu cuenta, haz clic en el siguiente enlace:</p>
-                    <a href="http://alexfullstack.net/api/verify/${confirmationToken}">Confirmar cuenta</a>
+                    <a href="http://localhost:3000/api/verify/${confirmationToken}">Confirmar cuenta</a>
                     <p>Este enlace solo es válido durante 24 horas.</p>
                     <p>Atentamente,</p>
                     <p>El equipo de Nexus</p>

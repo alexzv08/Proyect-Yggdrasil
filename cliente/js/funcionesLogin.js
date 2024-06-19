@@ -3,7 +3,7 @@ const mesnsajeError = "";
 window.onload = ()  => {
     document.getElementById("register-form").addEventListener("submit", async (e)=>{
         e.preventDefault();
-        const res = await fetch(`http://alexfullstack.net/api/login`,{
+        const res = await fetch(`http://localhost:3000/api/login`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"

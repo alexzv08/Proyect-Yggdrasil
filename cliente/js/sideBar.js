@@ -6,18 +6,19 @@ import { methods as notification } from "./notification.js";
 let ocultoMenu, ocultoChatHamburger=false;
 let ocultoChat=false;
 
+//Funtion to verify the token and fetch the data
 async function verifyAndFetch(url, options = {}) {
     const token = sessionStorage.getItem("token");
     console.log(token)
     if (!token) {
-        // Si no hay token, redirigir al login
+        // If there is no token, redirect to the login
         sessionStorage.removeItem("token");
         sessionStorage.removeItem("user");
         window.location.href = "/login";
         return;
     }
 
-    // Agregar el token a los encabezados de la solicitud
+    // Add the token to the request headers
     const res = await fetch(url, {
         method: "GET",
         headers: {
@@ -27,7 +28,7 @@ async function verifyAndFetch(url, options = {}) {
     });
 
     if (!res.ok) {
-        // Manejar errores, por ejemplo, redirigir al login si el token es inválido
+        // Handle errors, for example, redirect to login if the token is invalid
         alert("No autorizado, por favor inicia sesión nuevamente.");
         sessionStorage.removeItem("token");
         sessionStorage.removeItem("user");
@@ -39,7 +40,7 @@ async function verifyAndFetch(url, options = {}) {
 }
 window.onload = async()=>{
     try {
-        const data = await verifyAndFetch(`http://alexfullstack.net/api/protectedRoute`);
+        const data = await verifyAndFetch(`http://localhost:3000/api/protectedRoute`);
         if(sessionStorage.getItem("rol") == 1){
             await addHtmlDocumentAtBeginning("./components/sideBar.html")
             await document.getElementById("otros").addEventListener("click", mostrarOtros)
@@ -68,7 +69,7 @@ window.onload = async()=>{
     notification.solicitarSala()
 }
 async function onLoad(){
-    const data = await verifyAndFetch(`http://alexfullstack.net/api/protectedRoute`);
+    const data = await verifyAndFetch(`http://localhost:3000/api/protectedRoute`);
     if(sessionStorage.getItem("rol") == 1){
         await addHtmlDocumentAtBeginning("./components/sideBar.html")
         await document.getElementById("otros").addEventListener("click", mostrarOtros)
@@ -184,7 +185,7 @@ async function addHtmlDocumentAtBeginning(url) {
     }
 }
 async function cartasEnPosesion(){
-    const res = await fetch(`http://alexfullstack.net/api/cartasEnPosesion`,{
+    const res = await fetch(`http://localhost:3000/api/cartasEnPosesion`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -204,7 +205,7 @@ async function cartasEnPosesion(){
 }
 
 async function cantidadTorneosActivos(){
-    const res = await fetch(`http://alexfullstack.net/api/cantidadTorneosActivos`,{
+    const res = await fetch(`http://localhost:3000/api/cantidadTorneosActivos`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -222,7 +223,7 @@ async function cantidadTorneosActivos(){
 }
 
 async function cantidadTorneosApuntados(){
-    const res = await fetch(`http://alexfullstack.net/api/cantidadTorneosActivos`,{
+    const res = await fetch(`http://localhost:3000/api/cantidadTorneosActivos`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"

@@ -46,7 +46,7 @@ async function crearTorneoApi(e){
     datos.push(document.querySelectorAll("#formCrearTorneo textarea").value);
 
 
-    const res = await fetch(`http://alexfullstack.net/api/registrarEvento`,{
+    const res = await fetch(`http://localhost:3000/api/registrarEvento`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"

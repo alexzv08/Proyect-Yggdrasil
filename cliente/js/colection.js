@@ -118,7 +118,7 @@ function cargarImg2(element){
 async function añadirCartaColeccion(element) {
     if(parseInt(element.dataset.cantidad ) == 0){
         element.dataset.cantidad = parseInt(element.dataset.cantidad )+ 1
-        const res = await fetch(`http://alexfullstack.net/api/anadirAColeccion`,{
+        const res = await fetch(`http://localhost:3000/api/anadirAColeccion`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -135,7 +135,7 @@ async function añadirCartaColeccion(element) {
 
     }else if(parseInt(element.dataset.cantidad ) > 0){
         element.dataset.cantidad = parseInt(element.dataset.cantidad ) + 1
-        const res = await fetch(`http://alexfullstack.net/api/updateCartaColeccion`,{
+        const res = await fetch(`http://localhost:3000/api/updateCartaColeccion`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -156,7 +156,7 @@ async function quitarCartaColeccion(element) {
     if(parseInt(element.dataset.cantidad ) > 0){
         element.dataset.cantidad = parseInt(element.dataset.cantidad )- 1
         if(parseInt(element.dataset.cantidad ) > 0){
-            const res = await fetch(`http://alexfullstack.net/api/updateCartaColeccion`,{
+            const res = await fetch(`http://localhost:3000/api/updateCartaColeccion`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json"
@@ -169,7 +169,7 @@ async function quitarCartaColeccion(element) {
                 })
             })
         }else if(parseInt(element.dataset.cantidad ) == 0){
-            const res = await fetch(`http://alexfullstack.net/api/eliminarCartaColeccion`,{
+            const res = await fetch(`http://localhost:3000/api/eliminarCartaColeccion`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json"
@@ -198,7 +198,7 @@ function restarALaColeccion(event){
 }
 // FUNCION PARA RECUPERAR QUE CARTAS TIENE EL USUARIO EN SU COLECCION Y MOSTRAR LAS CARTAS QUE POSEE
 async function mostrarCartasColeccion(){
-    const res = await fetch(`http://alexfullstack.net/api/cartasColeccionUsuario`,{
+    const res = await fetch(`http://localhost:3000/api/cartasColeccionUsuario`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -273,12 +273,11 @@ function filtroBusqueda(event){
 
     creacionSentenciaSQL(listaFiltro)
 }
-// FUNCION PARA GENERAL LA SENTENCIA SQL DEPENDIENDO DE LOS DATOS RECOGIDOS DEL FORMULARIO DEL FILTRO
+// FUNTION FOR CREATE SQL SENTENCE
 async function creacionSentenciaSQL(listaFiltro){
-        // Inicializar la parte de la sentencia SQL que siempre estará presente
+
         var sql = "SELECT c.* FROM cartas c WHERE 1 = 1";
 
-        // Agregar condiciones basadas en los filtros seleccionados
         if (listaFiltro.nombre !== "") {
             sql += " AND name = '" + listaFiltro.nombre + "'";
         }
@@ -317,7 +316,6 @@ async function creacionSentenciaSQL(listaFiltro){
             sql += " AND play_cost BETWEEN " + listaFiltro.minCost + " AND " + listaFiltro.maxCost;
         }
 
-        // Agregar filtro para mostrar solo las cartas de la colección del usuario si se especifica
         if (listaFiltro.coleccion) {
             sql += " AND (c.id_carta, c.id_coleccion, c.id_juego) IN ( SELECT id_carta, id_coleccion, id_juego FROM usuarioColeccion WHERE id_usuario = '" + sessionStorage.getItem('user') + "')";
         }
@@ -329,7 +327,7 @@ async function creacionSentenciaSQL(listaFiltro){
 async function peticionAPIFiltro(sql){
     pagina = 1;
     limiteActual=0
-    const res = await fetch(`http://alexfullstack.net/api/filtroCartas`,{
+    const res = await fetch(`http://localhost:3000/api/filtroCartas`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -355,7 +353,7 @@ async function peticionAPIFiltro(sql){
 }
 
 async function listaColecciones(){
-    const res = await fetch(`http://alexfullstack.net/api/listaColecciones`,{
+    const res = await fetch(`http://localhost:3000/api/listaColecciones`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"

@@ -27,11 +27,11 @@ body{
     
     & .img-logo-sidebar{
         background-color: transparent;
-        height: 150px;
+        height: 200px;
         & img{
             background-color: transparent;
-            height: auto;
-            padding: 10%;
+            width: 100%;
+            /* padding: 10%;*/
         }
     }
 

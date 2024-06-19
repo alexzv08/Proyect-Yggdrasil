@@ -42,7 +42,7 @@ connection.connect((error) => {
 });
 // SERVER CONFIGURATION
 // DARLE UN PUERTO LIBRE AL LADO DEL SERVIDOR AL DESPLEGARSE, Y SI NO ENCUENTRA UN PUERTO LIBRE LE ASIGNA EL PUERTO :3000
-const port = process.env.PORT ?? 80;
+const port = process.env.PORT ?? 3000;
 
 const app = express()
 
@@ -89,7 +89,7 @@ io.on("connection", async (socket) =>{
         io.to(username2).emit("notification", msg, result.lastInsertRowid,username, fecha)
 
     })
-    // AL CARGAR EN ESPECIFICO UNA SALE QUE SE MUESTREN TODOS LOS MENSAJES QUE HAY EN ELLA
+    // WHEN LOADING A SPECIFIC EXIT, ALL THE MESSAGES IN IT WILL BE SHOWN
     socket.on("chat charge", async (username)=>{
         const prueba = await query(username[0], username[1],"0")
         try {
