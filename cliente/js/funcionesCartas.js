@@ -632,7 +632,7 @@ function touchMove(e) {
     cartaCopia.style.left = initialX  + 'px';
     cartaCopia.style.top = initialY + 'px';
     const listaCartas = document.getElementById('containerListaCartas');
-    listaCartas.appendChild(cartaCopia);
+    // listaCartas.appendChild(cartaCopia);
   
   }
   
