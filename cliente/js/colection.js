@@ -25,11 +25,25 @@ let listaFiltro = {
     minCost: [],
     maxCost: [],
 }
+window.onresize = reportWindowSize;
 
+function reportWindowSize() {
+    if(window.innerWidth<=800){
+        iconoFiltroMovil.style.display = "flex" 
+        filtroEscritorio.style.display = "none"    
+    }
+    if(window.innerWidth>800){
+        iconoFiltroMovil.style.display = "none"  
+        filtroEscritorio.style.display = "flex"    
+
+    }
+    if(window.innerWidth > 400){
+        
+    }
+}
 window.onload = async() => {
-    // await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
     await windowOnLoad.onLoad()
-    await document.getElementById('deckbuilder').classList.add('active')
+    await document.getElementById('collectionSide').classList.add('active')
     await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
     windowOnLoad.navBarRediretions()
     notification.solicitarSala()

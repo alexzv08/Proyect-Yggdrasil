@@ -42,6 +42,8 @@ body{
     padding: 20px;
     overflow: auto;
     max-width: 300px;
+    background-color: rgb(31, 31, 31);
+    margin-right: 5px;
     & #cerrar{
         height: 30px;
         width: 30px;
@@ -271,7 +273,7 @@ body{
         }
     }
 }
-@media (1533px >= width >= 1200px){
+/* @media (1533px >= width >= 1200px){
     #main-container{
         border: 1px solid rgb(123, 255, 0);
     }
@@ -292,8 +294,8 @@ body{
             align-items: center;
         }
     }
-}
-@media (width <= 480px){
+} */
+@media (width <= 800px){
 
     .containerDeckBuilder{
         width: 100vw;

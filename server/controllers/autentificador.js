@@ -304,6 +304,16 @@ async function registrarEvento(req, res){
         );
         return res.status(200).send({status: "OK", message: "Torneo registrado correctamente"})
 }
+async function printEmail(req, res){   
+    let result = await connection.query(
+        'SELECT email FROM usuarios where usuario = ?',[req.body.user]);
+        return res.status(200).send({status: "OK", response: result})
+}
+async function printNumCartas(req, res){   
+    let result = await connection.query(
+        'SELECT SUM(cantidad) AS total_cartas FROM usuarioColeccion WHERE id_usuario = ?;',[req.body.user]);
+        return res.status(200).send({status: "OK", response: result})
+}
 
 export const methods = {
     login, 
@@ -320,7 +330,9 @@ export const methods = {
     salasUsuario,
     verifyUsuario,
     cambiarContrasena,
-    registrarEvento
+    registrarEvento,
+    printEmail,
+    printNumCartas
 }
 
 

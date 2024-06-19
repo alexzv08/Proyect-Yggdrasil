@@ -9,8 +9,12 @@ window.onload = async ()=>{
     windowOnLoad.navBarRediretions()
     notification.solicitarSala()
 
-    user.innerHTML = localStorage.getItem("user")
     cambiarContraseñaB.addEventListener("click", cambiarContraseña)
+    user.innerHTML = sessionStorage.getItem("user")
+    email.innerHTML = await printEmail()
+    numCartas.innerHTML = await printNumCartas()
+
+
 }
 
 async function cambiarContraseña(event){
@@ -34,4 +38,45 @@ async function cambiarContraseña(event){
     }
     newpassword.value = ""
     alert("Contraseña cambiada correctamente")
+}
+async function printEmail(){
+    const res = await fetch(`http://localhost:3000/api/printEmail`,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                user : sessionStorage.getItem("user"),
+            })
+        })
+    if(!res.ok){
+        const resJson = await res.json()
+        console.log(resJson)
+        alert(resJson.message)
+        return
+    }
+    const resJson = await res.json()
+    let email = resJson.response[0][0].email
+    return email
+}
+async function printNumCartas(){
+    const res = await fetch(`http://localhost:3000/api/printNumCartas`,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                user : sessionStorage.getItem("user"),
+            })
+        })
+    if(!res.ok){
+        const resJson = await res.json()
+        console.log(resJson)
+        alert(resJson.message)
+        return
+    }
+    const resJson = await res.json()
+    let count = resJson.response[0][0].total_cartas ?? 0
+    console.log(resJson.response[0][0])
+    return count
 }

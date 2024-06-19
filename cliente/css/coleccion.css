@@ -7,7 +7,7 @@
     flex-direction: row;
 }
 #iconoFiltroMovil{
-    /* display: none; */
+    display: none;
     position: absolute;
     height: 40px;
     width: 40px;
@@ -15,7 +15,6 @@
     color: var(--color-blanco);
     background-color: var(--color-primario);
     z-index: 9999;
-    display: flex;
     justify-content: center;
     align-items: center;
     top: 5px;
@@ -53,6 +52,8 @@
     padding: 20px;
     overflow: auto;
     max-width: 300px;
+    margin-right: 5px;
+    background-color: rgb(31, 31, 31);
     & #cerrar{
         height: 30px;
         width: 30px;
@@ -309,6 +310,9 @@
     }
 }
 @media (width <= 800px){
+    #iconoFiltroMovil{
+        display: flex;
+    }
     #main-container{
         width: 100vw;
         margin-left: 0px;

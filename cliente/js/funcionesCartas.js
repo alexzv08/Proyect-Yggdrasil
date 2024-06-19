@@ -28,7 +28,20 @@ let mazo = {
     "eggDeck": [],
     "deck": []
 };
+window.onresize = reportWindowSize;
 
+function reportWindowSize() {
+    if(window.innerWidth<=800){
+        filtroEscritorio.style.display = "none"    
+    }
+    if(window.innerWidth>800){
+        filtroEscritorio.style.display = "flex"    
+
+    }
+    if(window.innerWidth > 400){
+        
+    }
+}
 window.onload = async() => {
     await windowOnLoad.addHtmlDocumentAtBeginning("./components/sideBar.html")
     await windowOnLoad.onLoad()
@@ -37,6 +50,7 @@ window.onload = async() => {
     await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
     await document.getElementById("dropZone").addEventListener("drop", drop)
     await document.getElementById("dropZone").addEventListener("dragover", allowDrop)
+    await document.getElementById("dropZone").addEventListener("touchend", touchEnd)
     await document.getElementById("filtroButton").addEventListener("click", mostrarFiltro)
     windowOnLoad.navBarRediretions()
     imgCartas()    
@@ -61,7 +75,12 @@ function cargarImg(element){
     let div = document.createElement("div")
     div.addEventListener("click", expandirCarta)
     div.addEventListener("dragstart", drag)
+    div.addEventListener('touchmove', touchMove)
+    div.addEventListener('touchstart', touchStart)
+    div.addEventListener('touchend', touchEnd)
     div.draggable="true"
+    div.style.display = "block"
+    div.style.cursor = "pointer"
     div.dataset.nombre =  element.name 
     div.dataset.cardnumber =  element.id_coleccion+"-"+element.id_carta.padStart(3, "0")
     div.dataset.color =  element.color
@@ -577,6 +596,65 @@ function drop(ev) {
         añadirCartaMazo(elementoDrag)
     }
 }
+
+let initialX 
+let initialY 
+let cartaCopia
+function touchStart(e) {
+    initialX = this.offsetLeft;
+    initialY = this.offsetTop;
+    cartaCopia = this.cloneNode(true);
+    cartaCopia.style.position = '';
+    cartaCopia.style.left = initialX  + 'px';
+    cartaCopia.style.top = initialY + 'px';
+    const listaCartas = document.getElementById('containerListaCartas');
+    listaCartas.appendChild(cartaCopia);
+    // cartaCopia.addEventListener('touchmove', touchMove);
+    // e.preventDefault();
+}
+
+function touchMove(e) {
+    // const listaCartas = document.getElementById('containerListaCartas');
+    // listaCartas.appendChild(cartaCopia);
+    var touchLocation = e.targetTouches[0];
+
+    // cartaCopia = this.cloneNode(true);
+    // cartaCopia.style.position = 'absolute';
+    // cartaCopia.style.zIndex = '9999';
+    // cartaCopia.style.opacity = "0.2"; // Example of changing opacity
+    this.style.position = 'absolute';
+    this.style.zIndex = '9999';
+    this.style.left = touchLocation.pageX + 'px';
+    this.style.top = touchLocation.pageY + 'px';
+
+    cartaCopia = this.cloneNode(true);
+    cartaCopia.style.position = 'static';
+    cartaCopia.style.left = initialX  + 'px';
+    cartaCopia.style.top = initialY + 'px';
+    const listaCartas = document.getElementById('containerListaCartas');
+    listaCartas.appendChild(cartaCopia);
+  
+  }
+  
+  function touchEnd(e) {
+    console.log(initialX)
+    console.log(initialY)
+
+    // Remove the cloned element (optional)
+    this.style.left = initialX  + 'px';
+    this.style.top = initialY + 'px';
+    this.style.position = 'static';
+    // this.style.zIndex = '0';
+    cartaCopia.remove();
+
+  }
+
+
+
+
+
+
+
 export const methods = {
     imgCartas: imgCartas,
     cargarImg: cargarImg,
