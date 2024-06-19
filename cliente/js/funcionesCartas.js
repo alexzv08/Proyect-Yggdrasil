@@ -50,7 +50,7 @@ window.onload = async() => {
     await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
     await document.getElementById("dropZone").addEventListener("drop", drop)
     await document.getElementById("dropZone").addEventListener("dragover", allowDrop)
-    await document.getElementById("dropZone").addEventListener("touchend", touchEnd)
+    // await document.getElementById("dropZone").addEventListener("touchend", touchEnd)
     await document.getElementById("filtroButton").addEventListener("click", mostrarFiltro)
     windowOnLoad.navBarRediretions()
     imgCartas()    
@@ -196,7 +196,7 @@ function restarCantidad(event){
 // FUNCIONES RELACIONADAS AL MAZO
 async function insertCartaMazo(idCarta, idColeccion){
     // DATOS NECESARIOS ID_MAZO, IDCARTA, IDCOLECCION, IDJUEGO, CANTIDAD = 1
-    const res = await fetch(`http://localhost:3000/api/insertCartaMazo`,{
+    const res = await fetch(`http://alexfullstack.net/api/insertCartaMazo`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -218,7 +218,7 @@ async function insertCartaMazo(idCarta, idColeccion){
 // PETICION QUE MODIFICA LA CANTIDAD DE UNA CARTA EN EL MAZO
 async function updateCartaMazo(idCarta, idColeccion, cantidad){
     // DATOS NECESARIOS ID_MAZO, IDCARTA, IDCOLECCION, IDJUEGO, CANTIDAD = 1
-    const res = await fetch(`http://localhost:3000/api/updateCartaMazo`,{
+    const res = await fetch(`http://alexfullstack.net/api/updateCartaMazo`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -239,7 +239,7 @@ async function updateCartaMazo(idCarta, idColeccion, cantidad){
 // PETICION QUE ELIMINA LA CANTIDAD DE UNA CARTA EN EL MAZO
 async function removeCartaMazo(idCarta, idColeccion, cantidad){
     // DATOS NECESARIOS ID_MAZO, IDCARTA, IDCOLECCION, IDJUEGO, CANTIDAD = 1
-    const res = await fetch(`http://localhost:3000/api/removeCartaMazo`,{
+    const res = await fetch(`http://alexfullstack.net/api/removeCartaMazo`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -266,7 +266,7 @@ async function limpiarMazo(){
             mazo["eggDeck"]=[]
             mazo["deck"]=[]
 
-        const res = await fetch(`http://localhost:3000/api/baciarMazo`,{
+        const res = await fetch(`http://alexfullstack.net/api/baciarMazo`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -280,7 +280,7 @@ async function limpiarMazo(){
 }
 // PETICION PARA AÑADIR LAS CARTAS YA EXISTENTES DEL MAZO AL CARGAR LA PAGINA
 async function cargarMazo(){
-    const res = await fetch(`http://localhost:3000/api/cartasMazo`,{
+    const res = await fetch(`http://alexfullstack.net/api/cartasMazo`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -475,7 +475,7 @@ async function peticionAPIFiltro(sql){
     pagina = 1;
     limiteActual=0
 
-    const res = await fetch(`http://localhost:3000/api/filtroCartas`,{
+    const res = await fetch(`http://alexfullstack.net/api/filtroCartas`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -505,7 +505,7 @@ async function peticionAPIFiltro(sql){
 }
 // FUNCION PARA LISTAR TODAS LAS COLEECIONES EN FILTROS
 async function listaColecciones(){
-    const res = await fetch(`http://localhost:3000/api/listaColecciones`,{
+    const res = await fetch(`http://alexfullstack.net/api/listaColecciones`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -608,7 +608,8 @@ function touchStart(e) {
     cartaCopia.style.left = initialX  + 'px';
     cartaCopia.style.top = initialY + 'px';
     const listaCartas = document.getElementById('containerListaCartas');
-    listaCartas.appendChild(cartaCopia);
+    // listaCartas.appendChild(cartaCopia);
+    listaCartas.insertBefore(cartaCopia, this)
     // cartaCopia.addEventListener('touchmove', touchMove);
     // e.preventDefault();
 }
@@ -627,7 +628,6 @@ function touchMove(e) {
     this.style.left = touchLocation.pageX + 'px';
     this.style.top = touchLocation.pageY + 'px';
 
-    cartaCopia = this.cloneNode(true);
     cartaCopia.style.position = 'static';
     cartaCopia.style.left = initialX  + 'px';
     cartaCopia.style.top = initialY + 'px';
@@ -643,10 +643,29 @@ function touchMove(e) {
     // Remove the cloned element (optional)
     this.style.left = initialX  + 'px';
     this.style.top = initialY + 'px';
-    this.style.position = 'static';
+    this.style.position = '';
     // this.style.zIndex = '0';
     cartaCopia.remove();
-
+    const posicionFinalX = e.changedTouches[0].clientX;
+    const posicionFinalY = e.changedTouches[0].clientY;
+    if (seHaSoltadoEnZonaEspecifica(posicionFinalX, posicionFinalY)) {
+        this.style.position = 'relative';
+        this.style.top = '';
+        this.style.left = '';
+        this.removeEventListener("touchEnd", touchEnd)
+        añadirCartaMazo(this)
+    }
+  }
+  function seHaSoltadoEnZonaEspecifica(x, y) {
+    const zonaEspecifica = document.getElementById('dropZone');
+    const rectanguloZona = zonaEspecifica.getBoundingClientRect();
+  
+    return (
+      x >= rectanguloZona.left &&
+      x <= rectanguloZona.right &&
+      y >= rectanguloZona.top &&
+      y <= rectanguloZona.bottom
+    );
   }
 
 
