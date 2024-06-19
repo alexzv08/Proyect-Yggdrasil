@@ -42,7 +42,7 @@ connection.connect((error) => {
 });
 // SERVER CONFIGURATION
 // DARLE UN PUERTO LIBRE AL LADO DEL SERVIDOR AL DESPLEGARSE, Y SI NO ENCUENTRA UN PUERTO LIBRE LE ASIGNA EL PUERTO :3000
-const port = process.env.PORT ?? 80;
+const port = process.env.PORT ?? 3000;
 
 const app = express()
 
