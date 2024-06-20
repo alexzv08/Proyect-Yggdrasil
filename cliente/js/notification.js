@@ -13,7 +13,7 @@ let socket = io({
 
 async function solicitarSala(){
     console.log("Solicitando sala")
-    const res = await fetch(`http://localhost:3000/api/salasUsuario`,{
+    const res = await fetch(`http://alexfullstack.net/api/salasUsuario`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
