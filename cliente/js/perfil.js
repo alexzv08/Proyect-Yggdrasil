@@ -8,6 +8,7 @@ window.onload = async ()=>{
     await document.getElementById("toogleMenu").addEventListener("click", windowOnLoad.toggleMenuChange)
     windowOnLoad.navBarRediretions()
     notification.solicitarSala()
+    await document.getElementById('perfil').classList.add('active')
 
     cambiarContraseñaB.addEventListener("click", cambiarContraseña)
     user.innerHTML = sessionStorage.getItem("user")

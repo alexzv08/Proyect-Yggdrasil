@@ -146,12 +146,12 @@ function navBarRediretions(){
     });
 }
 function cambioIconoIn(){
-    if(!this.classList.contains("active")){
+    if(!this.classList.contains("active") && this.id !="coffeM"){
         this.querySelector("img").src = "./src/icons/"+this.querySelector("h3").innerText.replace(/\s/g, "").toLowerCase()+"black.svg"
     }
 }
 function cambioIconoOut(){
-    if(!this.classList.contains("active")){
+    if(!this.classList.contains("active") && this.id !="coffeM"){
         this.querySelector("img").src = "./src/icons/"+this.querySelector("h3").innerText.replace(/\s/g, "").toLowerCase()+"white.svg"
     }
 }
