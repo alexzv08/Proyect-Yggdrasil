@@ -433,7 +433,7 @@ Plan inicial de inversiones y gastos
                     <p>Hola ${userEmail},</p>
                     <p>Gracias por registrarte en nuestra aplicación.</p>
                     <p>Para confirmar tu cuenta, haz clic en el siguiente enlace:</p>
-                    <a href="http://localhost:3000/api/verify/${confirmationToken}">Confirmar cuenta</a>
+                    <a href="http://alexfullstack.net/api/verify/${confirmationToken}">Confirmar cuenta</a>
                     <p>Este enlace solo es válido durante 24 horas.</p>
                     <p>Atentamente,</p>
                     <p>El equipo de Nexus</p>
