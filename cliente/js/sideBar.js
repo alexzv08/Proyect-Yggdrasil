@@ -67,6 +67,10 @@ window.onload = async()=>{
     cantidadTorneosActivos()
     cantidadTorneosApuntados()
     notification.solicitarSala()
+    newMazo.addEventListener("click", (e)=>{
+        e.preventDefault()
+        window.location.href = "/decks";
+    })
 }
 async function onLoad(){
     const data = await verifyAndFetch(`http://alexfullstack.net/api/protectedRoute`);

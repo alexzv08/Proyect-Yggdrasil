@@ -624,7 +624,7 @@ function touchMove(e) {
     // cartaCopia.style.zIndex = '9999';
     // cartaCopia.style.opacity = "0.2"; // Example of changing opacity
     this.style.position = 'absolute';
-    this.style.zIndex = '9999';
+    this.style.zIndex = '500';
     this.style.left = touchLocation.pageX + 'px';
     this.style.top = touchLocation.pageY + 'px';
 
@@ -643,8 +643,8 @@ function touchMove(e) {
     // Remove the cloned element (optional)
     this.style.left = initialX  + 'px';
     this.style.top = initialY + 'px';
+    this.style.zIndex = '0';
     this.style.position = '';
-    // this.style.zIndex = '0';
     cartaCopia.remove();
     const posicionFinalX = e.changedTouches[0].clientX;
     const posicionFinalY = e.changedTouches[0].clientY;

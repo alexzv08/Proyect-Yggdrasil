@@ -335,4 +335,10 @@ body{
         width: 170px !important;
         margin-left: 0px;
     }
+    #dropZone {
+        border: 1px dashed white;
+        height: 100%;
+        gap: 5px;
+        padding: 0 0 100px 0;
+    }
 }

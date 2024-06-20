@@ -197,7 +197,7 @@ function añadirChat(){
                 div2.classList.add("icon-user")                    
                 
                 let img = document.createElement("img")
-                img.src="src/icons/user-alt-1-svgrepo-com.svg"
+                img.src="src/icons/perfilwhite.svg"
                 
                 let div3 = document.createElement("div")
                 div3.classList.add("name-user") 
