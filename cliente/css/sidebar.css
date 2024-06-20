@@ -225,7 +225,7 @@ body{
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        z-index: 9999;
+        z-index: 9997;
         & span{
             width: 20%;
             display: flex;

@@ -20,7 +20,7 @@ window.onload = async ()=>{
 async function cambiarContraseña(event){
     event.preventDefault()
 
-    const res = await fetch(`http://alexfullstack.net/api/cambiarContrasena`,{
+    const res = await fetch(`http://localhost:3000/api/cambiarContrasena`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -40,7 +40,7 @@ async function cambiarContraseña(event){
     alert("Contraseña cambiada correctamente")
 }
 async function printEmail(){
-    const res = await fetch(`http://alexfullstack.net/api/printEmail`,{
+    const res = await fetch(`http://localhost:3000/api/printEmail`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -60,7 +60,7 @@ async function printEmail(){
     return email
 }
 async function printNumCartas(){
-    const res = await fetch(`http://alexfullstack.net/api/printNumCartas`,{
+    const res = await fetch(`http://localhost:3000/api/printNumCartas`,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"

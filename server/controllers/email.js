@@ -22,7 +22,7 @@ async function sendConfirmationEmail(userEmail, confirmationToken) {
         <p>Hola ${userEmail},</p>
         <p>Gracias por registrarte en nuestra aplicación.</p>
         <p>Para confirmar tu cuenta, haz clic en el siguiente enlace:</p>
-        <a href="http://alexfullstack.net/api/verify/${confirmationToken}">Confirmar cuenta</a>
+        <a href="http://localhost:3000/api/verify/${confirmationToken}">Confirmar cuenta</a>
         <p>Atentamente,</p>
         <p>El equipo de Nexus TCG</p>
       `
