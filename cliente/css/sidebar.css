@@ -11,6 +11,24 @@ body{
 .menuDesplegado{
     width: 270px;
 }
+#coffe{
+    & img {
+        width: 100px;
+        max-width: 100px;
+        color: rgba(216, 215, 215, 0) !important;
+        box-shadow: rgba(121, 34, 208, 0) 0px 0px 8px 0px !important;
+        border-radius: 0 !important;
+        padding: 5px;
+        background: none !important;
+        width: 300px !important;
+        height: 60px !important;
+        max-width: 1000px !important;
+    }
+    &:hover{
+        border-left: 5px solid rgba(128, 0, 128, 0);
+        background: #8b398b00;
+    }
+}
 #containerSidebar{
     /* border: 1px solid red; */
     position: absolute;
@@ -322,5 +340,15 @@ body{
         }
       }
       
-    
+      #coffe{
+        & img {
+            width: 50px !important;
+            height: 50px !important;
+
+        }
+        &:hover{
+            border-left: 5px solid rgba(128, 0, 128, 0);
+            background: #8b398b00;
+        }
+    }
 }
